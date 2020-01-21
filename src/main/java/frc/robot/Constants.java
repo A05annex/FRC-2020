@@ -16,4 +16,66 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    // -----------------------------------------------------------------------------------------------------------------------------
+    // Physical Mappings - where are motors, pneumatics, sensors, and servos connected to the electronics
+
+    public static final class MotorControllers {
+        public static int
+                DRIVE_RIGHT_MASTER = 1,
+                DRIVE_RIGHT_SLAVE_1 = 2,
+                DRIVE_RIGHT_SLAVE_2 = 3,
+                DRIVE_LEFT_MASTER = 4,
+                DRIVE_LEFT_SLAVE_1 = 5,
+                DRIVE_LEFT_SLAVE_2 = 6;
+    }
+
+    public static final class Pneumatics {
+        public static int DRIVE_SHIFTER = 0;
+
+    }
+    // -----------------------------------------------------------------------------------------------------------------------------
+    // Conditioning stick values - constants used in the 2019 for stick tuning
+
+    // The multiplier for full stick to give the power/speed requested from the drive.
+    public static double DRIVE_FORWARD_GAIN = 1.0;
+
+    // The multiplier for full twist to give the power/speed differential requested from the drive.
+    public static double DRIVE_TURN_GAIN = 0.5;
+
+    // The multiplier for full twist to give the power/speed differential requested from the drive.
+    public static double DRIVE_TURN_AT_SPEED_GAIN = 0.1;
+
+    // The center-stick sensitivity, which is really the exponent applied to the stick position to flatten drive
+    // response to stick position for greater sensitivity at low speed.
+    public static double DRIVE_SENSITIVITY = 2.0;
+
+    // The width of the 0 dead-band of the stick as a fraction of full stick movement.
+    public static double DRIVE_DEADBAND = 0.05;
+
+    // The correction for the tendency of the robot to systemically turn as power is applied to the drive. This
+    // tendency to turn can result from many factors - alignment, friction, motor differences, controller
+    // differences, etc.
+    public static double DRIVE_TURN_BIAS = 0.0;
+
+    // A stick value scaling factor when you enter the fine control mode.
+    public static double FINE_CONTROL_MAX = 0.2;
+
+    // -----------------------------------------------------------------------------------------------------------------------------
+    // Tuning speed Drive tuning (using encoders and the Talon SRX PID control) - from 2019 summer sessions
+
+    public static double DRIVE_KP = 2.0;
+
+    public static double DRIVE_KI = 0.003;
+
+    public static double DRIVE_KF = 4.0;
+
+    public static double INTEGRAL_ZONE = 0.0;
+
+    // MAX_SPEED of motors for SpeedDrive
+    public static final double MAX_SPEED = 230;
+
+    // -----------------------------------------------------------------------------------------------------------------------------
+    // Tuning IMU control of direction (heading)
+
 }
