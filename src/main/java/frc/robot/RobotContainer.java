@@ -24,13 +24,19 @@ import frc.robot.subsystems.Limelight;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  
+
   // Subsystems
   private final Limelight m_camera = new Limelight();
 
   // Commands
   private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_camera);
   private final SetVisionCamera m_SetVisionCamera = new SetVisionCamera(m_camera);
+
+  // Buttons
+  private final Joystick m_stick = new Joystick(0);
+
+  private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
+  private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
 
 
   /**
@@ -40,12 +46,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
   }
-
-  // Define buttons
-  private final Joystick m_stick = new Joystick(0);
-
-  private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
-  private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
