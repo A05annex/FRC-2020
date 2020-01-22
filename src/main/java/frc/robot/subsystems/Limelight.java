@@ -37,4 +37,9 @@ public class Limelight extends SubsystemBase {
     table.getEntry("ledMode").setNumber(3);  //1 is off, 2 is seizure mode, 3 is on
     table.getEntry("camMode").setNumber(0);  //1 is driver mode (turns off vision processing)
   }
+
+  public void setSeizureMode() {
+    table.getEntry("ledMode").setNumber(2);  //1 is off, 2 is seizure mode, 3 is on
+    table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)
+  }
 }
