@@ -51,7 +51,7 @@ public class DriveCommand extends CommandBase {
     useTwist = Math.pow(useTwist, Constants.DRIVE_SENSITIVITY);
     // apply the gains
     double forward = useY * Constants.DRIVE_FORWARD_GAIN * ySignMult;
-    double rotate = (useTwist * Constants.DRIVE_TURN_GAIN) * twistSignMult;
+    double rotate = useTwist * Constants.DRIVE_TURN_GAIN * twistSignMult;
     // Now set the speeds
     m_driveSubsystem.setArcadePower(forward, rotate);
   }
