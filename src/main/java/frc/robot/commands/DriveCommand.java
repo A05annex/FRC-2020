@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -42,18 +41,20 @@ public class DriveCommand extends CommandBase {
     // subtract the dead band and scale what is left outside the dead band
     double ySignMult = (stickY > 0.0) ? 1.0 : -1.0;
     double twistSignMult = (twist > 0.0) ? 1.0 : -1.0;
-    double useY = (Math.abs(stickY) <= Constants.DRIVE_DEADBAND) ? 0.0 :
-            (Math.abs(stickY) - Constants.DRIVE_DEADBAND) / (1.0 - Constants.DRIVE_DEADBAND);
-    double useTwist = (Math.abs(twist) <= Constants.DRIVE_DEADBAND) ? 0.0 :
-            (Math.abs(twist) - Constants.DRIVE_DEADBAND) / (1.0 - Constants.DRIVE_DEADBAND);
+    double useY = (Math.abs(stickY) <= Constants.DRIVER.DRIVE_DEADBAND) ? 0.0 :
+            (Math.abs(stickY) - Constants.DRIVER.DRIVE_DEADBAND) / (1.0 - Constants.DRIVER.DRIVE_DEADBAND);
+    double useTwist = (Math.abs(twist) <= Constants.DRIVER.DRIVE_DEADBAND) ? 0.0 :
+            (Math.abs(twist) - Constants.DRIVER.DRIVE_DEADBAND) / (1.0 - Constants.DRIVER.DRIVE_DEADBAND);
     // do the sensitivity power function
-    useY = Math.pow(useY, Constants.DRIVE_SENSITIVITY);
-    useTwist = Math.pow(useTwist, Constants.DRIVE_SENSITIVITY);
+    useY = Math.pow(useY, Constants.DRIVER.DRIVE_SENSITIVITY);
+    useTwist = Math.pow(useTwist, Constants.DRIVER.DRIVE_SENSITIVITY);
     // apply the gains
-    double forward = useY * Constants.DRIVE_FORWARD_GAIN * ySignMult;
-    double rotate = useTwist * Constants.DRIVE_TURN_GAIN * twistSignMult;
+    double forward = useY * ySignMult * Constants.DRIVER.DRIVE_FORWARD_GAIN ;
+    double rotate = useTwist * twistSignMult *
+            (Constants.DRIVER.DRIVE_TURN_GAIN +
+                    (useY * (Constants.DRIVER.DRIVE_TURN_AT_SPEED_GAIN - Constants.DRIVER.DRIVE_TURN_GAIN)));
     // Now set the speeds
-    m_driveSubsystem.setArcadePower(forward, rotate);
+    m_driveSubsystem.setArcadeSpeed(forward, rotate);
   }
 
   // Called once the command ends or is interrupted.
