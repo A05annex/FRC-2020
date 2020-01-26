@@ -30,7 +30,7 @@ public class SetNextDriver extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Constants.ROBOT = Constants.Robots.getNextRobot(Constants.ROBOT);
+    Constants.DRIVER = Constants.Drivers.getNextDriver(Constants.DRIVER);
     m_container.resetDriver();
   }
 

@@ -30,8 +30,8 @@ public class SetNextRobot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Constants.DRIVER = Constants.Drivers.getNextDriver(Constants.DRIVER);
-    m_container.resetDriver();
+    Constants.ROBOT = Constants.Robots.getNextRobot(Constants.ROBOT);
+    m_container.resetRobot();
   }
 
   // Called once the command ends or is interrupted.

@@ -45,10 +45,10 @@ public class RobotContainer {
 
   // - the xbox controller and buttons
   private final XboxController m_xbox = new XboxController(1);
-  private final JoystickButton xboxA = new JoystickButton(m_xbox, 1);
-  private final JoystickButton xboxB = new JoystickButton(m_xbox, 2);
-  private final JoystickButton xboxX = new JoystickButton(m_xbox, 3);
-  private final JoystickButton xboxY = new JoystickButton(m_xbox, 4);
+  private final JoystickButton xboxY = new JoystickButton(m_xbox, 1);
+  private final JoystickButton xboxA = new JoystickButton(m_xbox, 2);
+  private final JoystickButton xboxB = new JoystickButton(m_xbox, 3);
+  private final JoystickButton xboxX = new JoystickButton(m_xbox, 4);
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
