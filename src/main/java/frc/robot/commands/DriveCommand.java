@@ -20,11 +20,11 @@ public class DriveCommand extends CommandBase {
   /**
    * Creates a new Drive.
    */
-  public DriveCommand(DriveSubsystem driveSubystem, Joystick joyStick) {
-    m_driveSubsystem = driveSubystem;
+  public DriveCommand(DriveSubsystem driveSubsystem, Joystick joyStick) {
+    m_driveSubsystem = driveSubsystem;
     m_stick = joyStick;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveSubystem);
+    addRequirements(driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
