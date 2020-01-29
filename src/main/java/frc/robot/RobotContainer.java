@@ -10,10 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.SetDriveCamera;
-import frc.robot.commands.SetVisionCamera;
+import frc.robot.commands.*;
+import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Limelight;
 
 /**
@@ -23,29 +23,49 @@ import frc.robot.subsystems.Limelight;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-
-  // Subsystems
+  // The robot's subsystems
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final Limelight m_limelight = new Limelight();
+
+  // The driver station buttons
+  // - the joystick and buttons
+  private final Joystick m_stick = new Joystick(0);
+
+  private final JoystickButton m_sideButton = new JoystickButton(this.m_stick, 2);
+  private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
+  private final JoystickButton m_button4 = new JoystickButton(this.m_stick, 4);
+  private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
+  private final JoystickButton m_button6 = new JoystickButton(this.m_stick, 6);
+  private final JoystickButton m_button7 = new JoystickButton(this.m_stick, 7);
+  private final JoystickButton m_button8 = new JoystickButton(this.m_stick, 8);
+  private final JoystickButton m_button9 = new JoystickButton(this.m_stick, 9);
+  private final JoystickButton m_button10 = new JoystickButton(this.m_stick, 10);
+  private final JoystickButton m_button11 = new JoystickButton(this.m_stick, 11);
+  private final JoystickButton m_button12 = new JoystickButton(this.m_stick, 12);
+
+  // - the xbox controller and buttons
+  private final XboxController m_xbox = new XboxController(1);
+  private final JoystickButton xboxY = new JoystickButton(m_xbox, 1);
+  private final JoystickButton xboxA = new JoystickButton(m_xbox, 2);
+  private final JoystickButton xboxB = new JoystickButton(m_xbox, 3);
+  private final JoystickButton xboxX = new JoystickButton(m_xbox, 4);
+
+  // The robot's commands
+  private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
 
   // Commands
   private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
   private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
-
-  // Buttons
-  private final Joystick m_stick = new Joystick(0);
-
-  private final JoystickButton m_trigger = new JoystickButton(this.m_stick, 1);
-  private final JoystickButton m_thumb = new JoystickButton(this.m_stick, 2);
-  private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
-  private final JoystickButton m_button4 = new JoystickButton(this.m_stick, 4);
-  private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
 
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    // perform robot and driver initializations
+    m_driveSubsystem.setRobot();
+    // Set the default commands for subsystems
+    m_driveSubsystem.setDefaultCommand(m_driveCommand);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -53,16 +73,21 @@ public class RobotContainer {
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+   * edu.wpi.first.wpilibj.Joystick}, and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    /* Button bindings for changing the camera mode
-    m_button3.whenPressed(m_setDriveCamera);
-    m_button5.whenPressed(m_setVisionCamera);
-    */
+    xboxA.whenPressed(new SetNextRobot(this));
+    xboxB.whenPressed(new SetNextDriver(this));
   }
 
+  public void resetRobot() {
+    m_driveSubsystem.setRobot();
+  }
+
+  public void resetDriver() {
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -70,7 +95,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return null;
   }
 
