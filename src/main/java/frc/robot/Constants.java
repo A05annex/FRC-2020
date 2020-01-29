@@ -41,13 +41,18 @@ public final class Constants {
     // Conditioning stick values - constants used in the 2019 for stick tuning. We found that it was important for each
     // driver to tune the drive for their driving style so the
     public enum Drivers {
-        ADEN("Aden", 1.0, 0.5, 0.1, 0.05, 2.0, 3.0),
-        ROY("Roy", 1.0, 0.5, 0.1, 0.05, 2.0, 3.0);
+        ADEN("Aden", true, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05),
+        LUCAS("Lucas", true, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05),
+        ROY("Roy", false, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05);
 
+        // The driver name presented on the dashboard.
         public final String DRIVER_NAME;
 
+        // If true, use the joystick twist for turn control; if false yous the stick X value for turn control.
+        public final boolean DRIVE_USE_TWIST;
+
         // The multiplier for full stick to give the power/speed requested from the drive.
-        public final double DRIVE_FORWARD_GAIN ;
+        public final double DRIVE_SPEED_GAIN;
 
         // The multiplier for full twist to give the power/speed differential requested from the drive.
         public final double DRIVE_TURN_GAIN;
@@ -55,26 +60,31 @@ public final class Constants {
         // The multiplier for full twist to give the power/speed differential requested from the drive.
         public final double DRIVE_TURN_AT_SPEED_GAIN;
 
-        // The width of the 0 dead-band of the stick as a fraction of full stick movement.
-        public final double DRIVE_DEADBAND;
+        // The width of the 0 dead-band of the speed stick as a fraction of full stick movement.
+        public final double DRIVE_SPEED_DEADBAND;
+
+        // The width of the 0 dead-band of the turn control as a fraction of full control movement.
+        public final double DRIVE_TURN_DEADBAND;
 
         // The center-stick sensitivity for forward-reverse control, which is really the exponent applied to the stick
         // position to flatten drive response to stick position for greater sensitivity at low speed.
-        public final double DRIVE_SENSITIVITY;
+        public final double DRIVE_SPEED_SENSITIVITY;
 
         // The center-stick sensitivity for turn control, which is really the exponent applied to the stick
         // position to flatten drive response to stick position for greater sensitivity at low speed.
         public final double DRIVE_TURN_SENSITIVITY;
 
-        Drivers(String name, double forward_gain, double turn_gain, double turn_at_speed_gain,
-                double deadband, double forward_sensitivity, double turn_sensitivity) {
+        Drivers(String name, boolean useTwist, double speedGain, double turnGain, double turnAtSpeedGain,
+                double forwardSensitivity, double turnSensitivity, double speedDeadband, double turnDeadband) {
             DRIVER_NAME = name;
-            DRIVE_FORWARD_GAIN = forward_gain;
-            DRIVE_TURN_GAIN = turn_gain;
-            DRIVE_TURN_AT_SPEED_GAIN = turn_at_speed_gain;
-            DRIVE_DEADBAND = deadband;
-            DRIVE_SENSITIVITY = forward_sensitivity;
-            DRIVE_TURN_SENSITIVITY = turn_sensitivity;
+            DRIVE_USE_TWIST = useTwist;
+            DRIVE_SPEED_GAIN = speedGain;
+            DRIVE_TURN_GAIN = turnGain;
+            DRIVE_TURN_AT_SPEED_GAIN = turnAtSpeedGain;
+            DRIVE_SPEED_SENSITIVITY = forwardSensitivity;
+            DRIVE_TURN_SENSITIVITY = turnSensitivity;
+            DRIVE_SPEED_DEADBAND = speedDeadband;
+            DRIVE_TURN_DEADBAND = turnDeadband;
         }
 
         public static Drivers getNextDriver(Drivers driver) {
