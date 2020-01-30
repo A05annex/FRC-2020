@@ -25,6 +25,7 @@ import frc.robot.subsystems.controlPanelBigWheel;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
+import frc.robot.Constants.ColorTargets;
 
 
 
@@ -60,12 +61,6 @@ public class RobotContainer {
 
   private final ColorMatch m_colorMatcher = new ColorMatch();
 
-  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-
-
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -75,10 +70,10 @@ public class RobotContainer {
     configureButtonBindings();
 
     // color sensor stuff
-    m_colorMatcher.addColorMatch(kBlueTarget);
-    m_colorMatcher.addColorMatch(kGreenTarget);
-    m_colorMatcher.addColorMatch(kRedTarget);
-    m_colorMatcher.addColorMatch(kYellowTarget);
+    m_colorMatcher.addColorMatch(ColorTargets.BLUE_TARGET);
+    m_colorMatcher.addColorMatch(ColorTargets.GREEN_TARGET);
+    m_colorMatcher.addColorMatch(ColorTargets.RED_TARGET);
+    m_colorMatcher.addColorMatch(ColorTargets.YELLOW_TARGET);
   }
 
   /**
@@ -122,13 +117,13 @@ public class RobotContainer {
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-    if (match.color == kBlueTarget) {
+    if (match.color == ColorTargets.BLUE_TARGET) {
       colorString = "Blue";
-    } else if (match.color == kRedTarget) {
+    } else if (match.color == ColorTargets.RED_TARGET) {
       colorString = "Red";
-    } else if (match.color == kGreenTarget) {
+    } else if (match.color == ColorTargets.GREEN_TARGET) {
       colorString = "Green";
-    } else if (match.color == kYellowTarget) {
+    } else if (match.color == ColorTargets.YELLOW_TARGET) {
       colorString = "Yellow";
     } else {
       colorString = "Unknown";
