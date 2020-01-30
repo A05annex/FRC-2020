@@ -30,11 +30,22 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.3f", key, var));
   }
 
+  private void dashboardTelemetry(int port, String key, String var) {
+    SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %s", key, var));
+  }
+
   private void useTelemetry() {
+    /* Camera telemetry
     dashboardTelemetry(0, "target", m_limelight.isTarget()); // 0 means no target, 1 means target acquired
     dashboardTelemetry(1, "x", m_limelight.getX()); // horizontal distance from cursor
     dashboardTelemetry(2, "y", m_limelight.getArea()); // vertical distance from cursor
     dashboardTelemetry(3, "area", m_limelight.getArea()); // area of target
+    */
+
+    dashboardTelemetry(0, "red", m_robotContainer.getColorSensor().getRed());
+    dashboardTelemetry(1, "blue", m_robotContainer.getColorSensor().getBlue());
+    dashboardTelemetry(2, "green", m_robotContainer.getColorSensor().getGreen());
+    dashboardTelemetry(3, "Color", m_robotContainer.getColorAsString());
   }
 
   /**
@@ -46,6 +57,12 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    // empty the telemetry display
+    for (int i = 0; i < 10; i++) {
+      SmartDashboard.putString(String.format("DB/String %d",i), " ");
+    }
+    
     m_limelight = m_robotContainer.getLimelight();
   }
 
