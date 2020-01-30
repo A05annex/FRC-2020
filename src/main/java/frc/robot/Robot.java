@@ -57,6 +57,12 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    // empty the telemetry display
+    for (int i = 0; i < 10; i++) {
+      SmartDashboard.putString(String.format("DB/String %d",i), " ");
+    }
+    
     m_limelight = m_robotContainer.getLimelight();
   }
 
