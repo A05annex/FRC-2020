@@ -14,13 +14,14 @@ import frc.robot.subsystems.CollectorSubsystem;
 public class RunSweeper extends CommandBase {
 
     private final Joystick m_stick;
-    private final CollectorSubsystem m_collectorSubsystem
+    private final CollectorSubsystem m_collectorSubsystem;
 
     /**
      * Creates a new RunSweeper.
      */
-    public RunSweeper(Joystick joyStick) {
+    public RunSweeper(Joystick joyStick, CollectorSubsystem collectorSubsystem) {
         m_stick = joyStick;
+        m_collectorSubsystem = collectorSubsystem;
         m_sweeper.configFactoryDefault();
         m_sweeper.setNeutralMode(NeutralMode.Brake);
     }
