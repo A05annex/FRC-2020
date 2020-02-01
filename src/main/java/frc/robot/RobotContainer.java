@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SetDriveCamera;
 import frc.robot.commands.SetVisionCamera;
 import frc.robot.commands.bigWheelToPosition;
+import frc.robot.commands.resetBigWheelEncoders;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.controlPanelBigWheel;
 import frc.robot.commands.setBigWheelPower;
@@ -66,7 +67,8 @@ public class RobotContainer {
     m_button5.whenPressed(m_setVisionCamera);
     */
     m_trigger.whenHeld(new setBigWheelPower(m_wheel, 1));
-    m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, -100000));
+    m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, -18000));
+    m_button3.whenPressed(new resetBigWheelEncoders(m_wheel));
   }
 
 
