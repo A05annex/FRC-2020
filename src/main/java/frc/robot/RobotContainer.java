@@ -66,7 +66,7 @@ public class RobotContainer {
     m_button5.whenPressed(m_setVisionCamera);
     */
     m_trigger.whenHeld(new setBigWheelPower(m_wheel, 1));
-    m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, 1000));
+    m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, -100000));
   }
 
 

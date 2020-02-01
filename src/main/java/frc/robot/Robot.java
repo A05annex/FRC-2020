@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(2, "y", m_limelight.getArea()); // vertical distance from cursor
     dashboardTelemetry(3, "area", m_limelight.getArea()); // area of target
     */
-    dashboardTelemetry(0, "wheel encoder", m_wheel.getEncoder());
+    dashboardTelemetry(0, "wheelpos", m_wheel.getEncoder());
   }
 
   /**

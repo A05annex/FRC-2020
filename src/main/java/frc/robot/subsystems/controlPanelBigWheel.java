@@ -27,6 +27,7 @@ public class controlPanelBigWheel extends SubsystemBase {
     bigWheel.configFactoryDefault();
     bigWheel.setNeutralMode(NeutralMode.Brake);
     bigWheel.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    bigWheel.setSelectedSensorPosition(0);
 
   }
 
@@ -41,6 +42,10 @@ public class controlPanelBigWheel extends SubsystemBase {
 
   public int getEncoder() {
     return bigWheel.getSelectedSensorPosition();
+  }
+
+  public void resetEncoder() {
+    bigWheel.setSelectedSensorPosition(0);
   }
 
 }

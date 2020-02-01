@@ -15,6 +15,7 @@ public class bigWheelToPosition extends CommandBase {
   private controlPanelBigWheel m_wheel;
   private double m_power;
   private double m_counts;
+  private double m_target;
 
   /**
    * Run the wheel until it reaches an encoder position.
@@ -24,6 +25,8 @@ public class bigWheelToPosition extends CommandBase {
     m_wheel = wheel;
     m_power = power;
     m_counts = counts;
+    
+    m_wheel.resetEncoder();
 
     addRequirements(m_wheel);
   }
@@ -48,9 +51,17 @@ public class bigWheelToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_wheel.getEncoder() < m_counts) {
-      return true;
+    if (m_power > 0) {
+      if (m_wheel.getEncoder() > m_counts) {
+        return true;
+      }
+        else return false;
     }
-    else return false;
+    else {
+      if (m_wheel.getEncoder() < m_counts) {
+        return true;
+      }
+        else return false;
+    }
   }
 }
