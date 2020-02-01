@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.controlPanelBigWheel;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -25,16 +26,20 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   
   private Limelight m_limelight;
+  private controlPanelBigWheel m_wheel;
 
   private void dashboardTelemetry(int port, String key, double var) {
     SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.3f", key, var));
   }
 
   private void useTelemetry() {
+    /*
     dashboardTelemetry(0, "target", m_limelight.isTarget()); // 0 means no target, 1 means target acquired
     dashboardTelemetry(1, "x", m_limelight.getX()); // horizontal distance from cursor
     dashboardTelemetry(2, "y", m_limelight.getArea()); // vertical distance from cursor
     dashboardTelemetry(3, "area", m_limelight.getArea()); // area of target
+    */
+    dashboardTelemetry(0, "wheel encoder", m_wheel.getEncoder());
   }
 
   /**
@@ -46,7 +51,13 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    // empty the telemetry display
+    for (int i = 0; i < 10; i++) {
+      SmartDashboard.putString(String.format("DB/String %d",i), " ");
+    }
+
     m_limelight = m_robotContainer.getLimelight();
+    m_wheel = m_robotContainer.getBigWheel();
   }
 
   /**

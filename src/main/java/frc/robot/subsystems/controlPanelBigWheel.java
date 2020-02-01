@@ -39,4 +39,8 @@ public class controlPanelBigWheel extends SubsystemBase {
     bigWheel.set(ControlMode.PercentOutput, power);
   }
 
+  public int getEncoder() {
+    return bigWheel.getSelectedSensorPosition();
+  }
+
 }
