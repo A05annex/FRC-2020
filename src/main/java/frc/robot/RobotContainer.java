@@ -54,8 +54,7 @@ public class RobotContainer {
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
-
-  // Commands
+  private final ManualCollector m_manualCollector =  new ManualCollector(m_collectorSubsystem, m_stick, m_xbox);
   private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
   private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
 
@@ -68,6 +67,7 @@ public class RobotContainer {
     m_driveSubsystem.setRobot();
     // Set the default commands for subsystems
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
+    m_collectorSubsystem.setDefaultCommand(m_manualCollector);
     // Configure the button bindings
     configureButtonBindings();
   }

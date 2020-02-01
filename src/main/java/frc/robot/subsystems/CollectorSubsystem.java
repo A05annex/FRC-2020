@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,7 +10,9 @@ import frc.robot.Constants;
 public class CollectorSubsystem extends SubsystemBase {
 
     private TalonSRX m_position = new TalonSRX(Constants.MotorControllers.COLLECTOR_POSITION);
+    private double m_positionPower;
     private TalonSRX m_sweeper = new TalonSRX(Constants.MotorControllers.COLLECTOR_SWEEPER);
+    private double m_sweeperPower;
 
     /**
      * The Singleton instance of this CollectorSubsystem. External classes should
@@ -33,18 +36,36 @@ public class CollectorSubsystem extends SubsystemBase {
      * should use the {@link #getInstance()} method to get the instance.
      */
     private CollectorSubsystem() {
-        // TODO: Set the default command, if any, for this subsystem by calling setDefaultCommand(command)
-        //       in the constructor or in the robot coordination class, such as RobotContainer.
-        //       Also, you can call addChild(name, sendableChild) to associate sendables with the subsystem
-        //       such as SpeedControllers, Encoders, DigitalInputs, etc.
         m_sweeper.configFactoryDefault();
         m_sweeper.setNeutralMode(NeutralMode.Brake);
         m_position.configFactoryDefault();
         m_position.setNeutralMode(NeutralMode.Brake);
-
     }
 
+    /**
+     *
+     * @param sweeperPower The power. in the range -1.0 to 1.0 that should be applied to the sweeper motor.
+     */
+    public void setSweeperPower(double sweeperPower) {
+        m_sweeperPower = sweeperPower;
+        m_sweeper.set(ControlMode.PercentOutput,sweeperPower);
+    }
 
+    public double getSweeperPower() {
+        return m_sweeperPower;
+    }
 
+    /**
+     *
+     * @param positionPower The power. in the range -1.0 to 1.0 that should be applied to the arm position motor.
+     */
+    public void setPositionPower(double positionPower) {
+        m_positionPower = positionPower;
+        m_position.set(ControlMode.PercentOutput,positionPower);
+    }
+
+    public double getPositionPower() {
+        return m_positionPower;
+    }
 }
 
