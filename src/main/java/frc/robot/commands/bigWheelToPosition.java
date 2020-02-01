@@ -15,7 +15,6 @@ public class bigWheelToPosition extends CommandBase {
   private controlPanelBigWheel m_wheel;
   private double m_power;
   private double m_counts;
-  private double m_target;
 
   /**
    * Run the wheel until it reaches an encoder position.
