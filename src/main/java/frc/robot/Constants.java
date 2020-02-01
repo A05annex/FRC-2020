@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatch;
 
@@ -29,6 +28,7 @@ public final class Constants {
 
     public static final class ColorTargets {
         public static Color
+
             BLUE_TARGET = ColorMatch.makeColor(0.143, 0.427, 0.429), // order is red, green, blue
             GREEN_TARGET = ColorMatch.makeColor(0.197, 0.561, 0.240),
             RED_TARGET = ColorMatch.makeColor(0.4, 0.4, 0.2),
