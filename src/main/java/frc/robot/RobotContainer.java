@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.BigWheelToColor;
 import frc.robot.commands.SetDriveCamera;
 import frc.robot.commands.SetVisionCamera;
 import frc.robot.commands.bigWheelToPosition;
@@ -56,14 +56,13 @@ public class RobotContainer {
   private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
 
   // Color sensor
-  private final I2C.Port i2cPort = I2C.Port.kOnboard;
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  private final static I2C.Port i2cPort = I2C.Port.kOnboard;
+  private final static ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
-  private final ColorMatch m_colorMatcher = new ColorMatch();
-
+  private final static ColorMatch m_colorMatcher = new ColorMatch();
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
@@ -77,21 +76,22 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    /* Button bindings for changing the camera mode
-    m_button3.whenPressed(m_setDriveCamera);
-    m_button5.whenPressed(m_setVisionCamera);
-    */
+    /*
+     * Button bindings for changing the camera mode
+     * m_button3.whenPressed(m_setDriveCamera);
+     * m_button5.whenPressed(m_setVisionCamera);
+     */
     m_trigger.whenHeld(new setBigWheelPower(m_wheel, 1));
     m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, -18000));
     m_button3.whenPressed(new resetBigWheelEncoders(m_wheel));
+    m_button5.whenPressed(new BigWheelToColor(m_wheel, 1, "Blue"));
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -110,12 +110,13 @@ public class RobotContainer {
   public controlPanelBigWheel getBigWheel() {
     return m_wheel;
   }
-  
+
   public ColorSensorV3 getColorSensor() {
     return m_colorSensor;
   }
 
-  public String getColorAsString() {
+  // probably not the right way to do this
+  public static String getColorAsString() {
 
     // color object with values
     Color detectedColor = m_colorSensor.getColor();

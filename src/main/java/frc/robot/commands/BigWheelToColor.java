@@ -15,16 +15,22 @@ public class BigWheelToColor extends CommandBase {
 
   private controlPanelBigWheel m_wheel;
   private double m_power;
+  private String m_colorString;
+  private String m_targetColor;
 
   /**
-   * Creates a new BigWheelToColor.
+   * Spins the wheel until it sees a specific color.
+   * @param wheel The wheel subsystem.
+   * @param power (double) Power to run the wheel at from 0 to 1.
+   * @param targetColor (String) "Blue", "Green", "Red", or "Yellow".
    */
-  public BigWheelToColor(controlPanelBigWheel wheel, double power) {
+  public BigWheelToColor(controlPanelBigWheel wheel, double power, String targetColor) {
     // Use addRequirements() here to declare subsystem dependencies.\
     m_wheel = wheel;
     addRequirements(m_wheel);
 
     m_power = power;
+    m_targetColor = targetColor;
   }
 
   // Called when the command is initially scheduled.
@@ -37,17 +43,22 @@ public class BigWheelToColor extends CommandBase {
   @Override
   public void execute() {
     m_wheel.setPower(m_power);
+    m_colorString = RobotContainer.getColorAsString();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_wheel.setPower(0);
     m_wheel.resetEncoder();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_colorString == m_targetColor) {
+      return true;
+    }
+    else return false;
   }
 }
