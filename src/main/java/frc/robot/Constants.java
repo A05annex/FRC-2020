@@ -31,7 +31,11 @@ public final class Constants {
     }
 
     public static final class Pneumatics {
-        public static int DRIVE_SHIFTER = 0;
+        public static int
+                DRIVE_SHIFTER = 0,
+                LIFT_LOWER_CYLINDERS = 3,
+                LIFT_UPPER_CYLINDERS = 4,
+                LIFT_DUMP_PRESSURE = 5;
 
     }
 

@@ -15,6 +15,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.LowerCylinderSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,6 +27,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final Limelight m_limelight = new Limelight();
+  private final LowerCylinderSubsystem m_lowerCylinderSubsystem = new LowerCylinderSubsystem();
 
   // The driver station buttons
   // - the joystick and buttons
@@ -79,6 +81,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxA.whenPressed(new SetNextRobot(this));
     xboxB.whenPressed(new SetNextDriver(this));
+
+    m_button12.whenPressed(new ExtendLowerLift(m_lowerCylinderSubsystem));
   }
 
   public void resetRobot() {
