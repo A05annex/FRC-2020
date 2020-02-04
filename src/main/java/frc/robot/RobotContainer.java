@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BigWheelToColor;
+import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SetDriveCamera;
 import frc.robot.commands.SetVisionCamera;
 import frc.robot.commands.bigWheelToPosition;
 import frc.robot.commands.resetBigWheelEncoders;
 import frc.robot.commands.setBigWheelPower;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.controlPanelBigWheel;
 import com.revrobotics.ColorSensorV3;
@@ -38,22 +40,31 @@ import frc.robot.Constants.ColorTargets;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  // Subsystems
-  private final Limelight m_limelight = new Limelight();
-  private final controlPanelBigWheel m_wheel = new controlPanelBigWheel();
-
-  // Commands
-  private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
-  private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
-
   // Buttons
   private final Joystick m_stick = new Joystick(0);
 
   private final JoystickButton m_trigger = new JoystickButton(this.m_stick, 1);
-  private final JoystickButton m_thumb = new JoystickButton(this.m_stick, 2);
+  private final JoystickButton m_sideButton = new JoystickButton(this.m_stick, 2);
   private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
   private final JoystickButton m_button4 = new JoystickButton(this.m_stick, 4);
   private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
+  private final JoystickButton m_button6 = new JoystickButton(this.m_stick, 6);
+  private final JoystickButton m_button7 = new JoystickButton(this.m_stick, 7);
+  private final JoystickButton m_button8 = new JoystickButton(this.m_stick, 8);
+  private final JoystickButton m_button9 = new JoystickButton(this.m_stick, 9);
+  private final JoystickButton m_button10 = new JoystickButton(this.m_stick, 10);
+  private final JoystickButton m_button11 = new JoystickButton(this.m_stick, 11);
+  private final JoystickButton m_button12 = new JoystickButton(this.m_stick, 12);
+
+  // Subsystems
+  private final Limelight m_limelight = new Limelight();
+  private final controlPanelBigWheel m_wheel = new controlPanelBigWheel();
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+
+  // Commands
+  private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
+  private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
+  private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
 
   // Color sensor
   private final static I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -65,6 +76,10 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    // perform robot and driver initializations
+    m_driveSubsystem.setRobot();
+    // Set the default commands for subsystems
+    m_driveSubsystem.setDefaultCommand(m_driveCommand);
     // Configure the button bindings
     configureButtonBindings();
 
@@ -88,9 +103,12 @@ public class RobotContainer {
      * m_button5.whenPressed(m_setVisionCamera);
      */
     m_trigger.whenHeld(new setBigWheelPower(m_wheel, 1));
-    m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, -18000));
+    m_sideButton.whenPressed(new bigWheelToPosition(m_wheel, 1, -18000));
     m_button3.whenPressed(new resetBigWheelEncoders(m_wheel));
-    m_button5.whenPressed(new BigWheelToColor(m_wheel, 1, "Blue"));
+    m_button9.whenPressed(new BigWheelToColor(m_wheel, 0.5, "Blue"));
+    m_button10.whenPressed(new BigWheelToColor(m_wheel, 0.5, "Green"));
+    m_button11.whenPressed(new BigWheelToColor(m_wheel, 0.5, "Yellow"));
+    m_button12.whenPressed(new BigWheelToColor(m_wheel, 0.5, "Red"));
   }
 
   /**
