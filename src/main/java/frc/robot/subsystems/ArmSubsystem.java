@@ -49,5 +49,9 @@ public class ArmSubsystem extends SubsystemBase {
         return m_position.getSelectedSensorPosition();
     }
 
+    public void setPositionPower(double power) {
+
+    }
+
 }
 
