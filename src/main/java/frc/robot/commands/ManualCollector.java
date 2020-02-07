@@ -16,8 +16,8 @@ public class ManualCollector extends CommandBase {
 
     /**
      *
-     * @param xbox
      * @param armSubsystem
+     * @param xbox
      */
     public ManualCollector(ArmSubsystem armSubsystem, XboxController xbox) {
         m_xbox = xbox;
@@ -34,8 +34,7 @@ public class ManualCollector extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // What we are doing here is simple - we are setting the sweeper speed to the throttle of the joystick (the only
-        // control that lets us easily set and hod a speed), and setting to position motor power based on the setting of the
+        // What we are doing here is simple - we are setting the position motor power based on the setting of the
         // xbox right stick Y
         m_armSubsystem.setPositionPower(m_xbox.getY(GenericHID.Hand.kRight));
     }
