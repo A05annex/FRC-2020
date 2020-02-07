@@ -12,10 +12,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.subsystems.CollectorSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SweeperSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,7 +27,8 @@ import frc.robot.subsystems.Limelight;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
+  private final ArmSubsystem m_armSubsystem = ArmSubsystem.getInstance();
+  private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
   private final Limelight m_limelight = new Limelight();
 
   // The driver station buttons
@@ -54,6 +56,7 @@ public class RobotContainer {
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
+  private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem,m_stick);
 
   // Commands
   private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
@@ -67,7 +70,8 @@ public class RobotContainer {
     // perform robot and driver initializations
     m_driveSubsystem.setRobot();
     // Set the default commands for subsystems
-    m_driveSubsystem.setDefaultCommand(m_driveCommand);
+    //m_driveSubsystem.setDefaultCommand(m_driveCommand);
+    m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
     // Configure the button bindings
     configureButtonBindings();
   }
