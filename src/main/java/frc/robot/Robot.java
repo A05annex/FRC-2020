@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SweeperSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -41,6 +43,9 @@ public class Robot extends TimedRobot {
 
     dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
+
+    dashboardTelemetry(2, "sweeper", SweeperSubsystem.getInstance().getSweeperPower());
+    dashboardTelemetry(3, "arm", ArmSubsystem.getInstance().getPosition());
   }
 
   /**
