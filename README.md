@@ -1,3 +1,3 @@
-# Master for the Collector Sweeper and Arm
+# Manual Control for the Collector Sweeper and Arm Position
 
 
