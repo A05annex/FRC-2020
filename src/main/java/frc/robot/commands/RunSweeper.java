@@ -31,6 +31,8 @@ public class RunSweeper extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // What we are doing here is simple - we are setting the sweeper speed to the throttle of the joystick (the only
+        // control that lets us easily set and hod a speed)
         m_sweeperSubsystem.setSweeperPower(m_stick.getThrottle());
     }
 

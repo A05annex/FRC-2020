@@ -71,6 +71,7 @@ public class RobotContainer {
     // Set the default commands for subsystems
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
     m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
+    m_armSubsystem.setDefaultCommand(m_manualCollector);
     // Configure the button bindings
     configureButtonBindings();
   }
