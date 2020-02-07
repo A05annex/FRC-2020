@@ -56,7 +56,7 @@ public class RobotContainer {
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
-  private final ManualCollector m_manualCollector =  new ManualCollector(m_collectorSubsystem, m_stick, m_xbox);
+  private final ManualCollector m_manualCollector =  new ManualCollector(m_armSubsystem, m_xbox);
   private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem,m_stick);
   private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
   private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
