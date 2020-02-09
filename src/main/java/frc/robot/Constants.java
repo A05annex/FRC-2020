@@ -116,7 +116,7 @@ public final class Constants {
     //   - Ki -
     //   - integral_zone -
     public enum Robots {
-        COMPETITION_ROBOT("competition", 0.006, true, 0.129, 0.110, 0.0, 0.0, 7800.0, 1781.87, 457.95),
+        COMPETITION_ROBOT("competition", 0.009, true, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95),
         PRACTICE_ROBOT("practice", 0.019, false, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5);
 
         // The robot configuration that is running.
