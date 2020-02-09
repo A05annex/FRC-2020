@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private Limelight m_limelight;
-  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
+//  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
 
   private void dashboardTelemetry(int port, String key, double var) {
     SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.3f", key, var));
@@ -66,9 +66,9 @@ public class Robot extends TimedRobot {
     m_limelight = m_robotContainer.getLimelight();
     m_limelight.setDriveCamera();
 
-    robotChooser.setDefaultOption(Constants.Robots.COMPETITION_ROBOT.ROBOT_NAME, Constants.Robots.COMPETITION_ROBOT);
-    robotChooser.addOption(Constants.Robots.PRACTICE_ROBOT.ROBOT_NAME, Constants.Robots.PRACTICE_ROBOT);
-    SmartDashboard.putData("Robot Selection", robotChooser);
+//    robotChooser.setDefaultOption(Constants.Robots.COMPETITION_ROBOT.ROBOT_NAME, Constants.Robots.COMPETITION_ROBOT);
+//    robotChooser.addOption(Constants.Robots.PRACTICE_ROBOT.ROBOT_NAME, Constants.Robots.PRACTICE_ROBOT);
+//    SmartDashboard.putData("Robot Selection", robotChooser);
   }
 
   /**
@@ -93,8 +93,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    Constants.ROBOT = robotChooser.getSelected();
-    m_robotContainer.resetRobot();
+//    Constants.ROBOT = robotChooser.getSelected();
+//    m_robotContainer.resetRobot();
   }
 
   @Override
@@ -106,8 +106,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    Constants.ROBOT = robotChooser.getSelected();
-    m_robotContainer.resetRobot();
+//    Constants.ROBOT = robotChooser.getSelected();
+//    m_robotContainer.resetRobot();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -126,8 +126,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    Constants.ROBOT = robotChooser.getSelected();
-    m_robotContainer.resetRobot();
+//    Constants.ROBOT = robotChooser.getSelected();
+//    m_robotContainer.resetRobot();
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -147,8 +147,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    Constants.ROBOT = robotChooser.getSelected();
-    m_robotContainer.resetRobot();
+//    Constants.ROBOT = robotChooser.getSelected();
+//    m_robotContainer.resetRobot();
 
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
