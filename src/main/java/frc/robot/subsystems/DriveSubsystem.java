@@ -137,7 +137,8 @@ public class DriveSubsystem extends SubsystemBase {
     pidController.config_kF(0, Constants.ROBOT.DRIVE_Kf * biasMultiplier);
     pidController.config_kP(0, Constants.ROBOT.DRIVE_Kp);
     pidController.config_kI(0, Constants.ROBOT.DRIVE_Ki);
-    pidController.config_IntegralZone(0, (int)(Constants.ROBOT.DRIVE_Ki * Constants.ROBOT.DRIVE_MAX_RPM));
+    pidController.config_IntegralZone(0,
+            (int)(Constants.ROBOT.DRIVE_INTEGRAL_ZONE * Constants.ROBOT.DRIVE_MAX_RPM));
     pidController.config_kD(0, 0);
     pidController.setSensorPhase(encoderPhase);
   }

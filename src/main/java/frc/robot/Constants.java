@@ -43,7 +43,7 @@ public final class Constants {
     // Conditioning stick values - constants used in the 2019 for stick tuning. We found that it was important for each
     // driver to tune the drive for their driving style so the
     public enum Drivers {
-        ADEN("Aden", true, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05),
+        ADEN("Aden", true, 1.0, 0.5, 0.5, 2.0, 3.0, 0.05, 0.05),
         LUCAS("Lucas", true, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05),
         ROY("Roy", false, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05);
 

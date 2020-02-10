@@ -46,7 +46,8 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
 
     dashboardTelemetry(2, "sweeper", SweeperSubsystem.getInstance().getSweeperPower());
-    dashboardTelemetry(3, "arm", ArmSubsystem.getInstance().getPosition());
+    dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
+    dashboardTelemetry(4, "arm power", ArmSubsystem.getInstance().getPositionPower());
   }
 
   /**
