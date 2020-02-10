@@ -10,11 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SweeperSubsystem;
 
@@ -56,7 +56,7 @@ public class RobotContainer {
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
-  private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem,m_stick);
+  private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_stick);
   private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
   private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
   private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
