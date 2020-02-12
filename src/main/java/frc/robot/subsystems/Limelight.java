@@ -20,6 +20,8 @@ public class Limelight extends SubsystemBase {
   double x;
   double y;
   double area;
+  String mode;
+  String streamMode;
 
   /**
    * Creates a new Limelight.
@@ -48,18 +50,42 @@ public class Limelight extends SubsystemBase {
 
   // set modes of the limelight camera
   public void setDriveCamera() {
+    table.getEntry("pipeline").setNumber(1); // driver pipeline
+    /*
     table.getEntry("ledMode").setNumber(1);  //1 is off, 2 is seizure mode, 3 is on
-    table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)
+    table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)'
+    */
+    mode = "drive";
   }
 
   public void setVisionCamera() {
+    table.getEntry("pipeline").setNumber(0); // vision pipeline
+    /*
     table.getEntry("ledMode").setNumber(3);  //1 is off, 2 is seizure mode, 3 is on
     table.getEntry("camMode").setNumber(0);  //1 is driver mode (turns off vision processing)
+    */
+    mode = "vision";
   }
 
   public void setSeizureMode() {
     table.getEntry("ledMode").setNumber(2);  //1 is off, 2 is seizure mode, 3 is on
-    table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)
+    // table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)
+    mode = "seizure";
+  }
+
+  public void setLimelightStream() {
+    table.getEntry("stream").setNumber(1);
+    streamMode = "limelight";
+  }
+
+  public void setSideBySideStream() {
+    table.getEntry("stream").setNumber(0);
+    streamMode = "side by side";
+  }
+
+  public void setSecondaryStream() {
+    table.getEntry("stream").setNumber(2);
+    streamMode = "secondary";
   }
 
   // return variables, see above
@@ -84,5 +110,17 @@ public class Limelight extends SubsystemBase {
 
   public double getArea() {
     return area;
+  }
+
+  public String getMode() {
+    return mode;
+  }
+
+  public NetworkTable getTable() {
+    return table;
+  }
+
+  public String getStreamMode() {
+    return streamMode;
   }
 }

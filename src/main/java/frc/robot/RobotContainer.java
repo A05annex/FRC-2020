@@ -58,9 +58,6 @@ public class RobotContainer {
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
   private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_stick);
   private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
-  private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
-  private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
-
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -85,6 +82,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxA.whenPressed(new SetNextRobot(this));
     xboxB.whenPressed(new SetNextDriver(this));
+    m_button3.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
+    m_button5.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.VISION_MODE));
+
+    m_button4.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.LIMELIGHT_STREAM));
+    m_button6.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SECONDARY_STREAM));
+    m_sideButton.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
   }
 
   public void resetRobot() {
