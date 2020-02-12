@@ -37,11 +37,12 @@ public class Robot extends TimedRobot {
   private void useTelemetry() {
     dashboardTelemetry(0, "target", m_limelight.isTarget()); // 0 means no target, 1 means target acquired
     dashboardTelemetry(1, "x", m_limelight.getX()); // horizontal distance from cursor
-    dashboardTelemetry(2, "y", m_limelight.getArea()); // vertical distance from cursor
+    dashboardTelemetry(2, "y", m_limelight.getY()); // vertical distance from cursor
     dashboardTelemetry(3, "area", m_limelight.getArea()); // area of target
     dashboardTelemetry(4, "mode", m_limelight.getMode());
-    dashboardTelemetry(5, "ledMode", m_limelight.getTable().getEntry("ledMode").getString("NaN"));
-    dashboardTelemetry(6, "camMode", m_limelight.getTable().getEntry("camMode").getString("NaN"));
+    dashboardTelemetry(5, "stream", m_limelight.getStreamMode());
+    // dashboardTelemetry(5, "ledMode", m_limelight.getTable().getEntry("ledMode").getString("NaN"));
+    // dashboardTelemetry(6, "camMode", m_limelight.getTable().getEntry("camMode").getString("NaN"));
   }
 
   /**
