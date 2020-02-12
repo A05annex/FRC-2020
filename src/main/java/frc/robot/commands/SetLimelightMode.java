@@ -20,6 +20,7 @@ public class SetLimelightMode extends CommandBase {
 
   /**
    * Set the mode of the Limelight to driver or vision.
+   *
    * @param mode the mode to set it to, should be a constant from this file.
    */
   public SetLimelightMode(Limelight limelight, int mode) {
@@ -34,9 +35,11 @@ public class SetLimelightMode extends CommandBase {
   @Override
   public void initialize() {
     switch (m_mode) {
-      case 0: m_limelight.setDriveCamera();
+      case 0:
+        m_limelight.setDriveCamera();
         break;
-      case 1: m_limelight.setVisionCamera();
+      case 1:
+        m_limelight.setVisionCamera();
         break;
     }
   }

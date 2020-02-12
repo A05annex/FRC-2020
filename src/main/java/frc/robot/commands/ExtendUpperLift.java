@@ -12,38 +12,38 @@ import frc.robot.subsystems.LiftSubsystem;
 
 public class ExtendUpperLift extends CommandBase {
 
-    private final LiftSubsystem m_liftSubsystem;
-    private boolean m_isFinished = false;
+  private final LiftSubsystem m_liftSubsystem;
+  private boolean m_isFinished = false;
 
-    /**
-     * Creates a new ExtendLowerLift.
-     */
-    public ExtendUpperLift(LiftSubsystem liftSubsystem) {
-        m_liftSubsystem = liftSubsystem;
-        addRequirements(m_liftSubsystem);
-    }
+  /**
+   * Creates a new ExtendLowerLift.
+   */
+  public ExtendUpperLift(LiftSubsystem liftSubsystem) {
+    m_liftSubsystem = liftSubsystem;
+    addRequirements(m_liftSubsystem);
+  }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-        m_isFinished = false;
-    }
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    m_isFinished = false;
+  }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-        m_liftSubsystem.extendUpper();
-        m_isFinished = true;
-    }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    m_liftSubsystem.extendUpper();
+    m_isFinished = true;
+  }
 
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-    }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+  }
 
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return m_isFinished;
-    }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return m_isFinished;
+  }
 }
