@@ -29,60 +29,64 @@ public class RobotContainer {
     private final Limelight m_limelight = new Limelight();
     private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
 
-    // The driver station buttons
-    // - the joystick and buttons
-    private final Joystick m_stick = new Joystick(0);
+  // The driver station buttons
+  // - the joystick and buttons
+  private final Joystick m_stick = new Joystick(0);
 
-    private final JoystickButton m_sideButton = new JoystickButton(this.m_stick, 2);
-    private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
-    private final JoystickButton m_button4 = new JoystickButton(this.m_stick, 4);
-    private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
-    private final JoystickButton m_button6 = new JoystickButton(this.m_stick, 6);
-    private final JoystickButton m_button7 = new JoystickButton(this.m_stick, 7);
-    private final JoystickButton m_button8 = new JoystickButton(this.m_stick, 8);
-    private final JoystickButton m_button9 = new JoystickButton(this.m_stick, 9);
-    private final JoystickButton m_button10 = new JoystickButton(this.m_stick, 10);
-    private final JoystickButton m_button11 = new JoystickButton(this.m_stick, 11);
-    private final JoystickButton m_button12 = new JoystickButton(this.m_stick, 12);
+  private final JoystickButton m_sideButton = new JoystickButton(this.m_stick, 2);
+  private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
+  private final JoystickButton m_button4 = new JoystickButton(this.m_stick, 4);
+  private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
+  private final JoystickButton m_button6 = new JoystickButton(this.m_stick, 6);
+  private final JoystickButton m_button7 = new JoystickButton(this.m_stick, 7);
+  private final JoystickButton m_button8 = new JoystickButton(this.m_stick, 8);
+  private final JoystickButton m_button9 = new JoystickButton(this.m_stick, 9);
+  private final JoystickButton m_button10 = new JoystickButton(this.m_stick, 10);
+  private final JoystickButton m_button11 = new JoystickButton(this.m_stick, 11);
+  private final JoystickButton m_button12 = new JoystickButton(this.m_stick, 12);
 
-    // - the xbox controller and buttons
-    private final XboxController m_xbox = new XboxController(1);
-    private final JoystickButton xboxA = new JoystickButton(m_xbox, 1);
-    private final JoystickButton xboxB = new JoystickButton(m_xbox, 2);
-    private final JoystickButton xboxX = new JoystickButton(m_xbox, 3);
-    private final JoystickButton xboxY = new JoystickButton(m_xbox, 4);
+  // - the xbox controller and buttons
+  private final XboxController m_xbox = new XboxController(1);
+  private final JoystickButton xboxA = new JoystickButton(m_xbox, 1);
+  private final JoystickButton xboxB = new JoystickButton(m_xbox, 2);
+  private final JoystickButton xboxX = new JoystickButton(m_xbox, 3);
+  private final JoystickButton xboxY = new JoystickButton(m_xbox, 4);
 
-    // The robot's commands
-    private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
-    private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_stick);
-    private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
-    private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
-    private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
+  // The robot's commands
+  private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
+  private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_stick);
+  private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
 
+  /**
+   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   */
+  public RobotContainer() {
+    // perform robot and driver initializations
+    m_driveSubsystem.setRobot();
+    // Set the default commands for subsystems
+    m_driveSubsystem.setDefaultCommand(m_driveCommand);
+    m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
+    m_armSubsystem.setDefaultCommand(m_manualCollector);
+    // Configure the button bindings
+    configureButtonBindings();
+  }
 
-    /**
-     * The container for the robot.  Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        // perform robot and driver initializations
-        m_driveSubsystem.setRobot();
-        // Set the default commands for subsystems
-        m_driveSubsystem.setDefaultCommand(m_driveCommand);
-        m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
-        m_armSubsystem.setDefaultCommand(m_manualCollector);
-        // Configure the button bindings
-        configureButtonBindings();
-    }
-
-    /**
-     * Use this method to define your button->command mappings.  Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick}, and then passing it to a
-     * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
+  /**
+   * Use this method to define your button->command mappings.  Buttons can be created by
+   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick}, and then passing it to a
+   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
+  private void configureButtonBindings() {
 //        xboxA.whenPressed(new SetNextRobot(this));
-        xboxB.whenPressed(new SetNextDriver(this));
+      xboxB.whenPressed(new SetNextDriver(this));
+
+    m_button3.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
+    m_button5.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.VISION_MODE));
+
+    m_button4.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.LIMELIGHT_STREAM));
+    m_button6.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SECONDARY_STREAM));
+    m_sideButton.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
 
         m_button12.whenPressed(new ExtendLowerLift(m_liftSubsystem));
         m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
@@ -92,24 +96,24 @@ public class RobotContainer {
         m_button7.whenHeld(new RunWinch(m_liftSubsystem, -0.5));
     }
 
-    public void resetRobot() {
-        m_driveSubsystem.setRobot();
-    }
+  public void resetRobot() {
+    m_driveSubsystem.setRobot();
+  }
 
-    public void resetDriver() {
+  public void resetDriver() {
 
-    }
+  }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        return null;
-    }
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    return null;
+  }
 
-    public Limelight getLimelight() {
-        return m_limelight;
-    }
+  public Limelight getLimelight() {
+    return m_limelight;
+  }
 }

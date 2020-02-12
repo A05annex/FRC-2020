@@ -14,55 +14,81 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
 
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+
+  double v;
+  double x;
+  double y;
+  double area;
+  String mode;
+  String streamMode;
+
+  /**
+   * Creates a new Limelight.
+   */
+  public Limelight() {
+    // when initialized, use driver camera
+    setDriveCamera();
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    // update vision variables
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry tv = table.getEntry("tv"); // whether there are any targets, 0 or 1
+    NetworkTableEntry tx = table.getEntry("tx"); // horizontal distance from cursor
+    NetworkTableEntry ty = table.getEntry("ty"); // vertical distance from cursor
+    NetworkTableEntry ta = table.getEntry("ta"); // area of target
 
-    double v;
-    double x;
-    double y;
-    double area;
+    // read values periodically, not sure why you need getDouble but its in the limelight docs
+    v = tv.getDouble(0.0);
+    x = tx.getDouble(0.0);
+    y = ty.getDouble(0.0);
+    area = ta.getDouble(0.0);
+  }
 
-    /**
-     * Creates a new Limelight.
-     */
-    public Limelight() {
-        // when initialized, use driver camera
-        setDriveCamera();
-    }
+  // set modes of the limelight camera
+  public void setDriveCamera() {
+    table.getEntry("pipeline").setNumber(1); // driver pipeline
+    /*
+    table.getEntry("ledMode").setNumber(1);  //1 is off, 2 is seizure mode, 3 is on
+    table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)'
+    */
+    mode = "drive";
+  }
 
-    @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
-        // update vision variables
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-        NetworkTableEntry tv = table.getEntry("tv"); // whether there are any targets, 0 or 1
-        NetworkTableEntry tx = table.getEntry("tx"); // horizontal distance from cursor
-        NetworkTableEntry ty = table.getEntry("ty"); // vertical distance from cursor
-        NetworkTableEntry ta = table.getEntry("ta"); // area of target
+  public void setVisionCamera() {
+    table.getEntry("pipeline").setNumber(0); // vision pipeline
+    /*
+    table.getEntry("ledMode").setNumber(3);  //1 is off, 2 is seizure mode, 3 is on
+    table.getEntry("camMode").setNumber(0);  //1 is driver mode (turns off vision processing)
+    */
+    mode = "vision";
+  }
 
-        // read values periodically, not sure why you need getDouble but its in the limelight docs
-        v = tv.getDouble(0.0);
-        x = tx.getDouble(0.0);
-        y = ty.getDouble(0.0);
-        area = ta.getDouble(0.0);
-    }
+  public void setSeizureMode() {
+    table.getEntry("ledMode").setNumber(2);  //1 is off, 2 is seizure mode, 3 is on
+    // table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)
+    mode = "seizure";
+  }
 
-    // set modes of the limelight camera
-    public void setDriveCamera() {
-        table.getEntry("ledMode").setNumber(1);  //1 is off, 2 is seizure mode, 3 is on
-        table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)
-    }
+  public void setLimelightStream() {
+    table.getEntry("stream").setNumber(1);
+    streamMode = "limelight";
+  }
 
-    public void setVisionCamera() {
-        table.getEntry("ledMode").setNumber(3);  //1 is off, 2 is seizure mode, 3 is on
-        table.getEntry("camMode").setNumber(0);  //1 is driver mode (turns off vision processing)
-    }
+  public void setSideBySideStream() {
+    table.getEntry("stream").setNumber(0);
+    streamMode = "side by side";
+  }
 
-    public void setSeizureMode() {
-        table.getEntry("ledMode").setNumber(2);  //1 is off, 2 is seizure mode, 3 is on
-        table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)
-    }
+  public void setSecondaryStream() {
+    table.getEntry("stream").setNumber(2);
+    streamMode = "secondary";
+  }
 
-    // return variables, see above
+  // return variables, see above
   /*
   public Boolean isTarget() {
     if (v == 0) {return false;}
@@ -70,19 +96,31 @@ public class Limelight extends SubsystemBase {
     else return null;
   }
   */
-    public double isTarget() {
-        return v;
-    }
+  public double isTarget() {
+    return v;
+  }
 
-    public double getX() {
-        return x;
-    }
+  public double getX() {
+    return x;
+  }
 
-    public double getY() {
-        return y;
-    }
+  public double getY() {
+    return y;
+  }
 
-    public double getArea() {
-        return area;
-    }
+  public double getArea() {
+    return area;
+  }
+
+  public String getMode() {
+    return mode;
+  }
+
+  public NetworkTable getTable() {
+    return table;
+  }
+
+  public String getStreamMode() {
+    return streamMode;
+  }
 }
