@@ -13,10 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SweeperSubsystem;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -30,6 +27,7 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = ArmSubsystem.getInstance();
   private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
   private final Limelight m_limelight = new Limelight();
+  private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
 
   // The driver station buttons
   // - the joystick and buttons
@@ -80,14 +78,22 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxA.whenPressed(new SetNextRobot(this));
+//        xboxA.whenPressed(new SetNextRobot(this));
     xboxB.whenPressed(new SetNextDriver(this));
+
     m_button3.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
     m_button5.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.VISION_MODE));
 
     m_button4.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.LIMELIGHT_STREAM));
     m_button6.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SECONDARY_STREAM));
     m_sideButton.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
+
+    m_button12.whenPressed(new ExtendLowerLift(m_liftSubsystem));
+    m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
+    m_button10.whenPressed(new ExtendUpperLift(m_liftSubsystem));
+    m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
+    m_button8.whenHeld(new RunWinch(m_liftSubsystem, 0.5));
+    m_button7.whenHeld(new RunWinch(m_liftSubsystem, -0.5));
   }
 
   public void resetRobot() {

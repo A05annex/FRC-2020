@@ -149,11 +149,17 @@ public final class Constants {
         DRIVE_LEFT_SLAVE_1 = 5,
         DRIVE_LEFT_SLAVE_2 = 6,
         COLLECTOR_POSITION = 7,
-        COLLECTOR_SWEEPER = 8;
+        COLLECTOR_SWEEPER = 8,
+        LIFT_WINCH = 10;
   }
 
   public static final class Pneumatics {
-    public static int DRIVE_SHIFTER = 0;
+    public static int DRIVE_SHIFTER = 0,
+        LOWER_LIFT_RETRACT = 2,
+        LOWER_LIFT_EXTEND = 3,
+        UPPER_LIFT_RETRACT = 4,
+        UPPER_LIFT_EXTEND = 5;
+
 
   }
 

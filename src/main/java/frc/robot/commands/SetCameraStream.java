@@ -21,6 +21,7 @@ public class SetCameraStream extends CommandBase {
 
   /**
    * Set the camera stream to the limelight camera, the secondary camera, or both.
+   *
    * @param mode the mode to set it to, should be a constant from this file.
    */
   public SetCameraStream(Limelight limelight, int mode) {
@@ -35,11 +36,14 @@ public class SetCameraStream extends CommandBase {
   @Override
   public void initialize() {
     switch (m_mode) {
-      case 0: m_limelight.setLimelightStream();
+      case 0:
+        m_limelight.setLimelightStream();
         break;
-      case 1: m_limelight.setSecondaryStream();
+      case 1:
+        m_limelight.setSecondaryStream();
         break;
-      case 2: m_limelight.setSideBySideStream();
+      case 2:
+        m_limelight.setSideBySideStream();
         break;
     }
   }

@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(2, "sweeper", SweeperSubsystem.getInstance().getSweeperPower());
     dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
     dashboardTelemetry(4, "arm power", ArmSubsystem.getInstance().getPositionPower());
-    
+
     dashboardTelemetry(7, "mode", m_limelight.getMode());
     dashboardTelemetry(8, "stream", m_limelight.getStreamMode());
   }
@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
 
     // empty the telemetry display
     for (int i = 0; i < 10; i++) {
-      SmartDashboard.putString(String.format("DB/String %d",i), " ");
+      SmartDashboard.putString(String.format("DB/String %d", i), " ");
     }
 
     m_limelight = m_robotContainer.getLimelight();

@@ -8,45 +8,42 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.LiftSubsystem;
 
-public class SetLimelightMode extends CommandBase {
+public class ExtendLowerLift extends CommandBase {
 
-  public static int DRIVER_MODE = 0;
-  public static int VISION_MODE = 1;
-
-  Limelight m_limelight;
-  int m_mode;
+  private final LiftSubsystem m_liftSubsystem;
+  private boolean m_isFinished = false;
 
   /**
-   * Set the mode of the Limelight to driver or vision.
-   *
-   * @param mode the mode to set it to, should be a constant from this file.
+   * Creates a new ExtendLowerLift.
    */
-  public SetLimelightMode(Limelight limelight, int mode) {
-    m_limelight = limelight;
-    addRequirements(m_limelight);
-
-    m_mode = mode;
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ExtendLowerLift(LiftSubsystem liftSubsystem) {
+    m_liftSubsystem = liftSubsystem;
+    addRequirements(m_liftSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    switch (m_mode) {
-      case 0:
-        m_limelight.setDriveCamera();
-        break;
-      case 1:
-        m_limelight.setVisionCamera();
-        break;
-    }
+    m_isFinished = false;
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    m_liftSubsystem.extendLower();
+    m_isFinished = true;
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_isFinished;
   }
 }
