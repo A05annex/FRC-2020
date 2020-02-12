@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,6 +40,7 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(2, "y", m_limelight.getY()); // vertical distance from cursor
     dashboardTelemetry(3, "area", m_limelight.getArea()); // area of target
     dashboardTelemetry(4, "mode", m_limelight.getMode());
+    dashboardTelemetry(5, "stream", m_limelight.getStreamMode());
     // dashboardTelemetry(5, "ledMode", m_limelight.getTable().getEntry("ledMode").getString("NaN"));
     // dashboardTelemetry(6, "camMode", m_limelight.getTable().getEntry("camMode").getString("NaN"));
   }
@@ -61,8 +61,6 @@ public class Robot extends TimedRobot {
     }
 
     m_limelight = m_robotContainer.getLimelight();
-    CameraServer.getInstance().startAutomaticCapture();
-
   }
 
   /**
