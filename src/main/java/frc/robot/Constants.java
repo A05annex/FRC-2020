@@ -142,23 +142,23 @@ public final class Constants {
 
   public static final class MotorControllers {
     public static int
-            DRIVE_RIGHT_MASTER = 1,
-            DRIVE_RIGHT_SLAVE_1 = 2,
-            DRIVE_RIGHT_SLAVE_2 = 3,
-            DRIVE_LEFT_MASTER = 4,
-            DRIVE_LEFT_SLAVE_1 = 5,
-            DRIVE_LEFT_SLAVE_2 = 6,
-            COLLECTOR_POSITION = 7,
-            COLLECTOR_SWEEPER = 8,
-            LIFT_WINCH = 10;
+        DRIVE_RIGHT_MASTER = 1,
+        DRIVE_RIGHT_SLAVE_1 = 2,
+        DRIVE_RIGHT_SLAVE_2 = 3,
+        DRIVE_LEFT_MASTER = 4,
+        DRIVE_LEFT_SLAVE_1 = 5,
+        DRIVE_LEFT_SLAVE_2 = 6,
+        COLLECTOR_POSITION = 7,
+        COLLECTOR_SWEEPER = 8,
+        LIFT_WINCH = 10;
   }
 
   public static final class Pneumatics {
     public static int DRIVE_SHIFTER = 0,
-            LOWER_LIFT_RETRACT = 2,
-            LOWER_LIFT_EXTEND = 3,
-            UPPER_LIFT_RETRACT = 4,
-            UPPER_LIFT_EXTEND = 5;
+        LOWER_LIFT_RETRACT = 2,
+        LOWER_LIFT_EXTEND = 3,
+        UPPER_LIFT_RETRACT = 4,
+        UPPER_LIFT_EXTEND = 5;
 
 
   }

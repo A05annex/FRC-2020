@@ -20,9 +20,9 @@ public class LiftSubsystem extends SubsystemBase {
   private static final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
 
   private final DoubleSolenoid m_lowerCylinder = new DoubleSolenoid(Constants.Pneumatics.LOWER_LIFT_EXTEND,
-          Constants.Pneumatics.LOWER_LIFT_RETRACT);
+      Constants.Pneumatics.LOWER_LIFT_RETRACT);
   private final DoubleSolenoid m_upperCylinder = new DoubleSolenoid(Constants.Pneumatics.UPPER_LIFT_EXTEND,
-          Constants.Pneumatics.UPPER_LIFT_RETRACT);
+      Constants.Pneumatics.UPPER_LIFT_RETRACT);
   private TalonSRX m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
 
   /**

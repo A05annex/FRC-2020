@@ -76,9 +76,9 @@ public class DriveSubsystem extends SubsystemBase {
     double max = Math.abs(forward) + (Math.abs(forward) * Math.abs(Constants.ROBOT.DRIVE_TURN_BIAS)) + Math.abs(rotate);
     double scale = (max <= 1.0) ? 1.0 : (1.0 / max);
     m_rightMaster.set(ControlMode.PercentOutput,
-            scale * (forward + (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
+        scale * (forward + (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
     m_leftMaster.set(ControlMode.PercentOutput,
-            scale * (forward - (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
+        scale * (forward - (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
   }
 
   /**
@@ -139,7 +139,7 @@ public class DriveSubsystem extends SubsystemBase {
     pidController.config_kP(0, Constants.ROBOT.DRIVE_Kp);
     pidController.config_kI(0, Constants.ROBOT.DRIVE_Ki);
     pidController.config_IntegralZone(0,
-            (int) (Constants.ROBOT.DRIVE_INTEGRAL_ZONE * Constants.ROBOT.DRIVE_MAX_RPM));
+        (int) (Constants.ROBOT.DRIVE_INTEGRAL_ZONE * Constants.ROBOT.DRIVE_MAX_RPM));
     pidController.config_kD(0, 0);
     pidController.setSensorPhase(encoderPhase);
   }
