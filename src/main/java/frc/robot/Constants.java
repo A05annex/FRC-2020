@@ -20,24 +20,8 @@ public final class Constants {
     // -----------------------------------------------------------------------------------------------------------------------------
     // Physical Mappings - where are motors, pneumatics, sensors, and servos connected to the electronics
 
-    public static final class MotorControllers {
-        public static int
-                DRIVE_RIGHT_MASTER = 1,
-                DRIVE_RIGHT_SLAVE_1 = 2,
-                DRIVE_RIGHT_SLAVE_2 = 3,
-                DRIVE_LEFT_MASTER = 4,
-                DRIVE_LEFT_SLAVE_1 = 5,
-                DRIVE_LEFT_SLAVE_2 = 6;
-    }
-
-    public static final class Pneumatics {
-        public static int
-                DRIVE_SHIFTER = 0,
-                LIFT_LOWER_CYLINDERS = 3,
-                LIFT_UPPER_CYLINDERS = 4,
-                LIFT_DUMP_PRESSURE = 5;
-
-    }
+    public static Drivers DRIVER = Drivers.ADEN;
+    public static Robots ROBOT = Robots.COMPETITION_ROBOT;
 
     // -----------------------------------------------------------------------------------------------------------------------------
     // Driver Configurations
@@ -45,7 +29,7 @@ public final class Constants {
     // Conditioning stick values - constants used in the 2019 for stick tuning. We found that it was important for each
     // driver to tune the drive for their driving style so the
     public enum Drivers {
-        ADEN("Aden", true, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05),
+        ADEN("Aden", true, 1.0, 0.5, 0.5, 2.0, 3.0, 0.05, 0.05),
         LUCAS("Lucas", true, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05),
         ROY("Roy", false, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05);
 
@@ -78,9 +62,9 @@ public final class Constants {
         // position to flatten drive response to stick position for greater sensitivity at low speed.
         public final double DRIVE_TURN_SENSITIVITY;
 
-        Drivers(String name, boolean useTwist, double speedGain, double turnGain, double turnAtSpeedGain,
+        Drivers(String driverName, boolean useTwist, double speedGain, double turnGain, double turnAtSpeedGain,
                 double forwardSensitivity, double turnSensitivity, double speedDeadband, double turnDeadband) {
-            DRIVER_NAME = name;
+            DRIVER_NAME = driverName;
             DRIVE_USE_TWIST = useTwist;
             DRIVE_SPEED_GAIN = speedGain;
             DRIVE_TURN_GAIN = turnGain;
@@ -100,8 +84,6 @@ public final class Constants {
         }
     }
 
-    public static Drivers DRIVER = Drivers.ADEN;
-
     // -----------------------------------------------------------------------------------------------------------------------------
     // Robot Configurations
     // -----------------------------------------------------------------------------------------------------------------------------
@@ -118,26 +100,35 @@ public final class Constants {
     //   - Ki -
     //   - integral_zone -
     public enum Robots {
-        COMPETITION_ROBOT("competition", 0.0, 4.5, 2.5, 0.0, 0.0, 230.0),
-        PRACTICE_ROBOT("practice", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0);
+        COMPETITION_ROBOT("competition", 0.009, true, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95),
+        PRACTICE_ROBOT("practice", 0.019, false, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5);
 
         // The robot configuration that is running.
         public final String ROBOT_NAME;
+        // The setup of the drive PID for the Talon SRX
         public final double DRIVE_TURN_BIAS;
-        // The
+        public final boolean DRIVE_ENCODER_PHASE;
         public final double DRIVE_Kf;
         public final double DRIVE_Kp;
         public final double DRIVE_Ki;
         public final double DRIVE_INTEGRAL_ZONE;
         public final double DRIVE_MAX_RPM;
-        Robots(String name, double bias, double Kf, double Kp, double Ki, double integral_zone, double max_rpm) {
-            ROBOT_NAME = name;
+        // The encoder values for autonomous move some distance and turn some degrees.
+        public final double DRIVE_TICS_PER_INCH;
+        public final double DRIVE_TICS_PER_DEGREE;
+
+        Robots(String robotName, double bias, boolean encoderPhase, double Kf, double Kp, double Ki,
+               double integralZone, double maxRpm, double ticsPerInch, double ticsPerDegree) {
+            ROBOT_NAME = robotName;
             DRIVE_TURN_BIAS = bias;
+            DRIVE_ENCODER_PHASE = encoderPhase;
             DRIVE_Kf = Kf;
             DRIVE_Kp = Kp;
             DRIVE_Ki = Ki;
-            DRIVE_INTEGRAL_ZONE = integral_zone;
-            DRIVE_MAX_RPM = max_rpm;
+            DRIVE_INTEGRAL_ZONE = integralZone;
+            DRIVE_MAX_RPM = maxRpm;
+            DRIVE_TICS_PER_INCH = ticsPerInch;
+            DRIVE_TICS_PER_DEGREE = ticsPerDegree;
         }
 
         public static Robots getNextRobot(Robots robot) {
@@ -149,7 +140,28 @@ public final class Constants {
         }
     }
 
-    public static Robots ROBOT = Robots.PRACTICE_ROBOT;
+    public static final class MotorControllers {
+        public static int
+                DRIVE_RIGHT_MASTER = 1,
+                DRIVE_RIGHT_SLAVE_1 = 2,
+                DRIVE_RIGHT_SLAVE_2 = 3,
+                DRIVE_LEFT_MASTER = 4,
+                DRIVE_LEFT_SLAVE_1 = 5,
+                DRIVE_LEFT_SLAVE_2 = 6,
+                COLLECTOR_POSITION = 7,
+                COLLECTOR_SWEEPER = 8,
+                LIFT_WINCH = 10;
+    }
+
+    public static final class Pneumatics {
+        public static int DRIVE_SHIFTER = 0,
+                LOWER_LIFT_RETRACT = 2,
+                LOWER_LIFT_EXTEND = 3,
+                UPPER_LIFT_RETRACT = 4,
+                UPPER_LIFT_EXTEND = 5;
+
+
+    }
 
     // -----------------------------------------------------------------------------------------------------------------------------
     // Tuning IMU control of direction (heading)

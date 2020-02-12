@@ -10,7 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LiftSubsystem;
 
-public class ExtendLowerLift extends CommandBase {
+public class ExtendUpperLift extends CommandBase {
 
     private final LiftSubsystem m_liftSubsystem;
     private boolean m_isFinished = false;
@@ -18,7 +18,7 @@ public class ExtendLowerLift extends CommandBase {
     /**
      * Creates a new ExtendLowerLift.
      */
-    public ExtendLowerLift(LiftSubsystem liftSubsystem) {
+    public ExtendUpperLift(LiftSubsystem liftSubsystem) {
         m_liftSubsystem = liftSubsystem;
         addRequirements(m_liftSubsystem);
     }
@@ -32,7 +32,7 @@ public class ExtendLowerLift extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_liftSubsystem.extendLower();
+        m_liftSubsystem.extendUpper();
         m_isFinished = true;
     }
 

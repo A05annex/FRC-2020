@@ -12,21 +12,21 @@ import frc.robot.subsystems.Limelight;
 
 public class SetVisionCamera extends CommandBase {
 
-  private final Limelight m_limelight;
+    private final Limelight m_limelight;
 
-  /**
-   * Creates a new SetVisionCamera.
-   */
-  public SetVisionCamera(Limelight limelight) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_limelight = limelight;
-    addRequirements(m_limelight);
-  }
+    /**
+     * Creates a new SetVisionCamera.
+     */
+    public SetVisionCamera(Limelight limelight) {
+        // Use addRequirements() here to declare subsystem dependencies.
+        m_limelight = limelight;
+        addRequirements(m_limelight);
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    m_limelight.setVisionCamera();
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        m_limelight.setVisionCamera();
+    }
 
 }

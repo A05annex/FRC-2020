@@ -12,21 +12,21 @@ import frc.robot.subsystems.Limelight;
 
 public class SetDriveCamera extends CommandBase {
 
-  private final Limelight m_limelight;
+    private final Limelight m_limelight;
 
-  /**
-   * Creates a new SetDriveCamera.
-   */
-  public SetDriveCamera(Limelight limelight) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_limelight = limelight;
-    addRequirements(m_limelight);
-  }
+    /**
+     * Creates a new SetDriveCamera.
+     */
+    public SetDriveCamera(Limelight limelight) {
+        // Use addRequirements() here to declare subsystem dependencies.
+        m_limelight = limelight;
+        addRequirements(m_limelight);
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    m_limelight.setDriveCamera();
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        m_limelight.setDriveCamera();
+    }
 
 }
