@@ -79,7 +79,8 @@ public class RobotContainer {
     // perform robot and driver initializations
     m_driveSubsystem.setRobot();
     // Set the default commands for subsystems
-    m_driveSubsystem.setDefaultCommand(m_driveCommand);
+    // don't kill jake
+    // m_driveSubsystem.setDefaultCommand(m_driveCommand);
     // Configure the button bindings
     configureButtonBindings();
 
