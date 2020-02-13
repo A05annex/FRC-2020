@@ -17,7 +17,7 @@ import frc.robot.Constants;
 
 public class SpinnerSubsystem extends SubsystemBase {
 
-  public TalonSRX bigWheel = new TalonSRX(Constants.MotorControllers.BIG_WHEEL);
+  public TalonSRX bigWheel = new TalonSRX(Constants.MotorControllers.SPINNER);
 
   /**
    * Creates a new SpinnerSubsystem.
