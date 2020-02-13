@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -8,18 +9,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.controlPanelBigWheel;
+import frc.robot.subsystems.SpinnerSubsystem;;
 
-public class bigWheelToPosition extends CommandBase {
+public class SpinnerForCounts extends CommandBase {
 
-  private controlPanelBigWheel m_wheel;
+  private SpinnerSubsystem m_wheel;
   private double m_power;
   private double m_counts;
 
   /**
    * Run the wheel until it reaches an encoder position.
    */
-  public bigWheelToPosition(controlPanelBigWheel wheel, double power, int counts) {
+  public SpinnerForCounts(SpinnerSubsystem wheel, double power, int counts) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_wheel = wheel;
     addRequirements(m_wheel);

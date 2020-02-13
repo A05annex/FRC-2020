@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.controlPanelBigWheel;
+import frc.robot.subsystems.Spin
+import frc.robot.subsystems.SpinnerSubsystem;nerSubSpinnerSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,7 +27,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   
   private Limelight m_limelight;
-  private controlPanelBigWheel m_wheel;
+  private SpinnerSubsystem m_wheel;
 
   private void dashboardTelemetry(int port, String key, double var) {
     SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.3f", key, var));

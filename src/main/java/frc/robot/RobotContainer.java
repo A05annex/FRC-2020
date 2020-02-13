@@ -23,7 +23,8 @@ import frc.robot.commands.resetBigWheelEncoders;
 import frc.robot.commands.setBigWheelPower;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.controlPanelBigWheel;
+import frc.robot.subsystems.SpinnerSubsystem;
+
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -58,13 +59,9 @@ public class RobotContainer {
 
   // Subsystems
   private final Limelight m_limelight = new Limelight();
-  private final controlPanelBigWheel m_wheel = new controlPanelBigWheel();
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final SpinnerSubsystem m_wheel = new SpinnerSubsystem();
 
   // Commands
-  private final SetDriveCamera m_setDriveCamera = new SetDriveCamera(m_limelight);
-  private final SetVisionCamera m_setVisionCamera = new SetVisionCamera(m_limelight);
-  private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
 
   // Color sensor
   private final static I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -126,7 +123,7 @@ public class RobotContainer {
     return m_limelight;
   }
 
-  public controlPanelBigWheel getBigWheel() {
+  public SpinnerSubsystem getBigWheel() {
     return m_wheel;
   }
 
@@ -135,7 +132,7 @@ public class RobotContainer {
   }
 
   // probably not the right way to do this
-  public static String getColorAsString() {
+  public  String getColorAsString() {
 
     // color object with values
     Color detectedColor = m_colorSensor.getColor();
