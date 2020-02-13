@@ -28,6 +28,7 @@ public class RobotContainer {
   private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
   private final Limelight m_limelight = new Limelight();
   private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
+  private final SpinnerSubsystem m_spinnerSubsystem = new SpinnerSubsystem();
 
   // The driver station buttons
   // - the joystick and buttons
