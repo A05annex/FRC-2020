@@ -28,6 +28,7 @@ public class RobotContainer {
   private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
   private final Limelight m_limelight = new Limelight();
   private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
+  private final SpinnerSolenoid m_spinnerSolenoid = new SpinnerSolenoid();
 
   // The driver station buttons
   // - the joystick and buttons
@@ -51,6 +52,8 @@ public class RobotContainer {
   private final JoystickButton xboxB = new JoystickButton(m_xbox, 2);
   private final JoystickButton xboxX = new JoystickButton(m_xbox, 3);
   private final JoystickButton xboxY = new JoystickButton(m_xbox, 4);
+  private final JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
+  private final JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
@@ -94,6 +97,10 @@ public class RobotContainer {
     m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 0.5));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -0.5));
+
+    m_xboxLeftBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.UP));
+    m_xboxRightBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.DOWN));
+
   }
 
   public void resetRobot() {

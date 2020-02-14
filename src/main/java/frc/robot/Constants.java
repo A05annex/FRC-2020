@@ -155,12 +155,12 @@ public final class Constants {
 
   public static final class Pneumatics {
     public static int DRIVE_SHIFTER = 0,
+        SPINNER_LIFT = 1,
         LOWER_LIFT_RETRACT = 2,
         LOWER_LIFT_EXTEND = 3,
         UPPER_LIFT_RETRACT = 4,
-        UPPER_LIFT_EXTEND = 5;
-
-
+        UPPER_LIFT_EXTEND = 5,
+        LIFT_PRESSURE_DUMP = 6;
   }
 
   // -----------------------------------------------------------------------------------------------------------------------------
