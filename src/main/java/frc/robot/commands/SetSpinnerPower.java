@@ -8,25 +8,49 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SpinnerSubsystem;
 
-public class SetVisionCamera extends CommandBase {
-
-  private final Limelight m_limelight;
-
+public class SetSpinnerPower extends CommandBase {
+  
+  private double m_power;
+  private final SpinnerSubsystem m_wheel;
+  
   /**
-   * Creates a new SetVisionCamera.
+   * Creates a new SetSpinnerPower.
    */
-  public SetVisionCamera(Limelight limelight) {
+  public SetSpinnerPower(SpinnerSubsystem wheel, double power) {
+    
+    m_power = power;
+    m_wheel = wheel;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    m_limelight = limelight;
-    addRequirements(m_limelight);
-  }
+  addRequirements(m_wheel);
+}
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_limelight.setVisionCamera();
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+
+    m_wheel.setPower(m_power);
+
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+
+    m_wheel.setPower(0);
+
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }

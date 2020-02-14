@@ -11,9 +11,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -76,9 +76,9 @@ public class DriveSubsystem extends SubsystemBase {
     double max = Math.abs(forward) + (Math.abs(forward) * Math.abs(Constants.ROBOT.DRIVE_TURN_BIAS)) + Math.abs(rotate);
     double scale = (max <= 1.0) ? 1.0 : (1.0 / max);
     m_rightMaster.set(ControlMode.PercentOutput,
-            scale * (forward + (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
+        scale * (forward + (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
     m_leftMaster.set(ControlMode.PercentOutput,
-            scale * (forward - (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
+        scale * (forward - (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
   }
 
   /**
@@ -104,6 +104,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /**
    * Sets the neutral mode for all drive motor controllers.
+   *
    * @param mode The neutral mode to be set.
    */
   public void setNeutralMode(NeutralMode mode) {
@@ -116,24 +117,34 @@ public class DriveSubsystem extends SubsystemBase {
     m_lm3.setNeutralMode(mode);
   }
 
+  /**
+   * Call this whenever the robot selection changes.
+   */
   public void setRobot() {
     // right drivetrain TalonSRX PID
-    setupTalonPID(m_rightMaster,(1.0 + Constants.ROBOT.DRIVE_TURN_BIAS));
+    setupTalonPID(m_rightMaster, (1.0 + Constants.ROBOT.DRIVE_TURN_BIAS), Constants.ROBOT.DRIVE_ENCODER_PHASE);
     // left drivetrain TalonSRX PID
-    setupTalonPID(m_leftMaster,(1.0 - Constants.ROBOT.DRIVE_TURN_BIAS));
-  }
-
-  private void setupTalonPID(TalonSRX pidController, double biasMultiplier) {
-    pidController.config_kF(0, Constants.ROBOT.DRIVE_Kf * biasMultiplier);
-    pidController.config_kP(0, Constants.ROBOT.DRIVE_Kp);
-    pidController.config_kI(0, Constants.ROBOT.DRIVE_Ki);
-    pidController.config_IntegralZone(0, (int)(Constants.ROBOT.DRIVE_Ki * Constants.ROBOT.DRIVE_MAX_RPM));
-    pidController.config_kD(0, 0);
-    pidController.setSensorPhase(false);
+    setupTalonPID(m_leftMaster, (1.0 - Constants.ROBOT.DRIVE_TURN_BIAS), Constants.ROBOT.DRIVE_ENCODER_PHASE);
   }
 
   /**
+   * Call this to setup a TalonSRX PID for the drive of the robot.
    *
+   * @param pidController
+   * @param biasMultiplier
+   * @param encoderPhase
+   */
+  private void setupTalonPID(TalonSRX pidController, double biasMultiplier, boolean encoderPhase) {
+    pidController.config_kF(0, Constants.ROBOT.DRIVE_Kf * biasMultiplier);
+    pidController.config_kP(0, Constants.ROBOT.DRIVE_Kp);
+    pidController.config_kI(0, Constants.ROBOT.DRIVE_Ki);
+    pidController.config_IntegralZone(0,
+        (int) (Constants.ROBOT.DRIVE_INTEGRAL_ZONE * Constants.ROBOT.DRIVE_MAX_RPM));
+    pidController.config_kD(0, 0);
+    pidController.setSensorPhase(encoderPhase);
+  }
+
+  /**
    * @return Returns the right drive encoder position.
    */
   public double getRightPosition() {
@@ -141,7 +152,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   *
    * @return Returns the left drive encoder position.
    */
   public double getLeftPosition() {
@@ -157,7 +167,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   *
    * @return Returns the actual speed of the right drive.
    */
   public double getRightSpeed() {
@@ -165,7 +174,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   *
    * @return Returns the actual speed of the left drive.
    */
   public double getLeftSpeed() {
@@ -173,7 +181,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   *
    * @return Returns the last right drive target speed requested.
    */
   public double getTargetRightSpeed() {
@@ -181,7 +188,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   *
    * @return Returns the last left drive target speed requested.
    */
   public double getTargetLeftSpeed() {

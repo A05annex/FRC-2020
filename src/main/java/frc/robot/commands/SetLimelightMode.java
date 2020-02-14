@@ -10,23 +10,43 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 
-public class SetDriveCamera extends CommandBase {
+public class SetLimelightMode extends CommandBase {
 
-  private final Limelight m_limelight;
+  public static int DRIVER_MODE = 0;
+  public static int VISION_MODE = 1;
+
+  Limelight m_limelight;
+  int m_mode;
 
   /**
-   * Creates a new SetDriveCamera.
+   * Set the mode of the Limelight to driver or vision.
+   *
+   * @param mode the mode to set it to, should be a constant from this file.
    */
-  public SetDriveCamera(Limelight limelight) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public SetLimelightMode(Limelight limelight, int mode) {
     m_limelight = limelight;
     addRequirements(m_limelight);
+
+    m_mode = mode;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_limelight.setDriveCamera();
+    switch (m_mode) {
+      case 0:
+        m_limelight.setDriveCamera();
+        break;
+      case 1:
+        m_limelight.setVisionCamera();
+        break;
+    }
   }
 
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return true;
+  }
 }
