@@ -92,9 +92,9 @@ public class RobotContainer {
     m_sideButton.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
 
     m_button12.whenPressed(new ExtendLowerLift(m_liftSubsystem));
-    m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
+//    m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
     m_button10.whenPressed(new ExtendUpperLift(m_liftSubsystem));
-    m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
+//    m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 0.5));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -0.5));
 
