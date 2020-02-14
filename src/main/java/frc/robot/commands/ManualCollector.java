@@ -35,7 +35,7 @@ public class ManualCollector extends CommandBase {
   public void execute() {
     // What we are doing here is simple - we are setting the position motor power based on the setting of the
     // xbox right stick Y
-    double stickY = m_xbox.getY(GenericHID.Hand.kRight);
+    double stickY = m_xbox.getY(GenericHID.Hand.kLeft);
     double powerSignMult = (stickY > 0.0) ? 1.0 : -1.0;
     double usePower = Math.pow((Math.abs(0.75 * stickY)), 2.0);
     m_armSubsystem.setPositionPower(usePower * powerSignMult);

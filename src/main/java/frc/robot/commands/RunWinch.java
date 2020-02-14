@@ -22,6 +22,7 @@ public class RunWinch extends CommandBase {
 
   @Override
   public void execute() {
+    m_liftSubsystem.dumpLiftPressure();
     m_liftSubsystem.setWinchPower(m_power);
   }
 

@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -23,12 +24,14 @@ public class LiftSubsystem extends SubsystemBase {
       Constants.Pneumatics.LOWER_LIFT_RETRACT);
   private final DoubleSolenoid m_upperCylinder = new DoubleSolenoid(Constants.Pneumatics.UPPER_LIFT_EXTEND,
       Constants.Pneumatics.UPPER_LIFT_RETRACT);
+  private final Solenoid m_liftPressureDump = new Solenoid(Constants.Pneumatics.LIFT_PRESSURE_DUMP);
   private TalonSRX m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
 
   /**
    * Creates a new LowerCylinderSubsystem. Works the 2 lower pneumatic cylinders.
    */
   public LiftSubsystem() {
+    m_liftPressureDump.set(true);
     m_upperCylinder.set(RETRACTED);
     m_lowerCylinder.set(RETRACTED);
     m_winch.configFactoryDefault();
@@ -41,6 +44,7 @@ public class LiftSubsystem extends SubsystemBase {
   }
 
   public void extendLower() {
+    m_liftPressureDump.set(true);
     m_lowerCylinder.set(EXTENDED);
   }
 
@@ -51,6 +55,7 @@ public class LiftSubsystem extends SubsystemBase {
   }
 
   public void extendUpper() {
+    m_liftPressureDump.set(true);
     if (m_lowerCylinder.get() == EXTENDED) {
       m_upperCylinder.set(EXTENDED);
     }
@@ -58,6 +63,10 @@ public class LiftSubsystem extends SubsystemBase {
 
   public void retractUpper() {
     m_upperCylinder.set(RETRACTED);
+  }
+
+  public void dumpLiftPressure() {
+    m_liftPressureDump.set(false);
   }
 
   public void setWinchPower(double power) {
