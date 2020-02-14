@@ -8,35 +8,44 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.controlPanelBigWheel;
+import frc.robot.subsystems.Limelight;
 
-public class resetBigWheelEncoders extends CommandBase {
+public class SetCameraStream extends CommandBase {
 
-  private controlPanelBigWheel m_wheel;
+  public static final int LIMELIGHT_STREAM = 0;
+  public static final int SECONDARY_STREAM = 1;
+  public static final int SIDE_BY_SIDE = 2;
+
+  Limelight m_limelight;
+  int m_mode;
 
   /**
-   * Creates a new resetBigWheelEncoders.
+   * Set the camera stream to the limelight camera, the secondary camera, or both.
+   *
+   * @param mode the mode to set it to, should be a constant from this file.
    */
-  public resetBigWheelEncoders(controlPanelBigWheel wheel) {
+  public SetCameraStream(Limelight limelight, int mode) {
+    m_limelight = limelight;
+    addRequirements(m_limelight);
+
+    m_mode = mode;
     // Use addRequirements() here to declare subsystem dependencies.
-    m_wheel = wheel;
-    addRequirements(m_wheel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_wheel.resetEncoder();
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    switch (m_mode) {
+      case 0:
+        m_limelight.setLimelightStream();
+        break;
+      case 1:
+        m_limelight.setSecondaryStream();
+        break;
+      case 2:
+        m_limelight.setSideBySideStream();
+        break;
+    }
   }
 
   // Returns true when the command should end.

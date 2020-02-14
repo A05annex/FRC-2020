@@ -8,49 +8,42 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.controlPanelBigWheel;
+import frc.robot.subsystems.LiftSubsystem;
 
-public class setBigWheelPower extends CommandBase {
-  
-  private double m_power;
-  private final controlPanelBigWheel m_wheel;
-  
+public class ExtendUpperLift extends CommandBase {
+
+  private final LiftSubsystem m_liftSubsystem;
+  private boolean m_isFinished = false;
+
   /**
-   * Creates a new setBigWheelPower.
+   * Creates a new ExtendLowerLift.
    */
-  public setBigWheelPower(controlPanelBigWheel wheel, double power) {
-    
-    m_power = power;
-    m_wheel = wheel;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-  addRequirements(m_wheel);
-}
+  public ExtendUpperLift(LiftSubsystem liftSubsystem) {
+    m_liftSubsystem = liftSubsystem;
+    addRequirements(m_liftSubsystem);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    m_wheel.setPower(m_power);
-
+    m_liftSubsystem.extendUpper();
+    m_isFinished = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    m_wheel.setPower(0);
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_isFinished;
   }
 }

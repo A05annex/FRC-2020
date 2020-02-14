@@ -15,14 +15,14 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
-public class controlPanelBigWheel extends SubsystemBase {
+public class SpinnerSubsystem extends SubsystemBase {
 
-  public TalonSRX bigWheel = new TalonSRX(Constants.MotorControllers.BIG_WHEEL);
+  public TalonSRX bigWheel = new TalonSRX(Constants.MotorControllers.SPINNER);
 
   /**
-   * Creates a new controlPanelBigWheel.
+   * Creates a new SpinnerSubsystem.
    */
-  public controlPanelBigWheel() {
+  public SpinnerSubsystem() {
     
     bigWheel.configFactoryDefault();
     bigWheel.setNeutralMode(NeutralMode.Brake);
