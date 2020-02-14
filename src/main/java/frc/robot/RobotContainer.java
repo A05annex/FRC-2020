@@ -56,10 +56,10 @@ public class RobotContainer {
 
   // - the xbox controller and buttons
   private final XboxController m_xbox = new XboxController(1);
-  private final JoystickButton xboxA = new JoystickButton(m_xbox, 1);
-  private final JoystickButton xboxB = new JoystickButton(m_xbox, 2);
-  private final JoystickButton xboxX = new JoystickButton(m_xbox, 3);
-  private final JoystickButton xboxY = new JoystickButton(m_xbox, 4);
+  private final JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
+  private final JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
+  private final JoystickButton m_xboxX = new JoystickButton(m_xbox, 3);
+  private final JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
   private final JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
   private final JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
 
@@ -67,6 +67,7 @@ public class RobotContainer {
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
   private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_xbox);
   private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
+  private final RunSpinner m_runSpinner = new RunSpinner(m_spinnerSubsystem, m_xbox);
 
   // Color sensor
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -85,6 +86,7 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
     m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
     m_armSubsystem.setDefaultCommand(m_manualCollector);
+    m_spinnerSubsystem.setDefaultCommand(m_runSpinner);
     // Configure the button bindings
     configureButtonBindings();
 
@@ -106,7 +108,7 @@ public class RobotContainer {
 //    m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, -18000));
 //    m_button3.whenPressed(new resetBigWheelEncoders(m_wheel));
 //        xboxA.whenPressed(new SetNextRobot(this));
-    xboxB.whenPressed(new SetNextDriver(this));
+    m_xboxB.whenPressed(new SetNextDriver(this));
 
     m_button3.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
     m_button5.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.VISION_MODE));
@@ -124,6 +126,8 @@ public class RobotContainer {
 
     m_xboxLeftBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.UP));
     m_xboxRightBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.DOWN));
+
+    m_xboxX.whenPressed(new SpinnerForCounts(m_spinnerSubsystem, 1, -18000));
 
   }
 
