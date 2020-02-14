@@ -29,6 +29,7 @@ public class RobotContainer {
   private final Limelight m_limelight = new Limelight();
   private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
   private final SpinnerSubsystem m_spinnerSubsystem = new SpinnerSubsystem();
+  private final SpinnerSolenoid m_spinnerSolenoid = new SpinnerSolenoid();
 
   // The driver station buttons
   // - the joystick and buttons
@@ -52,10 +53,12 @@ public class RobotContainer {
   private final JoystickButton xboxB = new JoystickButton(m_xbox, 2);
   private final JoystickButton xboxX = new JoystickButton(m_xbox, 3);
   private final JoystickButton xboxY = new JoystickButton(m_xbox, 4);
+  private final JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
+  private final JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
-  private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_stick);
+  private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_xbox);
   private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
 
   /**
@@ -90,11 +93,15 @@ public class RobotContainer {
     m_sideButton.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
 
     m_button12.whenPressed(new ExtendLowerLift(m_liftSubsystem));
-    m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
+//    m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
     m_button10.whenPressed(new ExtendUpperLift(m_liftSubsystem));
-    m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
+//    m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 0.5));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -0.5));
+
+    m_xboxLeftBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.UP));
+    m_xboxRightBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.DOWN));
+
   }
 
   public void resetRobot() {

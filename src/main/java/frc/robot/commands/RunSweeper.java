@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SweeperSubsystem;
 
@@ -9,15 +11,15 @@ import frc.robot.subsystems.SweeperSubsystem;
 // subsystem for the sweeper-collector-delivery mechanism yet.
 public class RunSweeper extends CommandBase {
 
-  private final Joystick m_stick;
+  private final XboxController m_xbox;
   private final SweeperSubsystem m_sweeperSubsystem;
 
   /**
    * Creates a new RunSweeper.
    */
-  public RunSweeper(SweeperSubsystem sweeperSubsystem, Joystick joyStick) {
+  public RunSweeper(SweeperSubsystem sweeperSubsystem, XboxController xbox) {
+    m_xbox = xbox;
     m_sweeperSubsystem = sweeperSubsystem;
-    m_stick = joyStick;
     addRequirements(sweeperSubsystem);
   }
 
@@ -31,7 +33,7 @@ public class RunSweeper extends CommandBase {
   public void execute() {
     // What we are doing here is simple - we are setting the sweeper speed to the throttle of the joystick (the only
     // control that lets us easily set and hod a speed)
-    m_sweeperSubsystem.setSweeperPower(m_stick.getThrottle());
+    m_sweeperSubsystem.setSweeperPower(m_xbox.getY(GenericHID.Hand.kRight));
   }
 
   // Called once the command ends or is interrupted.
