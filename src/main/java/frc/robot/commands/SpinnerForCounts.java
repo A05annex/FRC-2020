@@ -9,7 +9,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SpinnerSubsystem;;
+import frc.robot.subsystems.SpinnerSubsystem;
+
+;
 
 public class SpinnerForCounts extends CommandBase {
 
@@ -54,15 +56,11 @@ public class SpinnerForCounts extends CommandBase {
     if (m_power > 0) {
       if (m_wheel.getEncoder() < m_counts) {
         return true;
-      }
-        else return false;
-    }
-
-    else {
+      } else return false;
+    } else {
       if (m_wheel.getEncoder() > m_counts) {
         return true;
-      }
-        else return false;
+      } else return false;
     }
   }
 }
