@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SweeperSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -47,6 +48,8 @@ public class Robot extends TimedRobot {
 
     dashboardTelemetry(7, "mode", m_limelight.getMode());
     dashboardTelemetry(8, "stream", m_limelight.getStreamMode());
+
+    dashboardTelemetry(9, "color", DriverStation.getInstance().getGameSpecificMessage().charAt(0));
   }
 
   /**
