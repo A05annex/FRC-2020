@@ -83,13 +83,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    /* Button bindings for changing the camera mode
-    m_button3.whenPressed(m_setDriveCamera);
-    m_button5.whenPressed(m_setVisionCamera);
-    */
-    m_trigger.whenHeld(new setBigWheelPower(m_wheel, 1));
-    m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, -18000));
-    m_button3.whenPressed(new resetBigWheelEncoders(m_wheel));
+//    m_trigger.whenHeld(new setBigWheelPower(m_wheel, 1));
+//    m_thumb.whenPressed(new bigWheelToPosition(m_wheel, 1, -18000));
+//    m_button3.whenPressed(new resetBigWheelEncoders(m_wheel));
   }
 
 
@@ -109,6 +105,7 @@ public class RobotContainer {
 
   public controlPanelBigWheel getBigWheel() {
     return m_wheel;
+  }
 
   public ColorSensorV3 getColorSensor() {
     return m_colorSensor;
