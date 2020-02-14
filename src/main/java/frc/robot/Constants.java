@@ -150,6 +150,7 @@ public final class Constants {
         DRIVE_LEFT_SLAVE_2 = 6,
         COLLECTOR_POSITION = 7,
         COLLECTOR_SWEEPER = 8,
+        SPINNER = 9,
         LIFT_WINCH = 10;
   }
 

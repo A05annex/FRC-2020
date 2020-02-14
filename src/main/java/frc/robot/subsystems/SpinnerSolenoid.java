@@ -33,7 +33,7 @@ public class SpinnerSolenoid extends SubsystemBase {
   }
 
   /**
-   * Lowers spinner after spinning wheel so we can countinue driving.
+   * Lowers spinner after spinning wheel so we can continue driving.
    */
   public void spinner_down() {
     m_spinnerSolenoid.set(false);
