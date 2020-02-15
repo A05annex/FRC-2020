@@ -27,7 +27,7 @@ public class RunSpinner extends CommandBase {
     // so right now we an xbox triggers for left or right spin. pick the biggest absolute as
     // the one to listen to - if there is no biggest, don't spin.
     double left = m_xbox.getTriggerAxis(GenericHID.Hand.kLeft);
-    double right = m_xbox.getTriggerAxis(GenericHID.Hand.kRight);
+    double right = - m_xbox.getTriggerAxis(GenericHID.Hand.kRight);
     double absLeft = Math.abs(left);
     double absRight = Math.abs(right);
     if ((absLeft > absRight) && (absLeft > 0.05)) {
@@ -35,9 +35,8 @@ public class RunSpinner extends CommandBase {
     } else if ((absLeft < absRight) && (absRight > 0.05)) {
       m_spinnerSubsystem.setPower(right);
     } else {
-      m_spinnerSubsystem.setPower(0.0);
+      m_spinnerSubsystem.setPower(-m_xbox.getY(GenericHID.Hand.kRight));
     }
-
   }
 
   @Override

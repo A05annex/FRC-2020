@@ -30,7 +30,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_position.configFactoryDefault();
     m_position.setNeutralMode(NeutralMode.Coast);
     m_position.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    m_position.setSelectedSensorPosition(0, 0, 10);
+    m_position.setSelectedSensorPosition(89595, 0, 10);
     m_position.setSensorPhase(true);
 
   }
@@ -57,6 +57,12 @@ public class ArmSubsystem extends SubsystemBase {
       power = 0;
     } else if ((m_position.getSelectedSensorPosition() > 43500.0) && (power > 0.0)) {
       power = .05;
+    } else if (m_position.getSelectedSensorPosition() > 73000.0) {
+      if (power >= 0.0) {
+        power = -0.05;
+      } else {
+        power = power - .2;
+      }
     } else {
       power = .2 + power;
     }

@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.subsystems.SweeperSubsystem;
 
 // This is a really quick qnd dirty command to hook the sweeper motor to the throttle for testing

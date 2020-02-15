@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.ColorTargets;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -62,6 +63,10 @@ public class RobotContainer {
   private final JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
   private final JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
   private final JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
+  private final POVButton m_xboxDpadUp = new POVButton(m_xbox, 0);
+  private final POVButton m_xboxDpadLeft = new POVButton(m_xbox, 270);
+  private final POVButton m_xboxDpadDown = new POVButton(m_xbox, 180);
+  private final POVButton m_xboxDpadRight = new POVButton(m_xbox, 90);
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
@@ -70,10 +75,12 @@ public class RobotContainer {
   private final RunSpinner m_runSpinner = new RunSpinner(m_spinnerSubsystem, m_xbox);
 
   // Color sensor
+   /*
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
   private final ColorMatch m_colorMatcher = new ColorMatch();
+  */
 
 
   /**
@@ -90,11 +97,13 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    /*
     // color sensor stuff
     m_colorMatcher.addColorMatch(ColorTargets.BLUE_TARGET);
     m_colorMatcher.addColorMatch(ColorTargets.GREEN_TARGET);
     m_colorMatcher.addColorMatch(ColorTargets.RED_TARGET);
     m_colorMatcher.addColorMatch(ColorTargets.YELLOW_TARGET);
+    */
   }
 
   /**
@@ -129,6 +138,10 @@ public class RobotContainer {
 
     m_xboxX.whenPressed(new SpinnerForCounts(m_spinnerSubsystem, 1, -18000));
 
+    m_xboxDpadUp.whenPressed(new CollectorToPosition(m_armSubsystem, 500));
+    m_xboxDpadDown.whenPressed(new CollectorToPosition(m_armSubsystem, 43000));
+    m_xboxDpadLeft.whenPressed(new CollectorToPosition(m_armSubsystem, 32000));
+
   }
 
   public void resetRobot() {
@@ -156,6 +169,7 @@ public class RobotContainer {
     return m_spinnerSubsystem;
   }
 
+  /*
   public ColorSensorV3 getColorSensor() {
     return m_colorSensor;
   }
@@ -182,4 +196,5 @@ public class RobotContainer {
 
     return colorString;
   }
+  */
 }
