@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(7, "mode", m_limelight.getMode());
     dashboardTelemetry(8, "stream", m_limelight.getStreamMode());
 
-    dashboardTelemetry(9, "color", DriverStation.getInstance().getGameSpecificMessage().charAt(0));
+    // dashboardTelemetry(9, "color", DriverStation.getInstance().getGameSpecificMessage().charAt(0));
   }
 
   /**
