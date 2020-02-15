@@ -15,6 +15,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.subsystems.SweeperSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
