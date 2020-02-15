@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.subsystems.SweeperSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private Limelight m_limelight;
+  private SpinnerSubsystem m_wheel;
 //  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
 
   private void dashboardTelemetry(int port, String key, double var) {
@@ -38,6 +40,10 @@ public class Robot extends TimedRobot {
   }
 
   private void useTelemetry() {
+//    dashboardTelemetry(0, "red", m_robotContainer.getColorSensor().getRed());
+//    dashboardTelemetry(1, "blue", m_robotContainer.getColorSensor().getBlue());
+//    dashboardTelemetry(2, "green", m_robotContainer.getColorSensor().getGreen());
+//    dashboardTelemetry(3, "Color", m_robotContainer.getColorAsString());
 
     dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
@@ -48,8 +54,7 @@ public class Robot extends TimedRobot {
 
     dashboardTelemetry(7, "mode", m_limelight.getMode());
     dashboardTelemetry(8, "stream", m_limelight.getStreamMode());
-
-    dashboardTelemetry(9, "color", DriverStation.getInstance().getGameSpecificMessage().charAt(0));
+    dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder());
   }
 
   /**
@@ -69,6 +74,8 @@ public class Robot extends TimedRobot {
 
     m_limelight = m_robotContainer.getLimelight();
     m_limelight.setDriveCamera();
+
+    m_wheel = m_robotContainer.getBigWheel();
 
 //    robotChooser.setDefaultOption(Constants.Robots.COMPETITION_ROBOT.ROBOT_NAME, Constants.Robots.COMPETITION_ROBOT);
 //    robotChooser.addOption(Constants.Robots.PRACTICE_ROBOT.ROBOT_NAME, Constants.Robots.PRACTICE_ROBOT);

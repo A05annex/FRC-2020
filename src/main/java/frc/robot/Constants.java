@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorMatch;
+import edu.wpi.first.wpilibj.util.Color;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -162,6 +165,15 @@ public final class Constants {
         UPPER_LIFT_RETRACT = 4,
         UPPER_LIFT_EXTEND = 5,
         LIFT_PRESSURE_DUMP = 6;
+  }
+
+  public static final class ColorTargets {
+    public static Color
+
+        BLUE_TARGET = ColorMatch.makeColor(0.143, 0.427, 0.429), // order is red, green, blue
+        GREEN_TARGET = ColorMatch.makeColor(0.197, 0.561, 0.240),
+        RED_TARGET = ColorMatch.makeColor(0.4, 0.4, 0.2),
+        YELLOW_TARGET = ColorMatch.makeColor(0.361, 0.524, 0.113);
   }
 
   // -----------------------------------------------------------------------------------------------------------------------------
