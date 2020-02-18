@@ -130,8 +130,8 @@ public class RobotContainer {
 //    m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
     m_button10.whenPressed(new ExtendUpperLift(m_liftSubsystem));
 //    m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
-    m_button8.whenHeld(new RunWinch(m_liftSubsystem, 0.5));
-    m_button7.whenHeld(new RunWinch(m_liftSubsystem, -0.5));
+    m_button8.whenHeld(new RunWinch(m_liftSubsystem, 1));
+    m_button7.whenHeld(new RunWinch(m_liftSubsystem, -1));
 
     m_xboxLeftBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.UP));
     m_xboxRightBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.DOWN));
