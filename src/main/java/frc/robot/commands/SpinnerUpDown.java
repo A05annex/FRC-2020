@@ -23,7 +23,7 @@ public class SpinnerUpDown extends CommandBase {
   /**
    * Creates a new SpinnerUpDown.
    */
-  public SpinnerUpDown( SpinnerSolenoid spinnerSolenoid,boolean position) {
+  public SpinnerUpDown(SpinnerSolenoid spinnerSolenoid, boolean position) {
     m_position = position;
     m_spinnerSolenoid = spinnerSolenoid;
     addRequirements(spinnerSolenoid);

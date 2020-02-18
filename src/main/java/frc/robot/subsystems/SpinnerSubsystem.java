@@ -7,12 +7,11 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class SpinnerSubsystem extends SubsystemBase {
@@ -23,7 +22,7 @@ public class SpinnerSubsystem extends SubsystemBase {
    * Creates a new SpinnerSubsystem.
    */
   public SpinnerSubsystem() {
-    
+
     bigWheel.configFactoryDefault();
     bigWheel.setNeutralMode(NeutralMode.Brake);
     bigWheel.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -35,7 +36,8 @@ public class RobotContainer {
   // - the joystick and buttons
   private final Joystick m_stick = new Joystick(0);
 
-  private final JoystickButton m_sideButton = new JoystickButton(this.m_stick, 2);
+  private final JoystickButton m_trigger = new JoystickButton(this.m_stick, 1);
+  private final JoystickButton m_thumb = new JoystickButton(this.m_stick, 2);
   private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
   private final JoystickButton m_button4 = new JoystickButton(this.m_stick, 4);
   private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
@@ -49,17 +51,22 @@ public class RobotContainer {
 
   // - the xbox controller and buttons
   private final XboxController m_xbox = new XboxController(1);
-  private final JoystickButton xboxA = new JoystickButton(m_xbox, 1);
-  private final JoystickButton xboxB = new JoystickButton(m_xbox, 2);
-  private final JoystickButton xboxX = new JoystickButton(m_xbox, 3);
-  private final JoystickButton xboxY = new JoystickButton(m_xbox, 4);
+  private final JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
+  private final JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
+  private final JoystickButton m_xboxX = new JoystickButton(m_xbox, 3);
+  private final JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
   private final JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
   private final JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
+  private final POVButton m_xboxDpadUp = new POVButton(m_xbox, 0);
+  private final POVButton m_xboxDpadLeft = new POVButton(m_xbox, 270);
+  private final POVButton m_xboxDpadDown = new POVButton(m_xbox, 180);
+  private final POVButton m_xboxDpadRight = new POVButton(m_xbox, 90);
 
   // The robot's commands
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
   private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_xbox);
   private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
+  private final RunSpinner m_runSpinner = new RunSpinner(m_spinnerSubsystem, m_xbox);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -71,6 +78,7 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
     m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
     m_armSubsystem.setDefaultCommand(m_manualCollector);
+    m_spinnerSubsystem.setDefaultCommand(m_runSpinner);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -78,29 +86,35 @@ public class RobotContainer {
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick}, and then passing it to a
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-//        xboxA.whenPressed(new SetNextRobot(this));
-    xboxB.whenPressed(new SetNextDriver(this));
+//        m_xboxA.whenPressed(new SetNextRobot(this));
+    m_xboxB.whenPressed(new SetNextDriver(this));
 
     m_button3.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
     m_button5.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.VISION_MODE));
 
     m_button4.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.LIMELIGHT_STREAM));
     m_button6.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SECONDARY_STREAM));
-    m_sideButton.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
+    m_thumb.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
 
     m_button12.whenPressed(new ExtendLowerLift(m_liftSubsystem));
 //    m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
     m_button10.whenPressed(new ExtendUpperLift(m_liftSubsystem));
 //    m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
-    m_button8.whenHeld(new RunWinch(m_liftSubsystem, 0.5));
-    m_button7.whenHeld(new RunWinch(m_liftSubsystem, -0.5));
+    m_button8.whenHeld(new RunWinch(m_liftSubsystem, 1));
+    m_button7.whenHeld(new RunWinch(m_liftSubsystem, -1));
 
     m_xboxLeftBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.UP));
     m_xboxRightBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.DOWN));
+
+    m_xboxX.whenPressed(new SpinnerForCounts(m_spinnerSubsystem, 1, -18000));
+
+    m_xboxDpadUp.whenPressed(new CollectorToPosition(m_armSubsystem, 500));
+    m_xboxDpadDown.whenPressed(new CollectorToPosition(m_armSubsystem, 43000));
+    m_xboxDpadLeft.whenPressed(new CollectorToPosition(m_armSubsystem, 32000));
 
   }
 
@@ -124,4 +138,9 @@ public class RobotContainer {
   public Limelight getLimelight() {
     return m_limelight;
   }
+
+  public SpinnerSubsystem getBigWheel() {
+    return m_spinnerSubsystem;
+  }
+
 }

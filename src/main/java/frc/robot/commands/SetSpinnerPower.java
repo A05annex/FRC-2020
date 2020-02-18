@@ -11,21 +11,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SpinnerSubsystem;
 
 public class SetSpinnerPower extends CommandBase {
-  
+
   private double m_power;
   private final SpinnerSubsystem m_wheel;
-  
+
   /**
    * Creates a new SetSpinnerPower.
    */
   public SetSpinnerPower(SpinnerSubsystem wheel, double power) {
-    
+
     m_power = power;
     m_wheel = wheel;
 
     // Use addRequirements() here to declare subsystem dependencies.
-  addRequirements(m_wheel);
-}
+    addRequirements(m_wheel);
+  }
 
   // Called when the command is initially scheduled.
   @Override
