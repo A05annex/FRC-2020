@@ -112,9 +112,9 @@ public class RobotContainer {
 
     m_xboxX.whenPressed(new SpinnerForCounts(m_spinnerSubsystem, 1, -18000));
 
-    m_xboxDpadUp.whenPressed(new CollectorToPosition(m_armSubsystem, 500));
-    m_xboxDpadDown.whenPressed(new CollectorToPosition(m_armSubsystem, 43000));
-    m_xboxDpadLeft.whenPressed(new CollectorToPosition(m_armSubsystem, 32000));
+    m_xboxDpadUp.whenPressed(new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION));
+    m_xboxDpadDown.whenPressed(new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION));
+    m_xboxDpadLeft.whenPressed(new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION));
 
   }
 

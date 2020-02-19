@@ -20,7 +20,7 @@ public final class Constants {
   // -----------------------------------------------------------------------------------------------------------------------------
   // Physical Mappings - where are motors, pneumatics, sensors, and servos connected to the electronics
 
-  public static Drivers DRIVER = Drivers.ADEN;
+  public static Drivers DRIVER = Drivers.NOLAN;
   public static Robots ROBOT = Robots.COMPETITION_ROBOT;
 
   // -----------------------------------------------------------------------------------------------------------------------------
@@ -29,6 +29,8 @@ public final class Constants {
   // Conditioning stick values - constants used in the 2019 for stick tuning. We found that it was important for each
   // driver to tune the drive for their driving style so the
   public enum Drivers {
+    NOLAN("Nolan", true, 1.0, 0.5, 0.5, 2.0, 3.0, 0.05, 0.05),
+    CALVIN("Calvin", true, 1.0, 0.5, 0.5, 2.0, 3.0, 0.05, 0.05),
     ADEN("Aden", true, 1.0, 0.5, 0.5, 2.0, 3.0, 0.05, 0.05),
     LUCAS("Lucas", true, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05),
     ROY("Roy", false, 1.0, 0.5, 0.1, 2.0, 3.0, 0.05, 0.05);
@@ -166,5 +168,23 @@ public final class Constants {
 
   // -----------------------------------------------------------------------------------------------------------------------------
   // Tuning IMU control of direction (heading)
+
+  public enum ArmPosition {
+    START_POSITION(87600, 0, 0),
+    FLOOR_POSITION(500, 0, 0),
+    DELIVER_POSITION(32000, 2330, 2300),
+    COLLECT_POSITION(43000, 3720, 1500);
+
+
+    public final double POSITION;
+    public final double UP_DECELERATION;
+    public final double DOWN_DECELERATION;
+    ArmPosition(double position, double upDeceleration, double downDeceleration) {
+      POSITION = position;
+      UP_DECELERATION = upDeceleration;
+      DOWN_DECELERATION = downDeceleration;
+    }
+
+  }
 
 }

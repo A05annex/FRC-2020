@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
 // This is a really quick qnd dirty command to hook the sweeper motor to the driver joystic throttle, and the arm position
@@ -16,15 +17,19 @@ public class CollectorToPosition extends CommandBase {
 
   private final ArmSubsystem m_armSubsystem;
   private final double m_position;
+  private final double m_upDeceleration;
+  private final double m_downDeceleration;
   private boolean m_direction;
 
   /**
    * @param armSubsystem
-   * @param position
+   * @param armPosition
    */
-  public CollectorToPosition(ArmSubsystem armSubsystem, double position) {
+  public CollectorToPosition(ArmSubsystem armSubsystem, Constants.ArmPosition armPosition) {
     m_armSubsystem = armSubsystem;
-    m_position = position;
+    m_position = armPosition.POSITION;
+    m_upDeceleration = armPosition.UP_DECELERATION;
+    m_downDeceleration = armPosition.DOWN_DECELERATION;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(armSubsystem);
   }
@@ -63,11 +68,11 @@ public class CollectorToPosition extends CommandBase {
   public boolean isFinished() {
     double currentPosition = m_armSubsystem.getPosition();
     if (m_direction == MoveDirection.UP) {
-      if (currentPosition >= m_position) {
+      if (currentPosition >= m_position - m_upDeceleration) {
         return true;
       }
     } else if (m_direction == MoveDirection.DOWN) {
-      if (currentPosition <= m_position) {
+      if (currentPosition <= m_position + m_downDeceleration) {
         return true;
       }
     }
