@@ -77,7 +77,7 @@ public class RobotContainer {
     // Set the default commands for subsystems
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
     m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
-    m_armSubsystem.setDefaultCommand(m_manualCollector);
+    //m_armSubsystem.setDefaultCommand(m_manualCollector);
     m_spinnerSubsystem.setDefaultCommand(m_runSpinner);
     // Configure the button bindings
     configureButtonBindings();
@@ -91,6 +91,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 //        m_xboxA.whenPressed(new SetNextRobot(this));
+    /*
     m_xboxB.whenPressed(new SetNextDriver(this));
 
     m_button3.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
@@ -115,7 +116,11 @@ public class RobotContainer {
     m_xboxDpadUp.whenPressed(new CollectorToPosition(m_armSubsystem, 500));
     m_xboxDpadDown.whenPressed(new CollectorToPosition(m_armSubsystem, 43000));
     m_xboxDpadLeft.whenPressed(new CollectorToPosition(m_armSubsystem, 32000));
+    */
+    m_thumb.whenPressed(m_driveCommand); // emergency stop auto commands
 
+    m_button7.whenPressed(new AutoDrive(m_driveSubsystem, 60, 0.75));
+    m_button8.whenPressed(new AutoTurn(m_driveSubsystem, 90, 0.75));
   }
 
   public void resetRobot() {
@@ -141,6 +146,10 @@ public class RobotContainer {
 
   public SpinnerSubsystem getBigWheel() {
     return m_spinnerSubsystem;
+  }
+
+  public DriveSubsystem getDriveSubsystem() {
+    return m_driveSubsystem;
   }
 
 }

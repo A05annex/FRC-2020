@@ -159,6 +159,20 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
+   * @return Returns the average of the left and right encoder positions.
+   */
+  public double getTotalPosition() {
+    return m_leftMaster.getSelectedSensorPosition() + m_rightMaster.getSelectedSensorPosition();
+  }
+
+  /**
+   * @return Returns the average of the left and right encoder positions.
+   */
+  public double getDifferencePosition() {
+    return m_leftMaster.getSelectedSensorPosition() - m_rightMaster.getSelectedSensorPosition();
+  }
+
+  /**
    * Reset the right and left encoder positions to 0.0.
    */
   public void resetEncoders() {

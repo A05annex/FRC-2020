@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.subsystems.SweeperSubsystem;
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private Limelight m_limelight;
   private SpinnerSubsystem m_wheel;
+  private DriveSubsystem m_driveSubsystem;
 //  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
 
   private void dashboardTelemetry(int port, String key, double var) {
@@ -44,9 +46,11 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
 
-    dashboardTelemetry(2, "sweeper", SweeperSubsystem.getInstance().getSweeperPower());
-    dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
-    dashboardTelemetry(4, "arm power", ArmSubsystem.getInstance().getPositionPower());
+    dashboardTelemetry(1, "left enc", m_driveSubsystem.getLeftPosition());
+    dashboardTelemetry(6, "right enc", m_driveSubsystem.getRightPosition());
+
+    dashboardTelemetry(2, "arm enc", ArmSubsystem.getInstance().getPosition());
+    dashboardTelemetry(3, "message", DriverStation.getInstance().getGameSpecificMessage());
 
     dashboardTelemetry(7, "mode", m_limelight.getMode());
     dashboardTelemetry(8, "stream", m_limelight.getStreamMode());
@@ -72,6 +76,7 @@ public class Robot extends TimedRobot {
     m_limelight.setDriveCamera();
 
     m_wheel = m_robotContainer.getBigWheel();
+    m_driveSubsystem = m_robotContainer.getDriveSubsystem();
 
 //    robotChooser.setDefaultOption(Constants.Robots.COMPETITION_ROBOT.ROBOT_NAME, Constants.Robots.COMPETITION_ROBOT);
 //    robotChooser.addOption(Constants.Robots.PRACTICE_ROBOT.ROBOT_NAME, Constants.Robots.PRACTICE_ROBOT);
