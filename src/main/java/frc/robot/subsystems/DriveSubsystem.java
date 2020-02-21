@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,7 +21,7 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_targetLeftSpeed;
   private double m_targetRightSpeed;
 
-  //    public Solenoid shifter = Constants.ENABLE_DRIVE_SHIFT ? new Solenoid(RobotMap.shifter) : null;
+  private Solenoid m_shifter = new Solenoid(Constants.Pneumatics.DRIVE_SHIFTER);
   private TalonSRX m_rightMaster = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_MASTER);
   private TalonSRX m_rm2 = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_SLAVE_1);
   private TalonSRX m_rm3 = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_SLAVE_2);
@@ -32,6 +33,7 @@ public class DriveSubsystem extends SubsystemBase {
    * Creates a new DriveSubsystem.
    */
   public DriveSubsystem() {
+    m_shifter.set(false);
     // constructs and configures all six drive motors
     // restore everything to known factory default state
     m_rightMaster.configFactoryDefault();
@@ -200,5 +202,9 @@ public class DriveSubsystem extends SubsystemBase {
   public void resetIntegral() {
     m_rightMaster.setIntegralAccumulator(0);
     m_leftMaster.setIntegralAccumulator(0);
+  }
+
+  public void toggleShift() {
+    m_shifter.set(!m_shifter.get());
   }
 }

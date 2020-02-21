@@ -38,10 +38,10 @@ public class RobotContainer {
 
   private final JoystickButton m_trigger = new JoystickButton(this.m_stick, 1);
   private final JoystickButton m_thumb = new JoystickButton(this.m_stick, 2);
-  private final JoystickButton m_button3 = new JoystickButton(this.m_stick, 3);
-  private final JoystickButton m_button4 = new JoystickButton(this.m_stick, 4);
-  private final JoystickButton m_button5 = new JoystickButton(this.m_stick, 5);
-  private final JoystickButton m_button6 = new JoystickButton(this.m_stick, 6);
+  private final JoystickButton m_topLL = new JoystickButton(this.m_stick, 3);
+  private final JoystickButton m_topLR = new JoystickButton(this.m_stick, 4);
+  private final JoystickButton m_topUL = new JoystickButton(this.m_stick, 5);
+  private final JoystickButton m_topUR = new JoystickButton(this.m_stick, 6);
   private final JoystickButton m_button7 = new JoystickButton(this.m_stick, 7);
   private final JoystickButton m_button8 = new JoystickButton(this.m_stick, 8);
   private final JoystickButton m_button9 = new JoystickButton(this.m_stick, 9);
@@ -93,17 +93,18 @@ public class RobotContainer {
 //        m_xboxA.whenPressed(new SetNextRobot(this));
     m_xboxB.whenPressed(new SetNextDriver(this));
 
-    m_button3.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
-    m_button5.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.VISION_MODE));
+    m_topLL.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
+    m_topUL.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.VISION_MODE));
 
-    m_button4.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.LIMELIGHT_STREAM));
-    m_button6.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SECONDARY_STREAM));
-    m_thumb.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
+    m_topLR.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.LIMELIGHT_STREAM));
+    m_topUR.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SECONDARY_STREAM));
+//    m_thumb.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SIDE_BY_SIDE));
+    m_thumb.whenPressed(new ToggleShift(m_driveSubsystem));
 
-    m_button12.whenPressed(new ExtendLowerLift(m_liftSubsystem));
-//    m_button11.whenPressed(new RetractLowerLift(m_liftSubsystem));
-    m_button10.whenPressed(new ExtendUpperLift(m_liftSubsystem));
-//    m_button9.whenPressed(new RetractUpperLift(m_liftSubsystem));
+    m_button12.whenPressed(new LiftCylinderControl(m_liftSubsystem,
+        LiftCylinderControl.LOWER_CYLINDER, LiftCylinderControl.EXTENDED));
+    m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem,
+        LiftCylinderControl.UPPER_CYLINDER,LiftCylinderControl.EXTENDED));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 1));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -1));
 

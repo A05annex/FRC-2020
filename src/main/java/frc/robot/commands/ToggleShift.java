@@ -1,27 +1,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 
-public class RetractUpperLift extends CommandBase {
+public class ToggleShift extends CommandBase {
 
-  private final LiftSubsystem m_liftSubsystem;
+  private final DriveSubsystem m_driveSubsystem;
   private boolean m_isFinished = false;
 
-  public RetractUpperLift(LiftSubsystem liftSubsystem) {
-    m_liftSubsystem = liftSubsystem;
-    addRequirements(m_liftSubsystem);
+  public ToggleShift(DriveSubsystem driveSubsystem) {
+    m_driveSubsystem = driveSubsystem;
   }
 
   @Override
   public void initialize() {
-    m_isFinished = false;
+    m_isFinished = true;
   }
 
   @Override
   public void execute() {
-    m_liftSubsystem.retractUpper();
+    m_driveSubsystem.toggleShift();
     m_isFinished = true;
   }
 
