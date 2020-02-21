@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.RampInOut;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoDrive extends CommandBase {
@@ -18,6 +19,9 @@ public class AutoDrive extends CommandBase {
   private double m_speed;
   private double startEncoder;
   private boolean forward;
+  private RampInOut ramp;
+  private double distanceFromStart;
+  private double directionMult;
 
   /**
    * Drives straight forwards for a certian amount of inches, at a certian speed.
@@ -31,10 +35,11 @@ public class AutoDrive extends CommandBase {
     m_speed = Math.abs(speed);
     // reverse speed if distance is negative
     if (distanceInInches < 0) {
-      m_speed *= -1;
       forward = false;
+      directionMult = -1;
     } else {
       forward = true;
+      directionMult = 1;
     }
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveSubsystem);
@@ -44,12 +49,14 @@ public class AutoDrive extends CommandBase {
   @Override
   public void initialize() {
     startEncoder = m_driveSubsystem.getTotalPosition();
+    ramp = new RampInOut(0, m_distance, m_speed, .1, 60 * Constants.ROBOT.DRIVE_TICS_PER_INCH, .1, 60 * Constants.ROBOT.DRIVE_TICS_PER_INCH);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.setArcadeSpeed(m_speed, 0);
+    distanceFromStart = m_driveSubsystem.getTotalPosition() - startEncoder;
+    m_driveSubsystem.setArcadeSpeed(ramp.getValueAtPosition(distanceFromStart) * directionMult, 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -61,7 +68,7 @@ public class AutoDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double distanceFromStart = m_driveSubsystem.getTotalPosition() - startEncoder;
+    distanceFromStart = m_driveSubsystem.getTotalPosition() - startEncoder;
     if (forward) {
       if (distanceFromStart > m_distance) {
         return true;

@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.RampInOut;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoTurn extends CommandBase {
@@ -18,6 +19,9 @@ public class AutoTurn extends CommandBase {
   private double m_speed;
   private double startDifference;
   private boolean clockwise;
+  private RampInOut ramp;
+  private double differenceDifference;
+  private double directionMult;
 
   /**
    * Turns for a certain amount of degrees, at a certian speed.
@@ -32,9 +36,10 @@ public class AutoTurn extends CommandBase {
     // reverse speed if degrees are negative
     if (degrees < 0) {
       clockwise = false;
+      directionMult = 1;
     } else {
-      m_speed *= -1;
       clockwise = true;
+      directionMult = -1;
     }
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveSubsystem);
@@ -44,12 +49,14 @@ public class AutoTurn extends CommandBase {
   @Override
   public void initialize() {
     startDifference = m_driveSubsystem.getDifferencePosition();
+    ramp = new RampInOut(0, m_difference, m_speed, .1, 30 * Constants.ROBOT.DRIVE_TICS_PER_DEGREE, .1, 30 * Constants.ROBOT.DRIVE_TICS_PER_DEGREE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.setArcadeSpeed(0, m_speed);
+    differenceDifference = m_driveSubsystem.getDifferencePosition() - startDifference;
+    m_driveSubsystem.setArcadeSpeed(0, ramp.getValueAtPosition(differenceDifference) * directionMult);
   }
 
   // Called once the command ends or is interrupted.
@@ -61,7 +68,7 @@ public class AutoTurn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double differenceDifference = m_driveSubsystem.getDifferencePosition() - startDifference;
+    differenceDifference = m_driveSubsystem.getDifferencePosition() - startDifference;
     if (clockwise) {
       if (differenceDifference > m_difference) {
         return true;

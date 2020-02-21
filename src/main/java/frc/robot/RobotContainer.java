@@ -119,8 +119,10 @@ public class RobotContainer {
     */
     m_thumb.whenPressed(m_driveCommand); // emergency stop auto commands
 
-    m_button7.whenPressed(new AutoDrive(m_driveSubsystem, 60, 0.75));
-    m_button8.whenPressed(new AutoTurn(m_driveSubsystem, 90, 0.75));
+    m_button7.whenPressed(new AutoDrive(m_driveSubsystem, 100, 0.75));
+    m_button8.whenPressed(new AutoTurn(m_driveSubsystem, 90, 0.5));
+    m_button9.whenPressed(new AutoDrive(m_driveSubsystem, -100, 0.75));
+    m_button10.whenPressed(new AutoTurn(m_driveSubsystem, -90, 0.5));
   }
 
   public void resetRobot() {
