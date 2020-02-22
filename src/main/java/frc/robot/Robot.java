@@ -11,11 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SpinnerSubsystem;
-import frc.robot.subsystems.SweeperSubsystem;
-import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -29,6 +25,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private Limelight m_limelight;
   private SpinnerSubsystem m_wheel;
+  private DriveSubsystem m_drive;
 //  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
 
   private void dashboardTelemetry(int port, String key, double var) {
@@ -39,18 +36,22 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %s", key, var));
   }
 
-  private void useTelemetry() {
+  private void dashboardTelemetry(int port, String key, boolean var) {
+    SmartDashboard.putString(String.format("DB/String %d", port),
+        String.format("%s: %s", key, var ? "on" : "off" ));
+  }
+
+  private void displayTelemetry() {
 
     dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
 
-    dashboardTelemetry(2, "sweeper", SweeperSubsystem.getInstance().getSweeperPower());
+    dashboardTelemetry(2, "drive gear", m_drive.getGear().toString());
     dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
-    dashboardTelemetry(4, "arm power", ArmSubsystem.getInstance().getPositionPower());
+    dashboardTelemetry(4, "spinner enc", m_wheel.getEncoder());
 
-    dashboardTelemetry(7, "mode", m_limelight.getMode());
+    dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
     dashboardTelemetry(8, "stream", m_limelight.getStreamMode());
-    dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder());
   }
 
   /**
@@ -72,6 +73,7 @@ public class Robot extends TimedRobot {
     m_limelight.setDriveCamera();
 
     m_wheel = m_robotContainer.getBigWheel();
+    m_drive = m_robotContainer.getDrive();
 
 //    robotChooser.setDefaultOption(Constants.Robots.COMPETITION_ROBOT.ROBOT_NAME, Constants.Robots.COMPETITION_ROBOT);
 //    robotChooser.addOption(Constants.Robots.PRACTICE_ROBOT.ROBOT_NAME, Constants.Robots.PRACTICE_ROBOT);
@@ -92,7 +94,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    useTelemetry(); // output telemetry
+    displayTelemetry(); // output telemetry
   }
 
   /**

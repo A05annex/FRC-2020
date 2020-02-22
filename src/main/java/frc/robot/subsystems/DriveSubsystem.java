@@ -18,6 +18,11 @@ import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
 
+  public enum GEAR {
+    FIRST,
+    SECOND;
+  }
+
   private double m_targetLeftSpeed;
   private double m_targetRightSpeed;
 
@@ -204,7 +209,29 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftMaster.setIntegralAccumulator(0);
   }
 
+  /**
+   * Toggle between first and second gear
+   */
   public void toggleShift() {
     m_shifter.set(!m_shifter.get());
   }
+
+  /**
+   * Set the gear.
+   *
+   * @param gear ({@link SubsystemBase#GEAR}) the gear to set.
+   */
+  public void setGear(GEAR gear) {
+    m_shifter.set(GEAR.SECOND == gear);
+  }
+
+  /**
+   * Get the current gear.
+   *
+   * @return ({@link SubsystemBase#GEAR}) the current gear.
+   */
+  public GEAR getGear() {
+    return m_shifter.get() ? GEAR.SECOND : GEAR.FIRST;
+  }
+
 }
