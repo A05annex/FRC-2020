@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
@@ -117,12 +120,43 @@ public class RobotContainer {
     m_xboxDpadDown.whenPressed(new CollectorToPosition(m_armSubsystem, 43000));
     m_xboxDpadLeft.whenPressed(new CollectorToPosition(m_armSubsystem, 32000));
     */
-    m_thumb.whenPressed(m_driveCommand); // emergency stop auto commands
 
-    m_button7.whenPressed(new AutoDrive(m_driveSubsystem, 100, 0.75));
-    m_button8.whenPressed(new AutoTurn(m_driveSubsystem, 90, 0.5));
-    m_button9.whenPressed(new AutoDrive(m_driveSubsystem, -100, 0.75));
-    m_button10.whenPressed(new AutoTurn(m_driveSubsystem, -90, 0.5));
+    m_trigger.whenPressed(m_driveCommand); // emergency stop auto commands
+
+    // full auto 1
+    double auto1Speed = 0.5;
+    m_button11.whenPressed(
+      new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new CollectorToPosition(m_armSubsystem, 32000), // arm to dump position
+          new AutoDrive(m_driveSubsystem, 72, auto1Speed) // approach bottom target
+        ),
+        new SetSweeperPower(m_sweeperSubsystem, -1), // set sweeper to dump
+        new WaitCommand(1), // wait one second
+        new AutoDrive(m_driveSubsystem, -12, auto1Speed), // back up to clear target
+        new ParallelCommandGroup(
+          new AutoTurn(m_driveSubsystem, 160, auto1Speed), // turn 160 degrees right
+          new CollectorToPosition(m_armSubsystem, 500), // bucket down
+          new SetSweeperPower(m_sweeperSubsystem, 1) // set sweeper to collect
+        ),
+        new AutoDrive(m_driveSubsystem, 208, auto1Speed), // drive to front of trench
+        new AutoTurn(m_driveSubsystem, 20, auto1Speed), // turn to go down trench
+        new AutoDrive(m_driveSubsystem, 216, auto1Speed), // go down trench
+        new AutoDrive(m_driveSubsystem, -216, auto1Speed), // go back backwards
+        new ParallelCommandGroup(
+          new CollectorToPosition(m_armSubsystem, 32000), // arm back to dump position
+          new AutoTurn(m_driveSubsystem, 160, auto1Speed) // turn back towards target
+        ),
+        new AutoDrive(m_driveSubsystem, 208, auto1Speed), // drive back to target
+        new AutoTurn(m_driveSubsystem, 20, auto1Speed), // turn to target
+        new AutoDrive(m_driveSubsystem, 12, auto1Speed), // approach target
+        new SetSweeperPower(m_sweeperSubsystem, -1) // set sweeper to dump
+    ));
+
+    m_button7.whenPressed(new CollectorToPosition(m_armSubsystem, 32000));
+    m_button8.whenPressed(new AutoDrive(m_driveSubsystem, 72, 0.5));
+    m_button9.whenPressed(new AutoTurn(m_driveSubsystem, 160, 0.5));
+    m_button10.whenPressed(new SetSweeperPower(m_sweeperSubsystem, -1));
   }
 
   public void resetRobot() {
