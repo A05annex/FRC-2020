@@ -83,9 +83,9 @@ public class DriveSubsystem extends SubsystemBase {
     double max = Math.abs(forward) + (Math.abs(forward) * Math.abs(Constants.ROBOT.DRIVE_TURN_BIAS)) + Math.abs(rotate);
     double scale = (max <= 1.0) ? 1.0 : (1.0 / max);
     m_rightMaster.set(ControlMode.PercentOutput,
-        scale * (forward + (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
+        scale * (forward + (rotate + (forward * Constants.ROBOT.GEARS.get(Constants.GEAR).DRIVE_TURN_BIAS))));
     m_leftMaster.set(ControlMode.PercentOutput,
-        scale * (forward - (rotate + (forward * Constants.ROBOT.DRIVE_TURN_BIAS))));
+        scale * (forward - (rotate + (forward * Constants.ROBOT.GEARS.get(Constants.GEAR).DRIVE_TURN_BIAS))));
   }
 
   /**
@@ -219,7 +219,7 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Set the gear.
    *
-   * @param gear ({@link SubsystemBase#GEAR}) the gear to set.
+   * @param gear ({@link DriveSubsystem#GEAR}) the gear to set.
    */
   public void setGear(GEAR gear) {
     m_shifter.set(GEAR.SECOND == gear);
@@ -228,7 +228,7 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Get the current gear.
    *
-   * @return ({@link SubsystemBase#GEAR}) the current gear.
+   * @return ({@link DriveSubsystem#GEAR}) the current gear.
    */
   public GEAR getGear() {
     return m_shifter.get() ? GEAR.SECOND : GEAR.FIRST;

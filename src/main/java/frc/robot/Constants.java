@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -22,6 +25,7 @@ public final class Constants {
 
   public static Drivers DRIVER = Drivers.NOLAN;
   public static Robots ROBOT = Robots.COMPETITION_ROBOT;
+  public static int GEAR = DriveGears.FIRST.ordinal();
 
   // -----------------------------------------------------------------------------------------------------------------------------
   // Driver Configurations
@@ -89,6 +93,37 @@ public final class Constants {
   // -----------------------------------------------------------------------------------------------------------------------------
   // Robot Configurations
   // -----------------------------------------------------------------------------------------------------------------------------
+  public enum DriveGears {
+    FIRST,
+    SECOND;
+  }
+
+  public static class DriveGear {
+    public final String GEAR_NAME;
+    public final double DRIVE_TURN_BIAS;
+    public final double DRIVE_Kf;
+    public final double DRIVE_Kp;
+    public final double DRIVE_Ki;
+    public final double DRIVE_INTEGRAL_ZONE;
+    public final double DRIVE_MAX_RPM;
+    // The encoder values for autonomous move some distance and turn some degrees.
+    public final double DRIVE_TICS_PER_INCH;
+    public final double DRIVE_TICS_PER_DEGREE;
+
+    DriveGear(String gearName, double bias, double Kf, double Kp, double Ki,
+              double integralZone, double maxRpm, double ticsPerInch, double ticsPerDegree) {
+      GEAR_NAME = gearName;
+      DRIVE_TURN_BIAS = bias;
+      DRIVE_Kf = Kf;
+      DRIVE_Kp = Kp;
+      DRIVE_Ki = Ki;
+      DRIVE_INTEGRAL_ZONE = integralZone;
+      DRIVE_MAX_RPM = maxRpm;
+      DRIVE_TICS_PER_INCH = ticsPerInch;
+      DRIVE_TICS_PER_DEGREE = ticsPerDegree;
+    }
+  }
+
   // We have a competition robot and a test robot. It is unclear which parts of the competition will be reproduced on the test
   // robot. We do know that right now the test robot is available for driver practice and tuning. This is an enumeration of our
   //  robots and the characteristics specific to each.
@@ -102,13 +137,20 @@ public final class Constants {
   //   - Ki -
   //   - integral_zone -
   public enum Robots {
-    COMPETITION_ROBOT("competition", 0.009, true, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95),
-    PRACTICE_ROBOT("practice", 0.019, false, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5);
+    COMPETITION_ROBOT("competition", true, new ArrayList<DriveGear>(Arrays.asList(
+        new DriveGear("first", 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95),
+        new DriveGear("second", 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95)
+    )), 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95),
+    PRACTICE_ROBOT("practice", false, new ArrayList<DriveGear>(Arrays.asList(
+        new DriveGear("first", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5),
+        new DriveGear("second", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5)
+    )), 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5);
 
     // The robot configuration that is running.
     public final String ROBOT_NAME;
     // The setup of the drive PID for the Talon SRX
     public final double DRIVE_TURN_BIAS;
+    public final ArrayList<DriveGear> GEARS;
     public final boolean DRIVE_ENCODER_PHASE;
     public final double DRIVE_Kf;
     public final double DRIVE_Kp;
@@ -119,11 +161,12 @@ public final class Constants {
     public final double DRIVE_TICS_PER_INCH;
     public final double DRIVE_TICS_PER_DEGREE;
 
-    Robots(String robotName, double bias, boolean encoderPhase, double Kf, double Kp, double Ki,
+    Robots(String robotName, boolean encoderPhase, ArrayList<DriveGear> gears, double bias, double Kf, double Kp, double Ki,
            double integralZone, double maxRpm, double ticsPerInch, double ticsPerDegree) {
       ROBOT_NAME = robotName;
-      DRIVE_TURN_BIAS = bias;
       DRIVE_ENCODER_PHASE = encoderPhase;
+      GEARS = gears;
+      DRIVE_TURN_BIAS = bias;
       DRIVE_Kf = Kf;
       DRIVE_Kp = Kp;
       DRIVE_Ki = Ki;
@@ -179,6 +222,7 @@ public final class Constants {
     public final double POSITION;
     public final double UP_DECELERATION;
     public final double DOWN_DECELERATION;
+
     ArmPosition(double position, double upDeceleration, double downDeceleration) {
       POSITION = position;
       UP_DECELERATION = upDeceleration;

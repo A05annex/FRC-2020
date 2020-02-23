@@ -34,6 +34,7 @@ public class Limelight extends SubsystemBase {
   String streamMode;
 
   private MODE m_mode;
+  private STREAM m_stream;
 
   /**
    * Creates a new Limelight.
@@ -45,11 +46,12 @@ public class Limelight extends SubsystemBase {
     table.getEntry("ledMode").setNumber(1);  //1 is off, 2 is seizure mode, 3 is on
     table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)'
     */
+    setStream(STREAM.LIMELIGHT);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler run to
     // update vision variables
 //    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tv = m_table.getEntry("tv"); // whether there are any targets, 0 or 1
@@ -70,19 +72,16 @@ public class Limelight extends SubsystemBase {
 
   public void setMode(MODE mode) {
     switch(mode) {
-      case DRIVE:
-        m_table.getEntry("pipeline").setNumber(1); // driver pipeline
-        m_table.getEntry("ledMode").setNumber(1); //1 is off, 2 is seizure mode, 3 is on
-        break;
       case VISION:
         m_table.getEntry("pipeline").setNumber(0); // vision pipeline
         m_table.getEntry("ledMode").setNumber(3); //1 is off, 2 is seizure mode, 3 is on
         break;
+      case DRIVE:
       default:
-        // default to drive if something invalid is passed in.
         m_table.getEntry("pipeline").setNumber(1); // driver pipeline
         m_table.getEntry("ledMode").setNumber(1); //1 is off, 2 is seizure mode, 3 is on
         mode = MODE.DRIVE;
+        break;
     }
     m_mode = mode;
 
@@ -94,32 +93,31 @@ public class Limelight extends SubsystemBase {
   }
 
   public void toggleStream() {
-    setMode(m_mode == MODE.DRIVE ? MODE.VISION : MODE.DRIVE);
+    setStream(m_stream == STREAM.SECONDARY ? STREAM.LIMELIGHT :
+        (m_stream == STREAM.SIDE_BY_SIDE ? STREAM.SECONDARY : STREAM.SIDE_BY_SIDE));
   }
 
-  public void setStraam(MODE mode) {
-    switch(mode) {
-      case DRIVE:
-        m_table.getEntry("pipeline").setNumber(1); // driver pipeline
-        m_table.getEntry("ledMode").setNumber(1); //1 is off, 2 is seizure mode, 3 is on
+  public void setStream(STREAM stream) {
+    switch(stream) {
+      case SIDE_BY_SIDE:
+        m_table.getEntry("stream").setNumber(0);
         break;
-      case VISION:
-        m_table.getEntry("pipeline").setNumber(0); // vision pipeline
-        m_table.getEntry("ledMode").setNumber(3); //1 is off, 2 is seizure mode, 3 is on
+      case SECONDARY:
+        m_table.getEntry("stream").setNumber(2);
         break;
+      case LIMELIGHT:
       default:
-        // default to drive if something invalid is passed in.
-        m_table.getEntry("pipeline").setNumber(1); // driver pipeline
-        m_table.getEntry("ledMode").setNumber(1); //1 is off, 2 is seizure mode, 3 is on
-        mode = MODE.DRIVE;
+        // default to limelight if something invalid is passed in.
+        m_table.getEntry("stream").setNumber(1);
+        stream = STREAM.LIMELIGHT;
     }
-    m_mode = mode;
+    m_stream = stream;
 
 
   }
 
-  public MODE getStream() {
-    return m_mode;
+  public STREAM getStream() {
+    return m_stream;
   }
 
 
