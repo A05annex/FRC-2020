@@ -153,8 +153,8 @@ public class RobotContainer {
         new SetSweeperPower(m_sweeperSubsystem, -1) // set sweeper to dump
     ));
 
-    m_button7.whenPressed(new CollectorToPosition(m_armSubsystem, 32000));
-    m_button8.whenPressed(new AutoDrive(m_driveSubsystem, 72, 0.5));
+    m_button7.whenPressed(new AutoDrive(m_driveSubsystem, 240, 0.75));
+    m_button8.whenPressed(new AutoDrive(m_driveSubsystem, 72, 0.75));
     m_button9.whenPressed(new AutoTurn(m_driveSubsystem, 160, 0.5));
     m_button10.whenPressed(new SetSweeperPower(m_sweeperSubsystem, -1));
   }
