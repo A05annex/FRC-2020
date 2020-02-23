@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
     }
 
     m_limelight = m_robotContainer.getLimelight();
-    m_limelight.setDriveCamera();
+    m_limelight.setMode(Limelight.MODE.DRIVE);
 
     m_wheel = m_robotContainer.getBigWheel();
     m_drive = m_robotContainer.getDrive();

@@ -93,8 +93,8 @@ public class RobotContainer {
 //        m_xboxA.whenPressed(new SetNextRobot(this));
     m_xboxB.whenPressed(new SetNextDriver(this));
 
-    m_topLL.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
-    m_topUL.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.VISION_MODE));
+//    m_topLL.whenPressed(new SetLimelightMode(m_limelight, SetLimelightMode.DRIVER_MODE));
+    m_topUL.whenPressed(new ToggleLimeLightMode(m_limelight));
 
     m_topLR.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.LIMELIGHT_STREAM));
     m_topUR.whenPressed(new SetCameraStream(m_limelight, SetCameraStream.SECONDARY_STREAM));

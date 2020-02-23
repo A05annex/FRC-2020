@@ -19,7 +19,11 @@ public class Limelight extends SubsystemBase {
     VISION;
   }
 
-
+  public enum STREAM {
+    LIMELIGHT,
+    SIDE_BY_SIDE,
+    SECONDARY;
+  }
 
   NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");
   double v;
@@ -37,7 +41,6 @@ public class Limelight extends SubsystemBase {
   public Limelight() {
     // when initialized, use driver camera
     setMode(MODE.DRIVE);
-    setDriveCamera();
     /*
     table.getEntry("ledMode").setNumber(1);  //1 is off, 2 is seizure mode, 3 is on
     table.getEntry("camMode").setNumber(1);  //1 is driver mode (turns off vision processing)'
@@ -69,13 +72,16 @@ public class Limelight extends SubsystemBase {
     switch(mode) {
       case DRIVE:
         m_table.getEntry("pipeline").setNumber(1); // driver pipeline
+        m_table.getEntry("ledMode").setNumber(1); //1 is off, 2 is seizure mode, 3 is on
         break;
       case VISION:
         m_table.getEntry("pipeline").setNumber(0); // vision pipeline
+        m_table.getEntry("ledMode").setNumber(3); //1 is off, 2 is seizure mode, 3 is on
         break;
       default:
         // default to drive if something invalid is passed in.
         m_table.getEntry("pipeline").setNumber(1); // driver pipeline
+        m_table.getEntry("ledMode").setNumber(1); //1 is off, 2 is seizure mode, 3 is on
         mode = MODE.DRIVE;
     }
     m_mode = mode;
@@ -87,6 +93,34 @@ public class Limelight extends SubsystemBase {
     return m_mode;
   }
 
+  public void toggleStream() {
+    setMode(m_mode == MODE.DRIVE ? MODE.VISION : MODE.DRIVE);
+  }
+
+  public void setStraam(MODE mode) {
+    switch(mode) {
+      case DRIVE:
+        m_table.getEntry("pipeline").setNumber(1); // driver pipeline
+        m_table.getEntry("ledMode").setNumber(1); //1 is off, 2 is seizure mode, 3 is on
+        break;
+      case VISION:
+        m_table.getEntry("pipeline").setNumber(0); // vision pipeline
+        m_table.getEntry("ledMode").setNumber(3); //1 is off, 2 is seizure mode, 3 is on
+        break;
+      default:
+        // default to drive if something invalid is passed in.
+        m_table.getEntry("pipeline").setNumber(1); // driver pipeline
+        m_table.getEntry("ledMode").setNumber(1); //1 is off, 2 is seizure mode, 3 is on
+        mode = MODE.DRIVE;
+    }
+    m_mode = mode;
+
+
+  }
+
+  public MODE getStream() {
+    return m_mode;
+  }
 
 
   // set modes of the limelight camera
