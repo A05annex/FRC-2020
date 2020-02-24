@@ -99,8 +99,10 @@ public class RobotContainer {
     m_topLL.whenPressed(new ToggleLimeLightStream(m_limelight));
     m_topUL.whenPressed(new ToggleLimeLightMode(m_limelight));
 
-    m_topUR.whenPressed(new AutoDrive(m_driveSubsystem, 240.0, 0.75));
-    m_topLR.whenPressed(new AutoDrive(m_driveSubsystem, -240.0, 0.75));
+//    m_topUR.whenPressed(new AutoDrive(m_driveSubsystem, 60.0, 0.75));
+//    m_topLR.whenPressed(new AutoDrive(m_driveSubsystem, -240.0, 0.75));
+//    m_topUR.whenPressed(new AutoTurn(m_driveSubsystem, 90.0, 0.5));
+//    m_topLR.whenPressed(new AutoTurn(m_driveSubsystem, -90.0, 0.5));
 
     m_thumb.whenPressed(new ToggleShift(m_driveSubsystem));
 
