@@ -79,7 +79,7 @@ public class RobotContainer {
     m_driveSubsystem.setRobot();
     // Set the default commands for subsystems
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
-    m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
+    //m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
     //m_armSubsystem.setDefaultCommand(m_manualCollector);
     m_spinnerSubsystem.setDefaultCommand(m_runSpinner);
     // Configure the button bindings
@@ -155,8 +155,8 @@ public class RobotContainer {
 
     m_button7.whenPressed(new AutoDrive(m_driveSubsystem, 240, 0.75));
     m_button8.whenPressed(new AutoDrive(m_driveSubsystem, 72, 0.75));
-    m_button9.whenPressed(new AutoTurn(m_driveSubsystem, 160, 0.5));
-    m_button10.whenPressed(new SetSweeperPower(m_sweeperSubsystem, -1));
+    m_button9.whenPressed(new AutoTurn(m_driveSubsystem, 180, 0.5));
+    m_button10.whenPressed(new AutoTurn(m_driveSubsystem, -180, 0.5));
   }
 
   public void resetRobot() {
@@ -186,6 +186,14 @@ public class RobotContainer {
 
   public DriveSubsystem getDriveSubsystem() {
     return m_driveSubsystem;
+  }
+
+  public SweeperSubsystem getSweeperSubsystem() {
+    return m_sweeperSubsystem;
+  }
+  
+  public RunSweeper getSweeperCommand() {
+    return m_runSweeper;
   }
 
 }

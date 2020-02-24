@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RampInOut;
@@ -26,7 +27,7 @@ public class AutoTurn extends CommandBase {
   /**
    * Turns for a certain amount of degrees, at a certian speed.
    * @param driveSubsystem The drive subsystem.
-   * @param degrees Amount of degrees to turn.
+   * @param degrees Amount of degrees to turn. Clockwise is positive.
    * @param speed Speed from 1 to 0. Do not make this negative!
    */
   public AutoTurn(DriveSubsystem driveSubsystem, double degrees, double speed) {
@@ -49,7 +50,7 @@ public class AutoTurn extends CommandBase {
   @Override
   public void initialize() {
     startDifference = m_driveSubsystem.getDifferencePosition();
-    ramp = new RampInOut(0, m_difference, m_speed, .1, 30 * Constants.ROBOT.DRIVE_TICS_PER_DEGREE, .1, 30 * Constants.ROBOT.DRIVE_TICS_PER_DEGREE);
+    ramp = new RampInOut(0, m_difference, m_speed, .25, 30 * Constants.ROBOT.DRIVE_TICS_PER_DEGREE, .2, 30 * Constants.ROBOT.DRIVE_TICS_PER_DEGREE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
