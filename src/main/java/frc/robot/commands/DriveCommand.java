@@ -54,7 +54,7 @@ public class DriveCommand extends CommandBase {
         (Constants.DRIVER.DRIVE_TURN_GAIN +
             (useSpeed * (Constants.DRIVER.DRIVE_TURN_AT_SPEED_GAIN - Constants.DRIVER.DRIVE_TURN_GAIN)));
     // Now set the speeds
-    m_driveSubsystem.setArcadeSpeed(forward, rotate);
+    m_driveSubsystem.setArcadeSpeed(forward, rotate, 0.0 == rotate, 0.0 != rotate);
   }
 
   // Called once the command ends or is interrupted.

@@ -32,6 +32,9 @@ public class RobotContainer {
   private final SpinnerSubsystem m_spinnerSubsystem = new SpinnerSubsystem();
   private final SpinnerSolenoid m_spinnerSolenoid = new SpinnerSolenoid();
 
+  // Sensor initialization.
+  private final NavX m_navx = NavX.getInstance();
+
   // The driver station buttons
   // - the joystick and buttons
   private final Joystick m_stick = new Joystick(0);
@@ -95,6 +98,9 @@ public class RobotContainer {
 
     m_topLL.whenPressed(new ToggleLimeLightStream(m_limelight));
     m_topUL.whenPressed(new ToggleLimeLightMode(m_limelight));
+
+    m_topUR.whenPressed(new AutoDrive(m_driveSubsystem, 240.0, 0.75));
+    m_topLR.whenPressed(new AutoDrive(m_driveSubsystem, -240.0, 0.75));
 
     m_thumb.whenPressed(new ToggleShift(m_driveSubsystem));
 

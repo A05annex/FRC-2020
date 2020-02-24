@@ -112,8 +112,6 @@ public class Limelight extends SubsystemBase {
         stream = STREAM.LIMELIGHT;
     }
     m_stream = stream;
-
-
   }
 
   public STREAM getStream() {

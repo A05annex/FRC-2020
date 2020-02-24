@@ -111,7 +111,8 @@ public final class Constants {
     public final double DRIVE_TICS_PER_DEGREE;
 
     DriveGear(String gearName, double bias, double Kf, double Kp, double Ki,
-              double integralZone, double maxRpm, double ticsPerInch, double ticsPerDegree) {
+              double integralZone, double maxRpm,
+              double ticsPerInch, double ticsPerDegree) {
       GEAR_NAME = gearName;
       DRIVE_TURN_BIAS = bias;
       DRIVE_Kf = Kf;
@@ -140,11 +141,11 @@ public final class Constants {
     COMPETITION_ROBOT("competition", true, new ArrayList<DriveGear>(Arrays.asList(
         new DriveGear("first", 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95),
         new DriveGear("second", 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95)
-    )), 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95),
+    )), 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 446.27),
     PRACTICE_ROBOT("practice", false, new ArrayList<DriveGear>(Arrays.asList(
         new DriveGear("first", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5),
         new DriveGear("second", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5)
-    )), 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5);
+    )), 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02,52.54, 13.5);
 
     // The robot configuration that is running.
     public final String ROBOT_NAME;
@@ -157,12 +158,14 @@ public final class Constants {
     public final double DRIVE_Ki;
     public final double DRIVE_INTEGRAL_ZONE;
     public final double DRIVE_MAX_RPM;
+    public final double DRIVE_HEADING_Kp;
     // The encoder values for autonomous move some distance and turn some degrees.
     public final double DRIVE_TICS_PER_INCH;
     public final double DRIVE_TICS_PER_DEGREE;
 
-    Robots(String robotName, boolean encoderPhase, ArrayList<DriveGear> gears, double bias, double Kf, double Kp, double Ki,
-           double integralZone, double maxRpm, double ticsPerInch, double ticsPerDegree) {
+    Robots(String robotName, boolean encoderPhase, ArrayList<DriveGear> gears, double bias,
+           double Kf, double Kp, double Ki, double integralZone, double maxRpm,
+           double headingKp,double ticsPerInch, double ticsPerDegree) {
       ROBOT_NAME = robotName;
       DRIVE_ENCODER_PHASE = encoderPhase;
       GEARS = gears;
@@ -172,6 +175,7 @@ public final class Constants {
       DRIVE_Ki = Ki;
       DRIVE_INTEGRAL_ZONE = integralZone;
       DRIVE_MAX_RPM = maxRpm;
+      DRIVE_HEADING_Kp = headingKp;
       DRIVE_TICS_PER_INCH = ticsPerInch;
       DRIVE_TICS_PER_DEGREE = ticsPerDegree;
     }

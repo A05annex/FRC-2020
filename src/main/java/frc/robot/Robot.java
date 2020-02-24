@@ -45,13 +45,16 @@ public class Robot extends TimedRobot {
 
     dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
+    NavX.HeadingInfo headinnInfo = NavX.getInstance().getHeadingInfo();
+    dashboardTelemetry(1, "expected:", headinnInfo.expectedHeading);
+    dashboardTelemetry(6, "actual", headinnInfo.heading);
 
     dashboardTelemetry(2, "drive gear", m_drive.getGear().toString());
     dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
     dashboardTelemetry(4, "spinner enc", m_wheel.getEncoder());
 
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
-    dashboardTelemetry(8, "stream", m_limelight.getStreamMode());
+    dashboardTelemetry(8, "stream", m_limelight.getStream().toString());
   }
 
   /**
@@ -68,6 +71,7 @@ public class Robot extends TimedRobot {
     for (int i = 0; i < 10; i++) {
       SmartDashboard.putString(String.format("DB/String %d", i), " ");
     }
+    NavX.getInstance().initializeHeadingAndNav();
 
     m_limelight = m_robotContainer.getLimelight();
     m_limelight.setMode(Limelight.MODE.DRIVE);
@@ -117,6 +121,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 //    Constants.ROBOT = robotChooser.getSelected();
 //    m_robotContainer.resetRobot();
+    NavX.getInstance().initializeHeadingAndNav();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -137,6 +142,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 //    Constants.ROBOT = robotChooser.getSelected();
 //    m_robotContainer.resetRobot();
+    NavX.getInstance().initializeHeadingAndNav();
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
