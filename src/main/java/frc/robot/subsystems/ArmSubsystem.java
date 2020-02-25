@@ -30,7 +30,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_position.configFactoryDefault();
     m_position.setNeutralMode(NeutralMode.Coast);
     m_position.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    m_position.setSelectedSensorPosition( (int)Constants.ArmPosition.START_POSITION.POSITION,
+    m_position.setSelectedSensorPosition((int) Constants.ArmPosition.START_POSITION.POSITION,
         0, 10);
     m_position.setSensorPhase(true);
 

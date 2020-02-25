@@ -98,33 +98,6 @@ public final class Constants {
     SECOND;
   }
 
-  public static class DriveGear {
-    public final String GEAR_NAME;
-    public final double DRIVE_TURN_BIAS;
-    public final double DRIVE_Kf;
-    public final double DRIVE_Kp;
-    public final double DRIVE_Ki;
-    public final double DRIVE_INTEGRAL_ZONE;
-    public final double DRIVE_MAX_RPM;
-    // The encoder values for autonomous move some distance and turn some degrees.
-    public final double DRIVE_TICS_PER_INCH;
-    public final double DRIVE_TICS_PER_DEGREE;
-
-    DriveGear(String gearName, double bias, double Kf, double Kp, double Ki,
-              double integralZone, double maxRpm,
-              double ticsPerInch, double ticsPerDegree) {
-      GEAR_NAME = gearName;
-      DRIVE_TURN_BIAS = bias;
-      DRIVE_Kf = Kf;
-      DRIVE_Kp = Kp;
-      DRIVE_Ki = Ki;
-      DRIVE_INTEGRAL_ZONE = integralZone;
-      DRIVE_MAX_RPM = maxRpm;
-      DRIVE_TICS_PER_INCH = ticsPerInch;
-      DRIVE_TICS_PER_DEGREE = ticsPerDegree;
-    }
-  }
-
   // We have a competition robot and a test robot. It is unclear which parts of the competition will be reproduced on the test
   // robot. We do know that right now the test robot is available for driver practice and tuning. This is an enumeration of our
   //  robots and the characteristics specific to each.
@@ -139,20 +112,21 @@ public final class Constants {
   //   - integral_zone -
   public enum Robots {
     COMPETITION_ROBOT("competition", true, new ArrayList<DriveGear>(Arrays.asList(
-        new DriveGear("first", 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95),
-        new DriveGear("second", 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 1781.87, 457.95)
-    )), 0.009, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5),
+        new DriveGear("first", 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5),
+        new DriveGear("second", 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5)
+    )), 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5),
     PRACTICE_ROBOT("practice", false, new ArrayList<DriveGear>(Arrays.asList(
-        new DriveGear("first", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5),
-        new DriveGear("second", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 52.54, 13.5)
-    )), 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02,52.54, 13.5);
+        new DriveGear("first", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5),
+        new DriveGear("second", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5)
+    )), 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5);
 
     // The robot configuration that is running.
     public final String ROBOT_NAME;
+    public final boolean DRIVE_ENCODER_PHASE;
+    // The gear info - gear-specific deive PID information.
+    public final ArrayList<DriveGear> GEARS;
     // The setup of the drive PID for the Talon SRX
     public final double DRIVE_TURN_BIAS;
-    public final ArrayList<DriveGear> GEARS;
-    public final boolean DRIVE_ENCODER_PHASE;
     public final double DRIVE_Kf;
     public final double DRIVE_Kp;
     public final double DRIVE_Ki;
@@ -165,7 +139,7 @@ public final class Constants {
 
     Robots(String robotName, boolean encoderPhase, ArrayList<DriveGear> gears, double bias,
            double Kf, double Kp, double Ki, double integralZone, double maxRpm,
-           double headingKp,double ticsPerInch, double ticsPerDegree) {
+           double headingKp, double ticsPerInch, double ticsPerDegree) {
       ROBOT_NAME = robotName;
       DRIVE_ENCODER_PHASE = encoderPhase;
       GEARS = gears;
@@ -189,33 +163,6 @@ public final class Constants {
     }
   }
 
-  public static final class MotorControllers {
-    public static int
-        DRIVE_RIGHT_MASTER = 1,
-        DRIVE_RIGHT_SLAVE_1 = 2,
-        DRIVE_RIGHT_SLAVE_2 = 3,
-        DRIVE_LEFT_MASTER = 4,
-        DRIVE_LEFT_SLAVE_1 = 5,
-        DRIVE_LEFT_SLAVE_2 = 6,
-        COLLECTOR_POSITION = 7,
-        COLLECTOR_SWEEPER = 8,
-        SPINNER = 9,
-        LIFT_WINCH = 10;
-  }
-
-  public static final class Pneumatics {
-    public static int DRIVE_SHIFTER = 0,
-        SPINNER_LIFT = 1,
-        LOWER_LIFT_RETRACT = 2,
-        LOWER_LIFT_EXTEND = 3,
-        UPPER_LIFT_RETRACT = 4,
-        UPPER_LIFT_EXTEND = 5,
-        LIFT_PRESSURE_DUMP = 6;
-  }
-
-  // -----------------------------------------------------------------------------------------------------------------------------
-  // Tuning IMU control of direction (heading)
-
   public enum ArmPosition {
     START_POSITION(87600, 0, 0),
     FLOOR_POSITION(500, 0, 0),
@@ -233,6 +180,62 @@ public final class Constants {
       DOWN_DECELERATION = downDeceleration;
     }
 
+  }
+
+  public static class DriveGear {
+    public final String GEAR_NAME;
+    public final double DRIVE_TURN_BIAS;
+    public final double DRIVE_Kf;
+    public final double DRIVE_Kp;
+    public final double DRIVE_Ki;
+    public final double DRIVE_INTEGRAL_ZONE;
+    public final double DRIVE_MAX_RPM;
+    public final double DRIVE_HEADING_Kp;
+    // The encoder values for autonomous move some distance and turn some degrees.
+    public final double DRIVE_TICS_PER_INCH;
+    public final double DRIVE_TICS_PER_DEGREE;
+
+    DriveGear(String gearName, double bias, double Kf, double Kp, double Ki,
+              double integralZone, double maxRpm, double headingKp,
+              double ticsPerInch, double ticsPerDegree) {
+      GEAR_NAME = gearName;
+      DRIVE_TURN_BIAS = bias;
+      DRIVE_Kf = Kf;
+      DRIVE_Kp = Kp;
+      DRIVE_Ki = Ki;
+      DRIVE_INTEGRAL_ZONE = integralZone;
+      DRIVE_MAX_RPM = maxRpm;
+      DRIVE_HEADING_Kp = headingKp;
+      DRIVE_TICS_PER_INCH = ticsPerInch;
+      DRIVE_TICS_PER_DEGREE = ticsPerDegree;
+    }
+  }
+
+  public static final class MotorControllers {
+    public static int
+        DRIVE_RIGHT_MASTER = 1,
+        DRIVE_RIGHT_SLAVE_1 = 2,
+        DRIVE_RIGHT_SLAVE_2 = 3,
+        DRIVE_LEFT_MASTER = 4,
+        DRIVE_LEFT_SLAVE_1 = 5,
+        DRIVE_LEFT_SLAVE_2 = 6,
+        COLLECTOR_POSITION = 7,
+        COLLECTOR_SWEEPER = 8,
+        SPINNER = 9,
+        LIFT_WINCH = 10;
+  }
+
+  // -----------------------------------------------------------------------------------------------------------------------------
+  // Tuning IMU control of direction (heading)
+
+  public static final class Pneumatics {
+    public static int DRIVE_SHIFTER = 0,
+        SPINNER_LIFT = 1,
+        LOWER_LIFT_RETRACT = 2,
+        LOWER_LIFT_EXTEND = 3,
+        UPPER_LIFT_RETRACT = 4,
+        UPPER_LIFT_EXTEND = 5,
+        LIFT_PRESSURE_DUMP = 6;
   }
 
 }

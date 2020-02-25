@@ -25,9 +25,10 @@ public class AutoDrive extends CommandBase {
 
   /**
    * Drives straight forwards for a certian amount of inches, at a certian speed.
-   * @param driveSubsystem The drive subsystem.
+   *
+   * @param driveSubsystem   The drive subsystem.
    * @param distanceInInches Distance to travel in inches.
-   * @param speed Speed from 1 to 0. Do not make this negative!
+   * @param speed            Speed from 1 to 0. Do not make this negative!
    */
   public AutoDrive(DriveSubsystem driveSubsystem, double distanceInInches, double speed) {
     m_driveSubsystem = driveSubsystem;

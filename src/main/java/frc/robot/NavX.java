@@ -24,6 +24,7 @@ public class NavX {
   private double m_refPitch = 0.0;
   private double m_refYaw = 0.0;
   private double m_refRoll = 0.0;
+
   private NavX() {
     // So, if there is no navx, there is no error - it just keeps trying to connect forever, so this
     // needs to be on a thread that can be killed if it doesn't connect in time ......
@@ -62,13 +63,13 @@ public class NavX {
 
   /**
    * Change the expected heading by the specified number of degrees.
+   *
    * @param degrees
    */
   public void incrementExpectedHeading(double degrees) {
     m_expectedHeading += degrees;
 
   }
-
 
 
   /**

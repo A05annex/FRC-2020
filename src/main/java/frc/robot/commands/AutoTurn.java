@@ -29,12 +29,12 @@ public class AutoTurn extends CommandBase {
   private double differenceDifference;
 
 
-
   /**
    * Turns for a certain amount of degrees, at a certain speed.
+   *
    * @param driveSubsystem The drive subsystem.
-   * @param degrees Amount of degrees to turn positive is clockwise
-   * @param speed Speed from 1 to 0. Do not make this negative!
+   * @param degrees        Amount of degrees to turn positive is clockwise
+   * @param speed          Speed from 1 to 0. Do not make this negative!
    */
   public AutoTurn(DriveSubsystem driveSubsystem, double degrees, double speed) {
     m_driveSubsystem = driveSubsystem;

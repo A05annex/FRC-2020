@@ -64,14 +64,18 @@ public class RampInOut {
       double pathValue = m_maxValue;
       if (pathCurrent <= (m_pathStart + m_pathAcceleration)) {
         // In the ramp up zone
-        double accelValue = m_accelerationMin + ((1 - m_accelerationMin) * ((pathCurrent - m_pathStart) / m_pathAcceleration));
+        double accelValue = m_accelerationMin +
+            ((1.0 - m_accelerationMin) * ((pathCurrent - m_pathStart) / m_pathAcceleration));
         if (accelValue < pathValue) {
           pathValue = accelValue;
         }
       }
       if (pathCurrent > (m_pathEnd - m_pathDeceleration)) {
-        // In the ramp down zone
-        double decelValue = m_decelerationMin + ((1 - m_decelerationMin) * ((m_pathEnd - pathCurrent) / m_pathAcceleration));
+        // In the ramp down zone - OK, this is always bad because the inertia overwhelms the ramp and everything always goes
+        // too far - what if we apply a power function to the reduction so we get high early deceleration and then we ease
+        // in at min speed.
+        double decelValue = m_decelerationMin +
+            ((1.0 - m_decelerationMin) * Math.pow(((m_pathEnd - pathCurrent) / m_pathAcceleration), 2.0));
         if (decelValue < pathValue) {
           pathValue = decelValue;
         }
@@ -89,14 +93,18 @@ public class RampInOut {
       double pathValue = m_maxValue;
       if (pathCurrent >= (m_pathStart - m_pathAcceleration)) {
         // In the ramp up zone
-        double accelValue = m_accelerationMin + ((1 - m_accelerationMin) * ((m_pathStart - pathCurrent) / m_pathAcceleration));
+        double accelValue = m_accelerationMin +
+            ((1.0 - m_accelerationMin) * ((m_pathStart - pathCurrent) / m_pathAcceleration));
         if (accelValue < pathValue) {
           pathValue = accelValue;
         }
       }
       if (pathCurrent < (m_pathEnd + m_pathDeceleration)) {
-        // In the ramp down zone
-        double decelValue = m_decelerationMin + ((1 - m_decelerationMin) * ((pathCurrent - m_pathEnd) / m_pathAcceleration));
+        // In the ramp down zone - OK, this is always bad because the inertia overwhelms the ramp and everything always goes
+        // too far - what if we apply a power function to the reduction so we get high early deceleration and then we ease
+        // in at min speed.
+        double decelValue = m_decelerationMin +
+            ((1.0 - m_decelerationMin) * Math.pow((((pathCurrent - m_pathEnd) / m_pathAcceleration)), 2.0));
         if (decelValue < pathValue) {
           pathValue = decelValue;
         }

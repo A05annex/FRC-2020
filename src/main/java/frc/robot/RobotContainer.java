@@ -109,7 +109,7 @@ public class RobotContainer {
     m_button12.whenPressed(new LiftCylinderControl(m_liftSubsystem,
         LiftCylinderControl.LOWER_CYLINDER, LiftCylinderControl.EXTENDED));
     m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem,
-        LiftCylinderControl.UPPER_CYLINDER,LiftCylinderControl.EXTENDED));
+        LiftCylinderControl.UPPER_CYLINDER, LiftCylinderControl.EXTENDED));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 1));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -1));
 

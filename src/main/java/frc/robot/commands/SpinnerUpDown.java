@@ -12,11 +12,6 @@ import frc.robot.subsystems.SpinnerSolenoid;
 
 public class SpinnerUpDown extends CommandBase {
 
-  public class Position {
-    public static final boolean DOWN = false;
-    public static final boolean UP = true;
-  }
-
   private final boolean m_position;
   private final SpinnerSolenoid m_spinnerSolenoid;
 
@@ -53,6 +48,11 @@ public class SpinnerUpDown extends CommandBase {
   @Override
   public boolean isFinished() {
     return true;
+  }
+
+  public class Position {
+    public static final boolean DOWN = false;
+    public static final boolean UP = true;
   }
 }
 

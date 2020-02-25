@@ -19,14 +19,8 @@ import frc.robot.NavX;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  public enum GEAR {
-    FIRST,
-    SECOND;
-  }
-
   private double m_targetLeftSpeed;
   private double m_targetRightSpeed;
-
   private Solenoid m_shifter = new Solenoid(Constants.Pneumatics.DRIVE_SHIFTER);
   private TalonSRX m_rightMaster = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_MASTER);
   private TalonSRX m_rm2 = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_SLAVE_1);
@@ -34,7 +28,6 @@ public class DriveSubsystem extends SubsystemBase {
   private TalonSRX m_leftMaster = new TalonSRX(Constants.MotorControllers.DRIVE_LEFT_MASTER);
   private TalonSRX m_lm2 = new TalonSRX(Constants.MotorControllers.DRIVE_LEFT_SLAVE_1);
   private TalonSRX m_lm3 = new TalonSRX(Constants.MotorControllers.DRIVE_LEFT_SLAVE_2);
-
   private NavX m_navx = NavX.getInstance();
 
   /**
@@ -234,21 +227,21 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
+   * Get the current gear.
+   *
+   * @return ({ @ link DriveSubsystem # GEAR }) the current gear.
+   */
+  public GEAR getGear() {
+    return m_shifter.get() ? GEAR.SECOND : GEAR.FIRST;
+  }
+
+  /**
    * Set the gear.
    *
    * @param gear ({@link DriveSubsystem#GEAR}) the gear to set.
    */
   public void setGear(GEAR gear) {
     m_shifter.set(GEAR.SECOND == gear);
-  }
-
-  /**
-   * Get the current gear.
-   *
-   * @return ({@link DriveSubsystem#GEAR}) the current gear.
-   */
-  public GEAR getGear() {
-    return m_shifter.get() ? GEAR.SECOND : GEAR.FIRST;
   }
 
   /**
@@ -263,5 +256,10 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getDifferencePosition() {
     return m_leftMaster.getSelectedSensorPosition() - m_rightMaster.getSelectedSensorPosition();
+  }
+
+  public enum GEAR {
+    FIRST,
+    SECOND;
   }
 }
