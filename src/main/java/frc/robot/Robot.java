@@ -128,6 +128,7 @@ public class Robot extends TimedRobot {
 //    Constants.ROBOT = robotChooser.getSelected();
 //    m_robotContainer.resetRobot();
     NavX.getInstance().initializeHeadingAndNav();
+    ArmSubsystem.getInstance().initializeArmEncoder();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
         AutonomousCommands.getDefaultName()));
