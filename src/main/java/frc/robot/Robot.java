@@ -54,10 +54,13 @@ public class Robot extends TimedRobot {
 
     dashboardTelemetry(2, "drive gear", m_drive.getGear().toString());
     dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
-    dashboardTelemetry(4, "spinner enc", m_wheel.getEncoder());
+    dashboardTelemetry(4, "arm pwr", ArmSubsystem.getInstance().getPositionPower());
 
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
     dashboardTelemetry(8, "stream", m_limelight.getStream().toString());
+    //dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder());
+    dashboardTelemetry(9,"button A", m_robotContainer.getXbox().getAButton());
+
   }
 
   /**

@@ -106,6 +106,9 @@ public class RobotContainer {
 
     m_thumb.whenPressed(new ToggleShift(m_driveSubsystem));
 
+//    m_button9.whenPressed(new AutoTurn(m_driveSubsystem, 90.0, 0.3));
+//    m_button11.whenPressed(new AutoTurn(m_driveSubsystem, -90.0, 0.3));
+
     m_button12.whenPressed(new LiftCylinderControl(m_liftSubsystem,
         LiftCylinderControl.LOWER_CYLINDER, LiftCylinderControl.EXTENDED));
     m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem,
@@ -153,4 +156,5 @@ public class RobotContainer {
     return m_driveSubsystem;
   }
 
+  public XboxController getXbox() { return m_xbox; }
 }

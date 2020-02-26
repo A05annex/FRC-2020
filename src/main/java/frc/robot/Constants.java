@@ -114,7 +114,7 @@ public final class Constants {
     COMPETITION_ROBOT("competition", true, new ArrayList<DriveGear>(Arrays.asList(
         new DriveGear("first", 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5),
         new DriveGear("second", 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5)
-    )), 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5),
+    )), 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 400.0),
     PRACTICE_ROBOT("practice", false, new ArrayList<DriveGear>(Arrays.asList(
         new DriveGear("first", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5),
         new DriveGear("second", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5)
@@ -164,10 +164,10 @@ public final class Constants {
   }
 
   public enum ArmPosition {
-    START_POSITION(87600, 0, 0),
+    START_POSITION(90000, 0, 0),
     FLOOR_POSITION(500, 0, 0),
-    DELIVER_POSITION(32000, 2330, 2300),
-    COLLECT_POSITION(43000, 3720, 1500);
+    DELIVER_POSITION(34000, 2330, 2300),
+    COLLECT_POSITION(48000, 3720, 1500);
 
 
     public final double POSITION;

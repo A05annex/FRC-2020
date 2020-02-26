@@ -15,7 +15,7 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoTurn extends CommandBase {
 
-  static private final double EXPECTED_OVERSHOOT = 10.0;
+  static private final double EXPECTED_OVERSHOOT = 0.0;
 
   private final DriveSubsystem m_driveSubsystem;
   private double m_difference;
@@ -62,7 +62,7 @@ public class AutoTurn extends CommandBase {
     }
     startDifference = m_driveSubsystem.getDifferencePosition();
     ramp = new RampInOut(m_startHeading, headingInfo.expectedHeading, m_speed,
-        .25, 30, .2, 40);
+        .25, 30, .10, 50);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -30,6 +30,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_position.configFactoryDefault();
     m_position.setNeutralMode(NeutralMode.Coast);
     m_position.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+//    m_position.setSelectedSensorPosition(0,
+//        0, 10);
     m_position.setSelectedSensorPosition((int) Constants.ArmPosition.START_POSITION.POSITION,
         0, 10);
     m_position.setSensorPhase(true);
@@ -54,18 +56,20 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setPositionPower(double power) {
-    if ((m_position.getSelectedSensorPosition() < 0.0) && (power < 0.0)) {
-      power = 0;
-    } else if ((m_position.getSelectedSensorPosition() > 43500.0) && (power > 0.0)) {
-      power = .05;
-    } else if (m_position.getSelectedSensorPosition() > 73000.0) {
-      if (power >= 0.0) {
-        power = -0.05;
-      } else {
-        power = power - .2;
-      }
-    } else {
+    double position = m_position.getSelectedSensorPosition();
+    double upAdder;
+    if ((position < 0.0) && (power < 0.0)) {
+      power = 0.0;
+    } else if (position < 35000.0) {
       power = .2 + power;
+    } else if (position < 50000.0) {
+      power = .1 + power;
+    } else if (position < 60000.0) {
+      if (power >= 0.0) {
+        power = 0.5;
+      } else {
+        power = .05 + power;
+      }
     }
     m_position.set(ControlMode.PercentOutput, power);
   }
