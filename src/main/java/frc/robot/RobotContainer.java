@@ -80,7 +80,7 @@ public class RobotContainer {
     m_driveSubsystem.setRobot();
     // Set the default commands for subsystems
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
-    m_sweeperSubsystem.setDefaultCommand(m_runSweeper);
+    //m_sweeperSubsystem.setDefaultCommand(m_runSweeper); // do this in teleop init instead
     m_armSubsystem.setDefaultCommand(m_manualCollector);
     m_spinnerSubsystem.setDefaultCommand(m_runSpinner);
     // Configure the button bindings

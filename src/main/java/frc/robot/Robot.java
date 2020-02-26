@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
     }
 
     // set sweeper command at teleop init
-    //m_robotContainer.getSweeperSubsystem().setDefaultCommand(m_robotContainer.getSweeperCommand());
+    m_robotContainer.getSweeperSubsystem().setDefaultCommand(m_robotContainer.getSweeperCommand());
   }
 
   /**

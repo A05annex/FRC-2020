@@ -6,10 +6,10 @@ import edu.wpi.first.wpilibj2.command.Command;
  * The autonomous Command Programs
  */
 public enum AutonomousCommands {
-  POSITION1("extreme right", null /* Put extreme right start command group here */ ),
-  POSITION2("right", null /* Put right start command group here */),
-  POSITION3("middle", null /* Put center start command group here */),
-  POSITION4("left", null /* Put left start command group here */);
+  POSITION1("center", null),
+  POSITION2("right", null),
+  POSITION3("left", null),
+  POSITION4("full", null);
 
 
   public final String NAME;
@@ -30,10 +30,10 @@ public enum AutonomousCommands {
   }
 
   static public Command getDefaultCommand() {
-    return POSITION2.COMMAND;
+    return POSITION1.COMMAND;
   }
 
   static public String getDefaultName() {
-    return POSITION2.NAME;
+    return POSITION1.NAME;
   }
 }

@@ -23,10 +23,6 @@ public class ArmSubsystem extends SubsystemBase {
    * should use the {@link #getInstance()} method to get the instance.
    */
   private ArmSubsystem() {
-    // TODO: Set the default command, if any, for this subsystem by calling setDefaultCommand(command)
-    //       in the constructor or in the robot coordination class, such as RobotContainer.
-    //       Also, you can call addChild(name, sendableChild) to associate sendables with the subsystem
-    //       such as SpeedControllers, Encoders, DigitalInputs, etc.
     m_position.configFactoryDefault();
     m_position.setNeutralMode(NeutralMode.Coast);
     m_position.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
@@ -59,7 +55,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setPositionPower(double power) {
     double position = m_position.getSelectedSensorPosition();
-    double upAdder;
     if ((position < 0.0) && (power < 0.0)) {
       power = 0.0;
     } else if (position < 35000.0) {
