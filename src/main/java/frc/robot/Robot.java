@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 
     dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
-    dashboardTelemetry(1, "auto:", SmartDashboard.getString("Auto Selector","unknown"));
+    dashboardTelemetry(1, "auto", SmartDashboard.getString("Auto Selector","unknown"));
 
     dashboardTelemetry(2, "drive gear", m_drive.getGear().toString());
     dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
