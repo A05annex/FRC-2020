@@ -71,6 +71,7 @@ public class RobotContainer {
   private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
   private final RunSpinner m_runSpinner = new RunSpinner(m_spinnerSubsystem, m_xbox);
 
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -99,19 +100,11 @@ public class RobotContainer {
     m_topLL.whenPressed(new ToggleLimeLightStream(m_limelight));
     m_topUL.whenPressed(new ToggleLimeLightMode(m_limelight));
 
-//    m_topUR.whenPressed(new AutoDrive(m_driveSubsystem, 60.0, 0.75));
-//    m_topLR.whenPressed(new AutoDrive(m_driveSubsystem, -240.0, 0.75));
-//    m_topUR.whenPressed(new AutoTurn(m_driveSubsystem, 90.0, 0.5));
-//    m_topLR.whenPressed(new AutoTurn(m_driveSubsystem, -90.0, 0.5));
-
     m_thumb.whenPressed(new ToggleShift(m_driveSubsystem));
 
-//    m_button9.whenPressed(new AutoTurn(m_driveSubsystem, 90.0, 0.3));
-//    m_button11.whenPressed(new AutoTurn(m_driveSubsystem, -90.0, 0.3));
-
-    m_button12.whenPressed(new LiftCylinderControl(m_liftSubsystem,
+    m_button12.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
         LiftCylinderControl.LOWER_CYLINDER, LiftCylinderControl.EXTENDED));
-    m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem,
+    m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
         LiftCylinderControl.UPPER_CYLINDER, LiftCylinderControl.EXTENDED));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 1));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -1));
@@ -135,6 +128,10 @@ public class RobotContainer {
 
   }
 
+  public XboxController getXbox() {
+    return m_xbox;
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -155,8 +152,6 @@ public class RobotContainer {
   public DriveSubsystem getDrive() {
     return m_driveSubsystem;
   }
-
-  public XboxController getXbox() { return m_xbox; }
 
   public SweeperSubsystem getSweeperSubsystem() {
     return m_sweeperSubsystem;

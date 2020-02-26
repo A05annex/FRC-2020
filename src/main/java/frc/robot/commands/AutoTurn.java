@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.NavX;
 import frc.robot.RampInOut;
 import frc.robot.subsystems.DriveSubsystem;
@@ -18,15 +17,11 @@ public class AutoTurn extends CommandBase {
   static private final double EXPECTED_OVERSHOOT = 0.0;
 
   private final DriveSubsystem m_driveSubsystem;
-  private double m_difference;
   private double m_speed;
   private double m_degrees;
-  private double m_startHeading;
-  private boolean clockwise;
-  private double directionMult;
-  private double startDifference;
-  private RampInOut ramp;
-  private double differenceDifference;
+  private boolean m_clockwise;
+  private double m_directionMult;
+  private RampInOut m_ramp;
 
 
   /**
@@ -49,27 +44,24 @@ public class AutoTurn extends CommandBase {
   public void initialize() {
     NavX.getInstance().incrementExpectedHeading(m_degrees);
     NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
-    m_startHeading = headingInfo.heading;
     double actualDegrees = (headingInfo.expectedHeading - headingInfo.heading);
-    m_difference = actualDegrees * Constants.ROBOT.DRIVE_TICS_PER_DEGREE;
     // reverse speed if degrees are negative
     if (actualDegrees < 0) {
-      clockwise = false;
-      directionMult = 1;
+      m_clockwise = false;
+      m_directionMult = 1;
     } else {
-      clockwise = true;
-      directionMult = -1;
+      m_clockwise = true;
+      m_directionMult = -1;
     }
-    startDifference = m_driveSubsystem.getDifferencePosition();
-    ramp = new RampInOut(m_startHeading, headingInfo.expectedHeading, m_speed,
-        .25, 30, .10, 50);
+    m_ramp = new RampInOut(headingInfo.heading, headingInfo.expectedHeading, m_speed,
+        .25, 20, .10, 50);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
-    m_driveSubsystem.setArcadeSpeed(0, ramp.getValueAtPosition(headingInfo.heading) * directionMult,
+    m_driveSubsystem.setArcadeSpeed(0, m_ramp.getValueAtPosition(headingInfo.heading) * m_directionMult,
         false, false);
   }
 
@@ -83,7 +75,7 @@ public class AutoTurn extends CommandBase {
   @Override
   public boolean isFinished() {
     NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
-    if (clockwise) {
+    if (m_clockwise) {
       if (headingInfo.heading + EXPECTED_OVERSHOOT >= headingInfo.expectedHeading) {
         return true;
       } else {

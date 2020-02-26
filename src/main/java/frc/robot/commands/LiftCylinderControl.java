@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.subsystems.SpinnerSolenoid;
 
 
 public class LiftCylinderControl extends CommandBase {
@@ -13,16 +14,21 @@ public class LiftCylinderControl extends CommandBase {
   public static final int UPPER_CYLINDER = 1;
 
   private final LiftSubsystem m_liftSubsystem;
+  private final SpinnerSolenoid m_spinnerSolenoid;
   private final int m_cylinder;
   private final boolean m_extend;
   private boolean m_isFinished = false;
 
-  public LiftCylinderControl(LiftSubsystem liftSubsystem, int cylinder,
-                             boolean extend) {
+  public LiftCylinderControl(LiftSubsystem liftSubsystem, SpinnerSolenoid spinnerSolenoid,
+                             int cylinder, boolean extend) {
     m_liftSubsystem = liftSubsystem;
+    m_spinnerSolenoid = spinnerSolenoid;
     m_cylinder = cylinder;
     m_extend = extend;
     addRequirements(m_liftSubsystem);
+    if ((m_cylinder == LOWER_CYLINDER) && (m_extend == EXTENDED)) {
+      addRequirements(m_spinnerSolenoid);
+    }
   }
 
   @Override
@@ -35,6 +41,7 @@ public class LiftCylinderControl extends CommandBase {
     if (m_cylinder == LOWER_CYLINDER) {
       if (m_extend == EXTENDED) {
         m_liftSubsystem.extendLower();
+        m_spinnerSolenoid.spinner_up();
       } else {
         m_liftSubsystem.retractLower();
       }
