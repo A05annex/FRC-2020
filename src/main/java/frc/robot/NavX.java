@@ -24,7 +24,6 @@ public class NavX {
   private double m_refPitch = 0.0;
   private double m_refYaw = 0.0;
   private double m_refRoll = 0.0;
-
   private NavX() {
     // So, if there is no navx, there is no error - it just keeps trying to connect forever, so this
     // needs to be on a thread that can be killed if it doesn't connect in time ......
@@ -62,17 +61,6 @@ public class NavX {
   }
 
   /**
-   * Change the expected heading by the specified number of degrees.
-   *
-   * @param degrees
-   */
-  public void incrementExpectedHeading(double degrees) {
-    m_expectedHeading += degrees;
-
-  }
-
-
-  /**
    * Recompute the heading as reported by the NavX and adjusted to be always increasing when rotation is clockwise. This
    * heading computation was introduce by Jason Barringer to the FRC 6831 AO5 Annex code base in the 2017 season to make
    * using PID loops to control heading with the IMU easier to write, and more predictable. If there is a discontinuity
@@ -87,8 +75,8 @@ public class NavX {
    *                             heading; or when driving without any turn.
    */
   public void recomputeHeading(boolean setExpectedToCurrent) {
-    double heading_raw = m_ahrs.getYaw() - m_refYaw;
     m_setExpectedToCurrent = setExpectedToCurrent;
+    double heading_raw = m_ahrs.getYaw();
     // This is the logic for detecting and correcting for the IMU discontinuity at +180degrees and -180degrees.
     if (m_headingRawLast < -150.0 && heading_raw > 0.0) {
       // The previous raw IMU heading was negative and close to the discontinuity, and it is now positive. We have
@@ -104,7 +92,8 @@ public class NavX {
       m_headingRevs++;
     }
     m_headingRawLast = heading_raw;
-    m_heading = (m_headingRevs * 360.0) + heading_raw;
+
+    m_heading = (m_headingRevs * 360.0) + heading_raw - m_refYaw;
     if (setExpectedToCurrent) {
       m_expectedHeading = m_heading;
     }
@@ -135,7 +124,8 @@ public class NavX {
     // The subtraction of the ref values adjusts for the construction bias of not having the NavX perfectly mounted, or
     // there being some bias in the NavX - i.e. the ref represents the value first reported when the reference position is set,
     // see initializeHeadingAndNav().
-    return new NavInfo(m_ahrs.getPitch() - m_refPitch, m_ahrs.getYaw() - m_refYaw, m_ahrs.getRoll() - m_refRoll);
+    return new NavInfo(m_ahrs.getPitch() - m_refPitch, m_ahrs.getYaw() - m_refYaw, m_ahrs.getRoll() - m_refRoll,
+        m_ahrs.getPitch(), m_ahrs.getYaw(), m_ahrs.getRoll());
   }
 
   public class HeadingInfo {
@@ -162,21 +152,27 @@ public class NavX {
      * initialized. Measured in degrees.
      */
     public final double pitch;
+    public final double rawPitch;
     /**
      * The yaw (rotation or turn) of the robot, with positive being clockwise (to the right), from when the robot was
      * first initialized. Measured in degrees.
      */
     public final double yaw;
+    public final double rawYaw;
     /**
      * The roll (lean sideways) of the robot, with positive being the robot falling over on it's left side, from when the
      * robot was first initialized. Measured in degrees.
      */
     public final double roll;
+    public final double rawRoll;
 
-    NavInfo(double pitch, double yaw, double roll) {
+    NavInfo(double pitch, double yaw, double roll,double rawPitch, double rawYaw, double rawRoll) {
       this.pitch = pitch;
       this.yaw = yaw;
       this.roll = roll;
+      this.rawPitch = rawPitch;
+      this.rawYaw = rawYaw;
+      this.rawRoll = rawRoll;
     }
   }
 }
