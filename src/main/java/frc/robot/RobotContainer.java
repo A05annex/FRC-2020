@@ -71,6 +71,40 @@ public class RobotContainer {
   private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
   private final RunSpinner m_runSpinner = new RunSpinner(m_spinnerSubsystem, m_xbox);
 
+  // The autonomous commands
+  public enum AutonomousCommands {
+    POSITION1("extreme right", null),
+    POSITION2("right", null),
+    POSITION3("middle", null),
+    POSITION4("left", null);
+
+
+    public final String NAME;
+    public final Command COMMAND;
+
+    AutonomousCommands(String name, Command command) {
+      NAME = name;
+      COMMAND = command;
+    }
+
+    static public String[] asStringArray() {
+      AutonomousCommands autos[] = AutonomousCommands.values();
+      String[] strings = new String[autos.length];
+      for (int i = 0; i < autos.length; i++) {
+        strings[i] = autos[i].NAME;
+      }
+      return strings;
+    }
+
+    static public Command getDefaultCommand() {
+      return POSITION2.COMMAND;
+    }
+
+    static public String getDefaultName() {
+      return POSITION2.NAME;
+    }
+  }
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -137,8 +171,14 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return null;
+  public Command getAutonomousCommand(String autoCommandName) {
+    AutonomousCommands autos[] = AutonomousCommands.values();
+    for (int i = 0; i < autos.length; i++) {
+      if (autoCommandName == autos[i].NAME) {
+        return autos[i].COMMAND;
+      }
+    }
+    return AutonomousCommands.getDefaultCommand();
   }
 
   public Limelight getLimelight() {

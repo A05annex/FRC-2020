@@ -76,6 +76,9 @@ public class Robot extends TimedRobot {
     for (int i = 0; i < 10; i++) {
       SmartDashboard.putString(String.format("DB/String %d", i), " ");
     }
+    SmartDashboard.putStringArray("Auto List", RobotContainer.AutonomousCommands.asStringArray());
+
+
     NavX.getInstance().initializeHeadingAndNav();
 
     m_limelight = m_robotContainer.getLimelight();
@@ -128,7 +131,8 @@ public class Robot extends TimedRobot {
 //    m_robotContainer.resetRobot();
     NavX.getInstance().initializeHeadingAndNav();
 
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
+        RobotContainer.AutonomousCommands.getDefaultName()));
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
