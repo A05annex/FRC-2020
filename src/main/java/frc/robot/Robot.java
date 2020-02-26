@@ -48,9 +48,7 @@ public class Robot extends TimedRobot {
 
     dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
-    NavX.HeadingInfo headinnInfo = NavX.getInstance().getHeadingInfo();
-    dashboardTelemetry(1, "expected:", headinnInfo.expectedHeading);
-    dashboardTelemetry(6, "actual", headinnInfo.heading);
+    dashboardTelemetry(1, "auto:", SmartDashboard.getString("Auto Selector","unknown"));
 
     dashboardTelemetry(2, "drive gear", m_drive.getGear().toString());
     dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
@@ -76,7 +74,7 @@ public class Robot extends TimedRobot {
     for (int i = 0; i < 10; i++) {
       SmartDashboard.putString(String.format("DB/String %d", i), " ");
     }
-    SmartDashboard.putStringArray("Auto List", RobotContainer.AutonomousCommands.asStringArray());
+    SmartDashboard.putStringArray("Auto List", AutonomousCommands.asStringArray());
 
 
     NavX.getInstance().initializeHeadingAndNav();
@@ -132,7 +130,7 @@ public class Robot extends TimedRobot {
     NavX.getInstance().initializeHeadingAndNav();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
-        RobotContainer.AutonomousCommands.getDefaultName()));
+        AutonomousCommands.getDefaultName()));
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
