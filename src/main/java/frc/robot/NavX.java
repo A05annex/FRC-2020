@@ -61,6 +61,17 @@ public class NavX {
   }
 
   /**
+   * Change the expected heading by the specified number of degrees.
+   *
+   * @param degrees
+   */
+  public void incrementExpectedHeading(double degrees) {
+    m_expectedHeading += degrees;
+
+  }
+
+
+  /**
    * Recompute the heading as reported by the NavX and adjusted to be always increasing when rotation is clockwise. This
    * heading computation was introduce by Jason Barringer to the FRC 6831 AO5 Annex code base in the 2017 season to make
    * using PID loops to control heading with the IMU easier to write, and more predictable. If there is a discontinuity
