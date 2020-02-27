@@ -50,7 +50,7 @@ public class AutoDrive extends CommandBase {
   @Override
   public void initialize() {
     startEncoder = m_driveSubsystem.getTotalPosition();
-    ramp = new RampInOut(0, m_distance, m_speed, .15, 30 * Constants.ROBOT.DRIVE_TICS_PER_INCH, .15, 40 * Constants.ROBOT.DRIVE_TICS_PER_INCH);
+    ramp = new RampInOut(0, m_distance, m_speed, .20, 20 * Constants.ROBOT.DRIVE_TICS_PER_INCH, .15, 30 * Constants.ROBOT.DRIVE_TICS_PER_INCH);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
