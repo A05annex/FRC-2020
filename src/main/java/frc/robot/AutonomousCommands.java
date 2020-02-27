@@ -3,17 +3,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
- * The autonomous Command Programs
+ * The autonomous Command Programs, defined in the robot container
  */
 public enum AutonomousCommands {
-  POSITION1("center", null),
-  POSITION2("right", null),
-  POSITION3("left", null),
-  POSITION4("full", null);
+  POSITION1("Center", null),
+  POSITION2("Right", null),
+  POSITION3("Left", null),
+  POSITION4("Trench", null),
+  POSITION5("Full", null),
+  POSITION6("Move", null);
 
 
   public final String NAME;
-  public final Command COMMAND;
+  public Command COMMAND;
 
   AutonomousCommands(String name, Command command) {
     NAME = name;

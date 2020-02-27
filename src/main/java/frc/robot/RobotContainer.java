@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -85,6 +88,144 @@ public class RobotContainer {
     m_spinnerSubsystem.setDefaultCommand(m_runSpinner);
     // Configure the button bindings
     configureButtonBindings();
+
+    // autonomous speed variables, adjust as neccessary
+    double autoMoveSpeed = 0.75;
+    double autoTurnSpeed = 0.4;
+
+    // Auto Center: start lined up with goal as far forward as possible, dump and get out of the way.
+    AutonomousCommands.POSITION1.COMMAND = 
+      new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
+          new AutoDrive(m_driveSubsystem, 72, autoMoveSpeed) // approach bottom target
+        ),
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, -1), // set sweeper to dump
+        new WaitCommand(1), // wait one second
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 0), // set sweeper to stop
+        new AutoDrive(m_driveSubsystem, -12, autoMoveSpeed), // back up to clear target
+        new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
+        new ParallelCommandGroup(
+          new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+        )
+      );
+
+    // Auto Right: Start 20 inches away from the right wall, dump and get out of the way.
+    AutonomousCommands.POSITION2.COMMAND = 
+      new SequentialCommandGroup(
+          new ParallelCommandGroup(
+            new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm to dump position 
+            new AutoTurn(m_driveSubsystem, -45, autoTurnSpeed) // turn 45 degrees counterclockwise
+          ),      
+          new AutoDrive(m_driveSubsystem, 93, autoMoveSpeed), // approach bottom target
+          new AutoTurn(m_driveSubsystem, 45, autoTurnSpeed), // straighten on bottom target
+          new AutoDrive(m_driveSubsystem, 11, autoMoveSpeed),  // drive into dumping range (test these inches)
+          new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, -1), // dump
+          new WaitCommand(1), // dump
+          new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 0), // turn off collector
+          new AutoDrive(m_driveSubsystem, -12, autoMoveSpeed), // back off of target
+          new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
+        new ParallelCommandGroup(
+          new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+        )
+      );
+    
+    // Auto Left: Start 10 ft to the left of target
+    AutonomousCommands.POSITION3.COMMAND = 
+      new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm to dump position 
+          new AutoDrive(m_driveSubsystem, 40, autoMoveSpeed) // 40 in forward
+        ),
+        new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // turn 90 degrees clockwise
+        new AutoDrive(m_driveSubsystem, 120, autoMoveSpeed), // 10 ft toward target
+        new AutoTurn(m_driveSubsystem, -90, autoTurnSpeed), // turn counterclockwise 90 towards target
+        new AutoDrive(m_driveSubsystem, 32, autoMoveSpeed),  // drive into dumping range
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, -1), // dump
+        new WaitCommand(1), // dump
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 0), // turn off collector
+        new AutoDrive(m_driveSubsystem, -12, autoMoveSpeed), // back off of target
+        new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
+        new ParallelCommandGroup(
+          new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+        )
+      );
+
+    // Auto Trench: Don't preload, start lined up with the trench with robot as far forward as possible.
+    // Collect 5 balls from trench, return to target, dump and get out of the way.
+    AutonomousCommands.POSITION4.COMMAND =
+      new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION), // arm to collect position
+          new AutoDrive(m_driveSubsystem, 87, autoMoveSpeed), // approach trench
+          new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 1) // set power for collection
+        ),
+        new AutoDrive(m_driveSubsystem, 216, autoMoveSpeed), // down trench and collect
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 0), // stop collector
+        new AutoDrive(m_driveSubsystem, -216, autoMoveSpeed), // go back backwards
+        new ParallelCommandGroup(
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm back to dump position
+          new AutoTurn(m_driveSubsystem, 160, autoTurnSpeed) // turn back towards target
+        ),
+        new AutoDrive(m_driveSubsystem, 208, autoMoveSpeed), // drive back to target
+        new AutoTurn(m_driveSubsystem, 20, autoTurnSpeed), // turn to target
+        new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed), // approach target
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, -1), // dump
+        new WaitCommand(1), // dump
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 0), // turn off collector
+        new AutoDrive(m_driveSubsystem, -12, autoMoveSpeed), // back off of target
+        new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
+        new ParallelCommandGroup(
+          new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+        )
+      );
+    
+    // Auto Full: Setup in front of goal as far forward as possible.
+    // Dump, collect from the trench, and return to dump them.
+    AutonomousCommands.POSITION5.COMMAND = 
+      new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
+          new AutoDrive(m_driveSubsystem, 72, autoMoveSpeed) // approach bottom target
+        ),
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, -1), // set sweeper to dump
+        new WaitCommand(1), // wait one second
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 0), // set sweeper to stop
+        new AutoDrive(m_driveSubsystem, -12, autoMoveSpeed), // back up to clear target
+        new ParallelCommandGroup(
+          new AutoTurn(m_driveSubsystem, 160, autoTurnSpeed), // turn 160 degrees right
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION), // bucket down
+          new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 1) // set sweeper to collect
+        ),
+        new AutoDrive(m_driveSubsystem, 208, autoMoveSpeed), // drive to front of trench
+        new AutoTurn(m_driveSubsystem, 20, autoTurnSpeed), // turn to go down trench
+        new AutoDrive(m_driveSubsystem, 216, autoMoveSpeed), // go down trench
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 0), // stop sweeper
+        new AutoDrive(m_driveSubsystem, -216, autoMoveSpeed), // go back backwards
+        new ParallelCommandGroup(
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm back to dump position
+          new AutoTurn(m_driveSubsystem, 160, autoTurnSpeed) // turn back towards target
+        ),
+        new AutoDrive(m_driveSubsystem, 208, autoMoveSpeed), // drive back to target
+        new AutoTurn(m_driveSubsystem, 20, autoTurnSpeed), // turn to target
+        new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed), // approach target
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, -1), // dump
+        new WaitCommand(1), // dump
+        new SetSweeperPower(m_sweeperSubsystem, m_spinnerSubsystem, 0), // turn off collector
+        new AutoDrive(m_driveSubsystem, -12, autoMoveSpeed), // back off of target
+        new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
+        new ParallelCommandGroup(
+          new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+        )
+      );
+      
+    // Auto Move: Go forward one foot to get off the starting line.
+    AutonomousCommands.POSITION6.COMMAND = new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed);
   }
 
   /**
@@ -97,8 +238,10 @@ public class RobotContainer {
 //        m_xboxA.whenPressed(new SetNextRobot(this));
     m_xboxB.whenPressed(new SetNextDriver(this));
 
+    /*
     m_topLL.whenPressed(new ToggleLimeLightStream(m_limelight));
     m_topUL.whenPressed(new ToggleLimeLightMode(m_limelight));
+    */
 
     m_thumb.whenPressed(new ToggleShift(m_driveSubsystem));
 
@@ -165,6 +308,14 @@ public class RobotContainer {
   
   public RunSweeper getSweeperCommand() {
     return m_runSweeper;
+  }
+
+  public LiftSubsystem getLiftSubsystem() {
+    return m_liftSubsystem;
+  }
+
+  public SpinnerSolenoid getSpinnerLift() {
+    return m_spinnerSolenoid;
   }
 
 }

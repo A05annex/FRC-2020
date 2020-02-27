@@ -145,6 +145,11 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
 //    Constants.ROBOT = robotChooser.getSelected();
 //    m_robotContainer.resetRobot();
+
+    // reset pneumatics when disabling
+    m_robotContainer.getLiftSubsystem().retractUpper();
+    m_robotContainer.getLiftSubsystem().retractLower();
+    m_robotContainer.getSpinnerLift().spinner_down();
   }
 
   @Override
