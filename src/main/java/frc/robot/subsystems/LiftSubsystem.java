@@ -69,6 +69,10 @@ public class LiftSubsystem extends SubsystemBase {
     m_liftPressureDump.set(false);
   }
 
+  public void restoreLiftPressure() {
+    m_liftPressureDump.set(true);
+  }
+
   public void setWinchPower(double power) {
     m_winch.set(ControlMode.PercentOutput, power);
   }
