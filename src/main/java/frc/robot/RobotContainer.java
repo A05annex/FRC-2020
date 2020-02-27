@@ -280,14 +280,14 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand(String autoCommandName) {
+  public AutonomousCommands getAutonomousCommand(String autoCommandName) {
     AutonomousCommands autos[] = AutonomousCommands.values();
     for (int i = 0; i < autos.length; i++) {
-      if (autoCommandName == autos[i].NAME) {
-        return autos[i].COMMAND;
+      if (autoCommandName.equals(autos[i].NAME)) {
+        return autos[i];
       }
     }
-    return AutonomousCommands.getDefaultCommand();
+    return AutonomousCommands.getDefault();
   }
 
   public Limelight getLimelight() {

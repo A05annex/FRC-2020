@@ -38,4 +38,8 @@ public enum AutonomousCommands {
   static public String getDefaultName() {
     return POSITION1.NAME;
   }
+
+  static public AutonomousCommands getDefault() {
+    return POSITION1;
+  }
 }
