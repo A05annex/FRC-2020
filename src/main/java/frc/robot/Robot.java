@@ -15,6 +15,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SpinnerSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -44,6 +45,34 @@ public class Robot extends TimedRobot {
         String.format("%s: %s", key, var ? "on" : "off"));
   }
 
+  // This is the color that the camera will see (90 degrees away from the actual color)
+  private String getMessageToString() {
+    String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    String output;
+    if (gameData.length() > 0) {
+      switch (gameData.charAt(0)) {
+        case 'R' :
+          output = "Blue";
+          break;
+        case 'G' :
+          output = "Yellow";
+          break;
+        case 'B' :
+          output = "Red";
+          break;
+        case 'Y' :
+          output = "Green";
+          break;
+        default:
+          output = "Corrupt";
+          break;
+      }
+    } else {
+      output = "None";
+    }
+    return output;
+  }
+
   private void displayTelemetry() {
 
     dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
@@ -57,6 +86,8 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
     dashboardTelemetry(8, "stream", m_limelight.getStream().toString());
     dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder());
+
+    dashboardTelemetry(6, "color", getMessageToString());
 
   }
 
