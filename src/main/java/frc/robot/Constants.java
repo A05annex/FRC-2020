@@ -167,8 +167,8 @@ public final class Constants {
   public enum ArmPosition {
     START_POSITION(90000, 0, 0),
     FLOOR_POSITION(500, 0, 0),
-    DELIVER_POSITION(34000, 2330, 2300),
-    COLLECT_POSITION(48000, 3720, 1500);
+    DELIVER_POSITION(36000, 2330, 2300),
+    COLLECT_POSITION(44000, 3720, 1500);
 
 
     public final double POSITION;
