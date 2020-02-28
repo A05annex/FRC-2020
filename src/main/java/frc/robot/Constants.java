@@ -26,6 +26,7 @@ public final class Constants {
   public static Drivers DRIVER = Drivers.NOLAN;
   public static Robots ROBOT = Robots.COMPETITION_ROBOT;
   public static int GEAR = DriveGears.FIRST.ordinal();
+  public static double DELAY = 0.0;
 
   // -----------------------------------------------------------------------------------------------------------------------------
   // Driver Configurations

@@ -165,6 +165,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 //    Constants.ROBOT = robotChooser.getSelected();
 //    m_robotContainer.resetRobot();
+    Constants.DELAY = SmartDashboard.getNumber("DB/Slider 0", 0.0);
+
     NavX.getInstance().initializeHeadingAndNav();
     ArmSubsystem.getInstance().initializeArmEncoder();
 

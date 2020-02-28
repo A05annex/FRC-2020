@@ -96,6 +96,7 @@ public class RobotContainer {
     // Auto Center: start lined up with goal as far forward as possible, dump and get out of the way.
     AutonomousCommands.POSITION1.COMMAND = 
       new SequentialCommandGroup(
+        new WaitCommand(Constants.DELAY),
         new ParallelCommandGroup(
           new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
           new AutoDrive(m_driveSubsystem, 72, autoMoveSpeed) // approach bottom target
@@ -114,6 +115,7 @@ public class RobotContainer {
     // Auto Right: Start 20 inches away from the right wall, dump and get out of the way.
     AutonomousCommands.POSITION2.COMMAND = 
       new SequentialCommandGroup(
+          new WaitCommand(Constants.DELAY),
           new ParallelCommandGroup(
             new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm to dump position 
             new AutoTurn(m_driveSubsystem, -45, autoTurnSpeed) // turn 45 degrees counterclockwise
@@ -135,6 +137,7 @@ public class RobotContainer {
     // Auto Left: Start 10 ft to the left of target
     AutonomousCommands.POSITION3.COMMAND = 
       new SequentialCommandGroup(
+        new WaitCommand(Constants.DELAY),
         new ParallelCommandGroup(
           new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm to dump position 
           new AutoDrive(m_driveSubsystem, 40, autoMoveSpeed) // 40 in forward
@@ -158,6 +161,7 @@ public class RobotContainer {
     // Collect 5 balls from trench, return to target, dump and get out of the way.
     AutonomousCommands.POSITION4.COMMAND =
       new SequentialCommandGroup(
+        new WaitCommand(Constants.DELAY),
         new ParallelCommandGroup(
           new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION), // arm to collect position
           new AutoDrive(m_driveSubsystem, 87, autoMoveSpeed), // approach trench
@@ -188,6 +192,7 @@ public class RobotContainer {
     // Dump, collect from the trench, and return to dump them.
     AutonomousCommands.POSITION5.COMMAND = 
       new SequentialCommandGroup(
+        new WaitCommand(Constants.DELAY),
         new ParallelCommandGroup(
           new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
           new AutoDrive(m_driveSubsystem, 72, autoMoveSpeed) // approach bottom target
@@ -226,10 +231,12 @@ public class RobotContainer {
 
     // Auto Move: Go forward one foot to get off the starting line.
     AutonomousCommands.POSITION6.COMMAND = 
-    new ParallelCommandGroup(
-      new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed), // drive off the line
-      new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
-    );
+    new SequentialCommandGroup(
+      new WaitCommand(Constants.DELAY),
+      new ParallelCommandGroup(
+        new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed), // drive off the line
+        new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+    ));
   }
 
   /**
