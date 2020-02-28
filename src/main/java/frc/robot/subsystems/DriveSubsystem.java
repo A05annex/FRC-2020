@@ -250,7 +250,9 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void setGear(GEAR gear) {
     m_shifter.set(GEAR.SECOND == gear);
-  }
+    Constants.GEAR = gear.ordinal();
+    setRobot();
+   }
 
   /**
    * @return Returns the average of the left and right encoder positions.
