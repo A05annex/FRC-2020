@@ -76,12 +76,13 @@ public class DriveSubsystem extends SubsystemBase {
    *                clockwise, positive is counter-clockwise).
    */
   public void setArcadePower(double forward, double rotate) {
-    double max = Math.abs(forward) + (Math.abs(forward) * Math.abs(Constants.ROBOT.DRIVE_TURN_BIAS)) + Math.abs(rotate);
+    double max = Math.abs(forward) +
+        (Math.abs(forward) * Math.abs(Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TURN_BIAS)) + Math.abs(rotate);
     double scale = (max <= 1.0) ? 1.0 : (1.0 / max);
     m_rightMaster.set(ControlMode.PercentOutput,
-        scale * (forward + (rotate + (forward * Constants.ROBOT.GEARS.get(Constants.GEAR).DRIVE_TURN_BIAS))));
+        scale * (forward + (rotate + (forward * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TURN_BIAS))));
     m_leftMaster.set(ControlMode.PercentOutput,
-        scale * (forward - (rotate + (forward * Constants.ROBOT.GEARS.get(Constants.GEAR).DRIVE_TURN_BIAS))));
+        scale * (forward - (rotate + (forward * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TURN_BIAS))));
   }
 
   /**
@@ -105,15 +106,15 @@ public class DriveSubsystem extends SubsystemBase {
       NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
       if (null != headingInfo) {
         // We really do have a working NavX, so incorporate it into keeping the robot moving in the correct direction.
-        rotate = Math.abs(forward) * Constants.ROBOT.DRIVE_HEADING_Kp *
+        rotate = Math.abs(forward) * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_HEADING_Kp *
             (headingInfo.heading - headingInfo.expectedHeading);
       }
     }
     double max = Math.abs(forward) + Math.abs(rotate);
     double scale = (max <= 1.0) ? 1.0 : (1.0 / max);
 
-    m_targetRightSpeed = scale * (forward + rotate) * Constants.ROBOT.DRIVE_MAX_RPM;
-    m_targetLeftSpeed = scale * (forward - rotate) * Constants.ROBOT.DRIVE_MAX_RPM;
+    m_targetRightSpeed = scale * (forward + rotate) * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_MAX_RPM;
+    m_targetLeftSpeed = scale * (forward - rotate) * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_MAX_RPM;
 
     m_rightMaster.set(ControlMode.Velocity, m_targetRightSpeed);
     m_leftMaster.set(ControlMode.Velocity, m_targetLeftSpeed);
@@ -139,9 +140,13 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void setRobot() {
     // right drivetrain TalonSRX PID
-    setupTalonPID(m_rightMaster, (1.0 + Constants.ROBOT.DRIVE_TURN_BIAS), Constants.ROBOT.DRIVE_ENCODER_PHASE);
+    setupTalonPID(m_rightMaster,
+        (1.0 + Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TURN_BIAS),
+        Constants.ROBOT.DRIVE_ENCODER_PHASE);
     // left drivetrain TalonSRX PID
-    setupTalonPID(m_leftMaster, (1.0 - Constants.ROBOT.DRIVE_TURN_BIAS), Constants.ROBOT.DRIVE_ENCODER_PHASE);
+    setupTalonPID(m_leftMaster,
+        (1.0 - Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TURN_BIAS),
+        Constants.ROBOT.DRIVE_ENCODER_PHASE);
   }
 
   /**
@@ -152,11 +157,12 @@ public class DriveSubsystem extends SubsystemBase {
    * @param encoderPhase
    */
   private void setupTalonPID(TalonSRX pidController, double biasMultiplier, boolean encoderPhase) {
-    pidController.config_kF(0, Constants.ROBOT.DRIVE_Kf * biasMultiplier);
-    pidController.config_kP(0, Constants.ROBOT.DRIVE_Kp);
-    pidController.config_kI(0, Constants.ROBOT.DRIVE_Ki);
+    pidController.config_kF(0, Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_Kf * biasMultiplier);
+    pidController.config_kP(0, Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_Kp);
+    pidController.config_kI(0, Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_Ki);
     pidController.config_IntegralZone(0,
-        (int) (Constants.ROBOT.DRIVE_INTEGRAL_ZONE * Constants.ROBOT.DRIVE_MAX_RPM));
+        (int) (Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_INTEGRAL_ZONE *
+            Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_MAX_RPM));
     pidController.config_kD(0, 0);
     pidController.setSensorPhase(encoderPhase);
   }
@@ -224,6 +230,8 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void toggleShift() {
     m_shifter.set(!m_shifter.get());
+    Constants.GEAR = getGear().ordinal();
+    setRobot();
   }
 
   /**
@@ -238,7 +246,7 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Set the gear.
    *
-   * @param gear ({@link DriveSubsystem#GEAR}) the gear to set.
+   * @param gear ({ @ link DriveSubsystem # GEAR }) the gear to set.
    */
   public void setGear(GEAR gear) {
     m_shifter.set(GEAR.SECOND == gear);

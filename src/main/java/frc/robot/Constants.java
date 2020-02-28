@@ -111,20 +111,20 @@ public final class Constants {
   //   - Ki -
   //   - integral_zone -
   public enum Robots {
-    COMPETITION_ROBOT("competition", true, new ArrayList<DriveGear>(Arrays.asList(
+    COMPETITION_ROBOT("competition", true, new DriveGear[]{
         new DriveGear("first", 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5),
         new DriveGear("second", 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5)
-    )), 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 400.0),
-    PRACTICE_ROBOT("practice", false, new ArrayList<DriveGear>(Arrays.asList(
+    }, 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 400.0),
+    PRACTICE_ROBOT("practice", false, new DriveGear[]{
         new DriveGear("first", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5),
         new DriveGear("second", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5)
-    )), 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5);
+    }, 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5);
 
     // The robot configuration that is running.
     public final String ROBOT_NAME;
     public final boolean DRIVE_ENCODER_PHASE;
     // The gear info - gear-specific deive PID information.
-    public final ArrayList<DriveGear> GEARS;
+    public final DriveGear[] GEARS;
     // The setup of the drive PID for the Talon SRX
     public final double DRIVE_TURN_BIAS;
     public final double DRIVE_Kf;
@@ -137,7 +137,7 @@ public final class Constants {
     public final double DRIVE_TICS_PER_INCH;
     public final double DRIVE_TICS_PER_DEGREE;
 
-    Robots(String robotName, boolean encoderPhase, ArrayList<DriveGear> gears, double bias,
+    Robots(String robotName, boolean encoderPhase, DriveGear[] gears, double bias,
            double Kf, double Kp, double Ki, double integralZone, double maxRpm,
            double headingKp, double ticsPerInch, double ticsPerDegree) {
       ROBOT_NAME = robotName;
