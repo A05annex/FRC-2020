@@ -223,7 +223,7 @@ public class RobotContainer {
           new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
         )
       );
-      
+
     // Auto Move: Go forward one foot to get off the starting line.
     AutonomousCommands.POSITION6.COMMAND = new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed);
   }
@@ -249,6 +249,8 @@ public class RobotContainer {
         LiftCylinderControl.LOWER_CYLINDER, LiftCylinderControl.EXTENDED));
     m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
         LiftCylinderControl.UPPER_CYLINDER, LiftCylinderControl.EXTENDED));
+    m_button9.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
+        LiftCylinderControl.UPPER_CYLINDER, LiftCylinderControl.RETRACTED));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 1));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -1));
 
