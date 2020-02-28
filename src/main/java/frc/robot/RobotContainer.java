@@ -225,7 +225,11 @@ public class RobotContainer {
       );
 
     // Auto Move: Go forward one foot to get off the starting line.
-    AutonomousCommands.POSITION6.COMMAND = new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed);
+    AutonomousCommands.POSITION6.COMMAND = 
+    new ParallelCommandGroup(
+      new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed), // drive off the line
+      new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+    );
   }
 
   /**

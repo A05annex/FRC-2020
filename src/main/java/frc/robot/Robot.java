@@ -75,7 +75,8 @@ public class Robot extends TimedRobot {
 
   private void displayTelemetry() {
 
-    dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
+    //dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
+    dashboardTelemetry(0, "delay", SmartDashboard.getNumber("DB/Slider 0", 0));
     dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
     dashboardTelemetry(1, "auto", m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
         AutonomousCommands.getDefaultName())).NAME);
