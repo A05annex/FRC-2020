@@ -108,7 +108,7 @@ public class RobotContainer {
         new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
         new ParallelCommandGroup(
           new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
-          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION) // arm to collect position
         )
       );
 
@@ -130,7 +130,7 @@ public class RobotContainer {
           new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
         new ParallelCommandGroup(
           new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
-          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION) // arm to collect position
         )
       );
     
@@ -153,7 +153,7 @@ public class RobotContainer {
         new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
         new ParallelCommandGroup(
           new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
-          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION) // arm to collect position
         )
       );
 
@@ -184,7 +184,7 @@ public class RobotContainer {
         new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
         new ParallelCommandGroup(
           new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
-          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION) // arm to collect position
         )
       );
     
@@ -225,7 +225,7 @@ public class RobotContainer {
         new AutoTurn(m_driveSubsystem, 90, autoTurnSpeed), // 90 degrees clockwise
         new ParallelCommandGroup(
           new AutoDrive(m_driveSubsystem, -60, autoMoveSpeed), // away from target and out of the way of other robot
-          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+          new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION) // arm to collect position
         )
       );
 
@@ -235,8 +235,12 @@ public class RobotContainer {
       new WaitCommand(Constants.DELAY),
       new ParallelCommandGroup(
         new AutoDrive(m_driveSubsystem, 12, autoMoveSpeed), // drive off the line
-        new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
+        new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION) // arm to collect position
     ));
+
+    // 10 feet forward
+    AutonomousCommands.POSITION7.COMMAND = 
+    new AutoDrive(m_driveSubsystem, 120, autoMoveSpeed);
   }
 
   /**

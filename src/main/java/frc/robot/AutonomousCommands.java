@@ -11,7 +11,8 @@ public enum AutonomousCommands {
   POSITION3("Left", null),
   POSITION4("Trench", null),
   POSITION5("Full", null),
-  POSITION6("Move", null);
+  POSITION6("Move", null),
+  POSITION7("10ft", null);
 
 
   public final String NAME;

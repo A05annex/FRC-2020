@@ -248,8 +248,8 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @param gear ({ @ link DriveSubsystem # GEAR }) the gear to set.
    */
-  public void setGear(GEAR gear) {
-    m_shifter.set(GEAR.SECOND == gear);
+  public void setGear(Constants.DriveGears gear) {
+    m_shifter.set(Constants.DriveGears.SECOND == gear);
     Constants.GEAR = gear.ordinal();
     setRobot();
    }

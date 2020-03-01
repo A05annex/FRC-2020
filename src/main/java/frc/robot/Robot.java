@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SpinnerSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -84,9 +85,14 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(2, "drive gear", m_drive.getGear().toString());
     dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
     dashboardTelemetry(4, "arm pwr", ArmSubsystem.getInstance().getPositionPower());
-
+    
+    /*
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
     dashboardTelemetry(8, "stream", m_limelight.getStream().toString());
+    */
+    dashboardTelemetry(7, "left enc", m_robotContainer.getDrive().getLeftPosition());
+    dashboardTelemetry(8, "right enc", m_robotContainer.getDrive().getRightPosition());
+
     dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder());
 
     dashboardTelemetry(6, "color", getMessageToString());
@@ -169,6 +175,12 @@ public class Robot extends TimedRobot {
 
     NavX.getInstance().initializeHeadingAndNav();
     ArmSubsystem.getInstance().initializeArmEncoder();
+    m_robotContainer.getDrive().setGear(Constants.DriveGears.FIRST);
+
+    m_robotContainer.getLiftSubsystem().restoreLiftPressure();
+    m_robotContainer.getLiftSubsystem().retractUpper();
+    m_robotContainer.getLiftSubsystem().retractLower();
+    m_robotContainer.getSpinnerLift().spinner_down();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
         AutonomousCommands.getDefaultName())).COMMAND;
