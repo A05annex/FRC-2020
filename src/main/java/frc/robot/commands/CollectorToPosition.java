@@ -10,6 +10,10 @@ import frc.robot.subsystems.ArmSubsystem;
 // buttons/sticks are they connected to.
 public class CollectorToPosition extends CommandBase {
 
+  private static class MoveDirection {
+    static boolean UP = true;
+    static boolean DOWN = false;
+  }
   private final ArmSubsystem m_armSubsystem;
   private final double m_position;
   private final double m_upDeceleration;
@@ -74,11 +78,6 @@ public class CollectorToPosition extends CommandBase {
 
     return false;
 
-  }
-
-  private static class MoveDirection {
-    static boolean UP = true;
-    static boolean DOWN = false;
   }
 }
 

@@ -15,25 +15,13 @@ public enum AutonomousCommands {
   POSITION7("10ft", null);
 
 
-  public final String NAME;
-  public Command COMMAND;
-
-  AutonomousCommands(String name, Command command) {
-    NAME = name;
-    COMMAND = command;
-  }
-
   static public String[] asStringArray() {
-    AutonomousCommands autos[] = AutonomousCommands.values();
+    AutonomousCommands[] autos = AutonomousCommands.values();
     String[] strings = new String[autos.length];
     for (int i = 0; i < autos.length; i++) {
       strings[i] = autos[i].NAME;
     }
     return strings;
-  }
-
-  static public Command getDefaultCommand() {
-    return POSITION1.COMMAND;
   }
 
   static public String getDefaultName() {
@@ -42,5 +30,12 @@ public enum AutonomousCommands {
 
   static public AutonomousCommands getDefault() {
     return POSITION1;
+  }
+  public final String NAME;
+  public Command COMMAND;
+
+  AutonomousCommands(String name, Command command) {
+    NAME = name;
+    COMMAND = command;
   }
 }

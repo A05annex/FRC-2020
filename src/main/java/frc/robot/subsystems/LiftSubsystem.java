@@ -21,7 +21,10 @@ public class LiftSubsystem extends SubsystemBase {
    * The Singleton instance of this LiftSubsystem. External classes should
    * use the {@link #getInstance()} method to get the instance.
    */
-  private final static LiftSubsystem INSTANCE = new LiftSubsystem();
+  private static final LiftSubsystem INSTANCE = new LiftSubsystem();
+  private static final DoubleSolenoid.Value EXTENDED = DoubleSolenoid.Value.kForward;
+  private static final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
+
   /**
    * Returns the Singleton instance of this LiftSubsystem. This static method
    * should be used -- {@code LiftSubsystem.getInstance();} -- by external
@@ -31,9 +34,6 @@ public class LiftSubsystem extends SubsystemBase {
     return INSTANCE;
   }
   //================================================================================================================================
-
-  private static final DoubleSolenoid.Value EXTENDED = DoubleSolenoid.Value.kForward;
-  private static final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
 
   private final DoubleSolenoid m_lowerCylinder = new DoubleSolenoid(Constants.Pneumatics.LOWER_LIFT_EXTEND,
       Constants.Pneumatics.LOWER_LIFT_RETRACT);

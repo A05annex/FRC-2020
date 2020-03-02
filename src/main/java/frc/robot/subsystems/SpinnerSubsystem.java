@@ -20,7 +20,8 @@ public class SpinnerSubsystem extends SubsystemBase {
    * The Singleton instance of this SpinnerSubsystem. External classes should
    * use the {@link #SpinnerSubsystem()} method to get the instance.
    */
-  private final static SpinnerSubsystem INSTANCE = new SpinnerSubsystem();
+  private static final SpinnerSubsystem INSTANCE = new SpinnerSubsystem();
+
   /**
    * Returns the Singleton instance of this SpinnerSubsystem. This static method
    * should be used -- {@code SpinnerSubsystem.getInstance();} -- by external

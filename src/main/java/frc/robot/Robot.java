@@ -23,15 +23,15 @@ import frc.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 
-  private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer;
   private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
-  private Limelight m_limelight = Limelight.getInstance();
-  private SpinnerSubsystem m_wheel = SpinnerSubsystem.getInstance();
   private final LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
   private final SpinnerLift m_spinnerLift = SpinnerLift.getInstance();
   private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
   private final NavX m_navx = NavX.getInstance();
+  private final Limelight m_limelight = Limelight.getInstance();
+  private final SpinnerSubsystem m_wheel = SpinnerSubsystem.getInstance();
+  private Command m_autonomousCommand;
+  private RobotContainer m_robotContainer;
 //  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
 
   private void dashboardTelemetry(int port, String key, double var) {
@@ -53,16 +53,16 @@ public class Robot extends TimedRobot {
     String output;
     if (gameData.length() > 0) {
       switch (gameData.charAt(0)) {
-        case 'R' :
+        case 'R':
           output = "Blue";
           break;
-        case 'G' :
+        case 'G':
           output = "Yellow";
           break;
-        case 'B' :
+        case 'B':
           output = "Red";
           break;
-        case 'Y' :
+        case 'Y':
           output = "Green";
           break;
         default:

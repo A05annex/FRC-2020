@@ -2,7 +2,6 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
-import frc.robot.subsystems.ArmSubsystem;
 
 /**
  * Support for the NavX navigation board
@@ -14,6 +13,7 @@ public class NavX {
    * use the {@link #getInstance()} method to get the instance.
    */
   private final static NavX INSTANCE = new NavX();
+
   /**
    * Returns the Singleton instance of this NavX. This static method
    * should be used -- {@code NavX.getInstance();} -- by external
@@ -22,9 +22,8 @@ public class NavX {
   public static NavX getInstance() {
     return INSTANCE;
   }
-  //================================================================================================================================
-
   private AHRS m_ahrs;
+  //================================================================================================================================
   private double m_expectedHeading = 0.0;
   private double m_updateCt = -1;
   private double m_headingRawLast = 0.0;
@@ -50,7 +49,6 @@ public class NavX {
     m_updateCt = m_ahrs.getUpdateCount();
     initializeHeadingAndNav();
   }
-
 
   /**
    * Sets the reference start heading and navigation reference positions to the current values. This should be called immediately
@@ -182,7 +180,7 @@ public class NavX {
     public final double roll;
     public final double rawRoll;
 
-    NavInfo(double pitch, double yaw, double roll,double rawPitch, double rawYaw, double rawRoll) {
+    NavInfo(double pitch, double yaw, double roll, double rawPitch, double rawYaw, double rawRoll) {
       this.pitch = pitch;
       this.yaw = yaw;
       this.roll = roll;

@@ -23,7 +23,8 @@ public class DriveSubsystem extends SubsystemBase {
    * The Singleton instance of this DriveSubsystem. External classes should
    * use the {@link #getInstance()} method to get the instance.
    */
-  private final static DriveSubsystem INSTANCE = new DriveSubsystem();
+  private static final DriveSubsystem INSTANCE = new DriveSubsystem();
+
   /**
    * Returns the Singleton instance of this DriveSubsystem. This static method
    * should be used -- {@code DriveSubsystem.getInstance();} -- by external
@@ -33,14 +34,6 @@ public class DriveSubsystem extends SubsystemBase {
     return INSTANCE;
   }
   //================================================================================================================================
-
-  public enum GEAR {
-    FIRST,
-    SECOND;
-  }
-
-  private double m_targetLeftSpeed;
-  private double m_targetRightSpeed;
   private final Solenoid m_shifter = new Solenoid(Constants.Pneumatics.DRIVE_SHIFTER);
   private final TalonSRX m_rightMaster = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_MASTER);
   private final TalonSRX m_rm2 = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_SLAVE_1);
@@ -49,7 +42,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final TalonSRX m_lm2 = new TalonSRX(Constants.MotorControllers.DRIVE_LEFT_SLAVE_1);
   private final TalonSRX m_lm3 = new TalonSRX(Constants.MotorControllers.DRIVE_LEFT_SLAVE_2);
   private final NavX m_navx = NavX.getInstance();
-
+  private double m_targetLeftSpeed;
+  private double m_targetRightSpeed;
   /**
    * Creates a new DriveSubsystem.
    */
@@ -272,7 +266,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_shifter.set(Constants.DriveGears.SECOND == gear);
     Constants.GEAR = gear.ordinal();
     setRobot();
-   }
+  }
 
   /**
    * @return Returns the average of the left and right encoder positions.
@@ -286,6 +280,11 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getDifferencePosition() {
     return m_leftMaster.getSelectedSensorPosition() - m_rightMaster.getSelectedSensorPosition();
+  }
+
+  public enum GEAR {
+    FIRST,
+    SECOND;
   }
 
 }

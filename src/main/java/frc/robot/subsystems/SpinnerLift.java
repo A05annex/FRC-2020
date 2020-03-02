@@ -18,7 +18,8 @@ public class SpinnerLift extends SubsystemBase {
    * The Singleton instance of this SpinnerSolenoid. External classes should
    * use the {@link #getInstance()} method to get the instance.
    */
-  private final static SpinnerLift INSTANCE = new SpinnerLift();
+  private static final SpinnerLift INSTANCE = new SpinnerLift();
+
   /**
    * Returns the Singleton instance of this SpinnerSolenoid. This static method
    * should be used -- {@code SpinnerSolenoid.getInstance();} -- by external

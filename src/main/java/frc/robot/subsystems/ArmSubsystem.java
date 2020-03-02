@@ -14,7 +14,8 @@ public class ArmSubsystem extends SubsystemBase {
    * The Singleton instance of this ArmSubsystem. External classes should
    * use the {@link #getInstance()} method to get the instance.
    */
-  private final static ArmSubsystem INSTANCE = new ArmSubsystem();
+  private static final ArmSubsystem INSTANCE = new ArmSubsystem();
+
   /**
    * Returns the Singleton instance of this ArmSubsystem. This static method
    * should be used -- {@code ArmSubsystem.getInstance();} -- by external

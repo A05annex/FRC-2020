@@ -13,7 +13,7 @@ public class SweeperSubsystem extends SubsystemBase {
    * The Singleton instance of this SweeperSubsystem. External classes should
    * use the {@link #getInstance()} method to get the instance.
    */
-  private final static SweeperSubsystem INSTANCE = new SweeperSubsystem();
+  private static final SweeperSubsystem INSTANCE = new SweeperSubsystem();
 
   /**
    * Returns the Singleton instance of this SweeperSubsystem. This static method
@@ -38,12 +38,12 @@ public class SweeperSubsystem extends SubsystemBase {
 
   }
 
-  public void setSweeperPower(double power) {
-    m_sweeper.set(ControlMode.PercentOutput, power);
-  }
-
   public double getSweeperPower() {
     return m_sweeper.getMotorOutputPercent();
+  }
+
+  public void setSweeperPower(double power) {
+    m_sweeper.set(ControlMode.PercentOutput, power);
   }
 
 

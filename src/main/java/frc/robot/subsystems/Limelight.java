@@ -18,7 +18,8 @@ public class Limelight extends SubsystemBase {
    * The Singleton instance of this Limelight. External classes should
    * use the {@link #getInstance()} method to get the instance.
    */
-  private final static Limelight INSTANCE = new Limelight();
+  private static final Limelight INSTANCE = new Limelight();
+
   /**
    * Returns the Singleton instance of this Limelight. This static method
    * should be used -- {@code Limelight.getInstance();} -- by external
@@ -28,18 +29,6 @@ public class Limelight extends SubsystemBase {
     return INSTANCE;
   }
   //================================================================================================================================
-
-  public enum MODE {
-    DRIVE,
-    VISION;
-  }
-
-  public enum STREAM {
-    LIMELIGHT,
-    SIDE_BY_SIDE,
-    SECONDARY;
-  }
-
   NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");
   double v;
   double x;
@@ -49,7 +38,6 @@ public class Limelight extends SubsystemBase {
   String streamMode;
   private MODE m_mode;
   private STREAM m_stream;
-
   /**
    * Creates a new Limelight.
    * This constructor is private since this class is a Singleton. External classes
@@ -199,6 +187,17 @@ public class Limelight extends SubsystemBase {
 
   public String getStreamMode() {
     return streamMode;
+  }
+
+  public enum MODE {
+    DRIVE,
+    VISION;
+  }
+
+  public enum STREAM {
+    LIMELIGHT,
+    SIDE_BY_SIDE,
+    SECONDARY;
   }
 
 }
