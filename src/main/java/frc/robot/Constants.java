@@ -156,11 +156,11 @@ public final class Constants {
     COMPETITION_ROBOT("competition", true, new DriveGear[]{
         new DriveGear("first", 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5),
         new DriveGear("second", 0.188, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5)
-    }, 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 400.0),
+    }),
     PRACTICE_ROBOT("practice", false, new DriveGear[]{
         new DriveGear("first", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5),
         new DriveGear("second", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5)
-    }, 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5);
+    });
 
     public static Robots getNextRobot(Robots robot) {
       int index = robot.ordinal();
@@ -174,33 +174,11 @@ public final class Constants {
     public final boolean DRIVE_ENCODER_PHASE;
     // The gear info - gear-specific deive PID information.
     public final DriveGear[] GEARS;
-    // The setup of the drive PID for the Talon SRX
-    public final double DRIVE_TURN_BIAS;
-    public final double DRIVE_Kf;
-    public final double DRIVE_Kp;
-    public final double DRIVE_Ki;
-    public final double DRIVE_INTEGRAL_ZONE;
-    public final double DRIVE_MAX_RPM;
-    public final double DRIVE_HEADING_Kp;
-    // The encoder values for autonomous move some distance and turn some degrees.
-    public final double DRIVE_TICS_PER_INCH;
-    public final double DRIVE_TICS_PER_DEGREE;
 
-    Robots(String robotName, boolean encoderPhase, DriveGear[] gears, double bias,
-           double Kf, double Kp, double Ki, double integralZone, double maxRpm,
-           double headingKp, double ticsPerInch, double ticsPerDegree) {
+    Robots(String robotName, boolean encoderPhase, DriveGear[] gears) {
       ROBOT_NAME = robotName;
       DRIVE_ENCODER_PHASE = encoderPhase;
       GEARS = gears;
-      DRIVE_TURN_BIAS = bias;
-      DRIVE_Kf = Kf;
-      DRIVE_Kp = Kp;
-      DRIVE_Ki = Ki;
-      DRIVE_INTEGRAL_ZONE = integralZone;
-      DRIVE_MAX_RPM = maxRpm;
-      DRIVE_HEADING_Kp = headingKp;
-      DRIVE_TICS_PER_INCH = ticsPerInch;
-      DRIVE_TICS_PER_DEGREE = ticsPerDegree;
     }
   }
 

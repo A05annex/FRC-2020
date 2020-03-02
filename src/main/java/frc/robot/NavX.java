@@ -22,8 +22,8 @@ public class NavX {
   public static NavX getInstance() {
     return INSTANCE;
   }
-  private AHRS m_ahrs;
   //================================================================================================================================
+  private AHRS m_ahrs;
   private double m_expectedHeading = 0.0;
   private double m_updateCt = -1;
   private double m_headingRawLast = 0.0;
