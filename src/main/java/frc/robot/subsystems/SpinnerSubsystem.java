@@ -16,12 +16,27 @@ import frc.robot.Constants;
 
 public class SpinnerSubsystem extends SubsystemBase {
 
+  /**
+   * The Singleton instance of this SpinnerSubsystem. External classes should
+   * use the {@link #SpinnerSubsystem()} method to get the instance.
+   */
+  private final static SpinnerSubsystem INSTANCE = new SpinnerSubsystem();
+  /**
+   * Returns the Singleton instance of this SpinnerSubsystem. This static method
+   * should be used -- {@code SpinnerSubsystem.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static SpinnerSubsystem getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
+
   public TalonSRX bigWheel = new TalonSRX(Constants.MotorControllers.SPINNER);
 
   /**
    * Creates a new SpinnerSubsystem.
    */
-  public SpinnerSubsystem() {
+  private SpinnerSubsystem() {
 
     bigWheel.configFactoryDefault();
     bigWheel.setNeutralMode(NeutralMode.Brake);

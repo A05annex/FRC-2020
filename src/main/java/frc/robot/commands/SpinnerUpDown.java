@@ -8,17 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SpinnerSolenoid;
+import frc.robot.subsystems.SpinnerLift;
 
 public class SpinnerUpDown extends CommandBase {
 
   private final boolean m_position;
-  private final SpinnerSolenoid m_spinnerSolenoid;
+  private final SpinnerLift m_spinnerSolenoid;
 
   /**
    * Creates a new SpinnerUpDown.
    */
-  public SpinnerUpDown(SpinnerSolenoid spinnerSolenoid, boolean position) {
+  public SpinnerUpDown(SpinnerLift spinnerSolenoid, boolean position) {
     m_position = position;
     m_spinnerSolenoid = spinnerSolenoid;
     addRequirements(spinnerSolenoid);

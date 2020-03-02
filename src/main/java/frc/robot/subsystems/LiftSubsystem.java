@@ -17,6 +17,21 @@ import frc.robot.Constants;
 
 public class LiftSubsystem extends SubsystemBase {
 
+  /**
+   * The Singleton instance of this LiftSubsystem. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private final static LiftSubsystem INSTANCE = new LiftSubsystem();
+  /**
+   * Returns the Singleton instance of this LiftSubsystem. This static method
+   * should be used -- {@code LiftSubsystem.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static LiftSubsystem getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
+
   private static final DoubleSolenoid.Value EXTENDED = DoubleSolenoid.Value.kForward;
   private static final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
 
@@ -28,9 +43,11 @@ public class LiftSubsystem extends SubsystemBase {
   private TalonSRX m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
 
   /**
-   * Creates a new LowerCylinderSubsystem. Works the 2 lower pneumatic cylinders.
+   * Creates a new LiftSubsystem. Works the 2 lower pneumatic cylinders.
+   * This constructor is private since this class is a Singleton. External classes
+   * should use the {@link #getInstance()} method to get the instance.
    */
-  public LiftSubsystem() {
+  private LiftSubsystem() {
     m_liftPressureDump.set(true);
     m_upperCylinder.set(RETRACTED);
     m_lowerCylinder.set(RETRACTED);

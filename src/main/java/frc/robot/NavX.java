@@ -2,18 +2,28 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
+import frc.robot.subsystems.ArmSubsystem;
 
 /**
  * Support for the NavX navigation board
  */
 public class NavX {
 
-  // ===============================================================================================================================
-  // Dealing wth the idea that this is a singleton
-  // -------------------------------------------------------------------------------------------------------------------------------
-  private static NavX s_instance = null;
-  // ===============================================================================================================================
-  // -------------------------------------------------------------------------------------------------------------------------------
+  /**
+   * The Singleton instance of this NavX. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private final static NavX INSTANCE = new NavX();
+  /**
+   * Returns the Singleton instance of this NavX. This static method
+   * should be used -- {@code NavX.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static NavX getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
+
   private AHRS m_ahrs;
   private double m_expectedHeading = 0.0;
   private double m_updateCt = -1;
@@ -24,6 +34,7 @@ public class NavX {
   private double m_refPitch = 0.0;
   private double m_refYaw = 0.0;
   private double m_refRoll = 0.0;
+
   private NavX() {
     // So, if there is no navx, there is no error - it just keeps trying to connect forever, so this
     // needs to be on a thread that can be killed if it doesn't connect in time ......
@@ -40,12 +51,6 @@ public class NavX {
     initializeHeadingAndNav();
   }
 
-  public static synchronized NavX getInstance() {
-    if (null == s_instance) {
-      s_instance = new NavX();
-    }
-    return s_instance;
-  }
 
   /**
    * Sets the reference start heading and navigation reference positions to the current values. This should be called immediately

@@ -14,6 +14,31 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
 
+  /**
+   * The Singleton instance of this Limelight. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private final static Limelight INSTANCE = new Limelight();
+  /**
+   * Returns the Singleton instance of this Limelight. This static method
+   * should be used -- {@code Limelight.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static Limelight getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
+
+  public enum MODE {
+    DRIVE,
+    VISION;
+  }
+
+  public enum STREAM {
+    LIMELIGHT,
+    SIDE_BY_SIDE,
+    SECONDARY;
+  }
 
   NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");
   double v;
@@ -24,10 +49,13 @@ public class Limelight extends SubsystemBase {
   String streamMode;
   private MODE m_mode;
   private STREAM m_stream;
+
   /**
    * Creates a new Limelight.
+   * This constructor is private since this class is a Singleton. External classes
+   * should use the {@link #getInstance()} method to get the instance.
    */
-  public Limelight() {
+  private Limelight() {
     // when initialized, use driver camera
     setMode(MODE.DRIVE);
     /*
@@ -173,14 +201,4 @@ public class Limelight extends SubsystemBase {
     return streamMode;
   }
 
-  public enum MODE {
-    DRIVE,
-    VISION;
-  }
-
-  public enum STREAM {
-    LIMELIGHT,
-    SIDE_BY_SIDE,
-    SECONDARY;
-  }
 }

@@ -7,16 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.LiftSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SpinnerSubsystem;
-import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.commands.RunSweeper;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,9 +25,13 @@ public class Robot extends TimedRobot {
 
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  private Limelight m_limelight;
-  private SpinnerSubsystem m_wheel;
-  private DriveSubsystem m_drive;
+  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+  private Limelight m_limelight = Limelight.getInstance();
+  private SpinnerSubsystem m_wheel = SpinnerSubsystem.getInstance();
+  private final LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
+  private final SpinnerLift m_spinnerLift = SpinnerLift.getInstance();
+  private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
+  private final NavX m_navx = NavX.getInstance();
 //  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
 
   private void dashboardTelemetry(int port, String key, double var) {
@@ -82,7 +83,7 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(1, "auto", m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
         AutonomousCommands.getDefaultName())).NAME);
 
-    dashboardTelemetry(2, "drive gear", m_drive.getGear().toString());
+    dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString());
     dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
     dashboardTelemetry(4, "arm pwr", ArmSubsystem.getInstance().getPositionPower());
     
@@ -90,8 +91,8 @@ public class Robot extends TimedRobot {
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
     dashboardTelemetry(8, "stream", m_limelight.getStream().toString());
     */
-    dashboardTelemetry(7, "left enc", m_robotContainer.getDrive().getLeftPosition());
-    dashboardTelemetry(8, "right enc", m_robotContainer.getDrive().getRightPosition());
+    dashboardTelemetry(7, "left enc", m_driveSubsystem.getLeftPosition());
+    dashboardTelemetry(8, "right enc", m_driveSubsystem.getRightPosition());
 
     dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder());
 
@@ -116,13 +117,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putStringArray("Auto List", AutonomousCommands.asStringArray());
 
 
-    NavX.getInstance().initializeHeadingAndNav();
+    m_navx.initializeHeadingAndNav();
 
-    m_limelight = m_robotContainer.getLimelight();
     m_limelight.setMode(Limelight.MODE.DRIVE);
-
-    m_wheel = m_robotContainer.getBigWheel();
-    m_drive = m_robotContainer.getDrive();
 
 //    robotChooser.setDefaultOption(Constants.Robots.COMPETITION_ROBOT.ROBOT_NAME, Constants.Robots.COMPETITION_ROBOT);
 //    robotChooser.addOption(Constants.Robots.PRACTICE_ROBOT.ROBOT_NAME, Constants.Robots.PRACTICE_ROBOT);
@@ -155,9 +152,8 @@ public class Robot extends TimedRobot {
 //    m_robotContainer.resetRobot();
 
     // reset pneumatics when disabling
-    m_robotContainer.getLiftSubsystem().retractUpper();
-    m_robotContainer.getLiftSubsystem().retractLower();
-    m_robotContainer.getSpinnerLift().spinner_down();
+    m_liftSubsystem.dumpLiftPressure();
+    m_spinnerLift.spinner_down();
   }
 
   @Override
@@ -173,14 +169,15 @@ public class Robot extends TimedRobot {
 //    m_robotContainer.resetRobot();
     Constants.DELAY = SmartDashboard.getNumber("DB/Slider 0", 0.0);
 
-    NavX.getInstance().initializeHeadingAndNav();
+    m_navx.initializeHeadingAndNav();
     ArmSubsystem.getInstance().initializeArmEncoder();
-    m_robotContainer.getDrive().setGear(Constants.DriveGears.FIRST);
+    m_driveSubsystem.setGear(Constants.DriveGears.FIRST);
 
-    m_robotContainer.getLiftSubsystem().restoreLiftPressure();
-    m_robotContainer.getLiftSubsystem().retractUpper();
-    m_robotContainer.getLiftSubsystem().retractLower();
-    m_robotContainer.getSpinnerLift().spinner_down();
+    // Make sure everything that should be is at initial state
+    m_liftSubsystem.retractUpper();
+    m_liftSubsystem.retractLower();
+    m_liftSubsystem.restoreLiftPressure();
+    m_spinnerLift.spinner_down();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
         AutonomousCommands.getDefaultName())).COMMAND;
@@ -202,7 +199,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 //    Constants.ROBOT = robotChooser.getSelected();
 //    m_robotContainer.resetRobot();
-    NavX.getInstance().initializeHeadingAndNav();
+    m_navx.initializeHeadingAndNav();
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -213,10 +210,13 @@ public class Robot extends TimedRobot {
     }
 
     // set sweeper command at teleop init
-    m_robotContainer.getSweeperSubsystem().setDefaultCommand(m_robotContainer.getSweeperCommand());
+    m_sweeperSubsystem.setDefaultCommand(new RunSweeper(m_sweeperSubsystem, m_robotContainer.getXbox()));
 
-    // restore lift pressure
-    m_robotContainer.getLiftSubsystem().restoreLiftPressure();
+    // Make sure everything that should be is at initial state
+    m_liftSubsystem.retractUpper();
+    m_liftSubsystem.retractLower();
+    m_liftSubsystem.restoreLiftPressure();
+    m_spinnerLift.spinner_down();
   }
 
   /**

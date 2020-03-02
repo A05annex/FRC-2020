@@ -11,14 +11,24 @@ import frc.robot.Constants;
 public class ArmSubsystem extends SubsystemBase {
 
   /**
-   * The Singleton instance of this CollectorSubsystem. External classes should
+   * The Singleton instance of this ArmSubsystem. External classes should
    * use the {@link #getInstance()} method to get the instance.
    */
   private final static ArmSubsystem INSTANCE = new ArmSubsystem();
+  /**
+   * Returns the Singleton instance of this ArmSubsystem. This static method
+   * should be used -- {@code ArmSubsystem.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static ArmSubsystem getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
+
   private TalonSRX m_position = new TalonSRX(Constants.MotorControllers.COLLECTOR_POSITION);
 
   /**
-   * Creates a new instance of this CollectorSubsystem.
+   * Creates a new instance of this ArmSubsystem.
    * This constructor is private since this class is a Singleton. External classes
    * should use the {@link #getInstance()} method to get the instance.
    */
@@ -36,14 +46,6 @@ public class ArmSubsystem extends SubsystemBase {
         0, 10);
   }
 
-  /**
-   * Returns the Singleton instance of this CollectorSubsystem. This static method
-   * should be used -- {@code CollectorSubsystem.getInstance();} -- by external
-   * classes, rather than the constructor to get the instance of this class.
-   */
-  public static ArmSubsystem getInstance() {
-    return INSTANCE;
-  }
 
   public double getPosition() {
     return m_position.getSelectedSensorPosition();

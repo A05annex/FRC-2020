@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
@@ -27,16 +26,13 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
   private final ArmSubsystem m_armSubsystem = ArmSubsystem.getInstance();
   private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
-  private final Limelight m_limelight = new Limelight();
-  private final LiftSubsystem m_liftSubsystem = new LiftSubsystem();
-  private final SpinnerSubsystem m_spinnerSubsystem = new SpinnerSubsystem();
-  private final SpinnerSolenoid m_spinnerSolenoid = new SpinnerSolenoid();
+  private final LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
+  private final SpinnerSubsystem m_spinnerSubsystem = SpinnerSubsystem.getInstance();
+  private final SpinnerLift m_spinnerLift = SpinnerLift.getInstance();
 
-  // Sensor initialization.
-  private final NavX m_navx = NavX.getInstance();
 
   // The driver station buttons
   // - the joystick and buttons
@@ -68,12 +64,6 @@ public class RobotContainer {
   private final POVButton m_xboxDpadDown = new POVButton(m_xbox, 180);
   private final POVButton m_xboxDpadRight = new POVButton(m_xbox, 90);
 
-  // The robot's commands
-  private final DriveCommand m_driveCommand = new DriveCommand(m_driveSubsystem, m_stick);
-  private final RunSweeper m_runSweeper = new RunSweeper(m_sweeperSubsystem, m_xbox);
-  private final ManualCollector m_manualCollector = new ManualCollector(m_armSubsystem, m_xbox);
-  private final RunSpinner m_runSpinner = new RunSpinner(m_spinnerSubsystem, m_xbox);
-
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -82,14 +72,14 @@ public class RobotContainer {
     // perform robot and driver initializations
     m_driveSubsystem.setRobot();
     // Set the default commands for subsystems
-    m_driveSubsystem.setDefaultCommand(m_driveCommand);
-    //m_sweeperSubsystem.setDefaultCommand(m_runSweeper); // do this in teleop init instead
-    m_armSubsystem.setDefaultCommand(m_manualCollector);
-    m_spinnerSubsystem.setDefaultCommand(m_runSpinner);
+    // The robot's subsystem default commands for autonomous and driver control
+    m_driveSubsystem.setDefaultCommand(new DriveCommand(m_driveSubsystem, m_stick));
+    m_armSubsystem.setDefaultCommand(new ManualCollector(m_armSubsystem, m_xbox));
+    m_spinnerSubsystem.setDefaultCommand(new RunSpinner(m_spinnerSubsystem, m_xbox));
     // Configure the button bindings
     configureButtonBindings();
 
-    // autonomous speed variables, adjust as neccessary
+    // autonomous speed variables, adjust as necessary
     double autoMoveSpeed = 0.75;
     double autoTurnSpeed = 0.4;
 
@@ -260,17 +250,17 @@ public class RobotContainer {
 
     m_thumb.whenPressed(new ToggleShift(m_driveSubsystem));
 
-    m_button12.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
+    m_button12.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerLift,
         LiftCylinderControl.LOWER_CYLINDER, LiftCylinderControl.EXTENDED));
-    m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
+    m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerLift,
         LiftCylinderControl.UPPER_CYLINDER, LiftCylinderControl.EXTENDED));
-    m_button9.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
+    m_button9.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerLift,
         LiftCylinderControl.UPPER_CYLINDER, LiftCylinderControl.RETRACTED));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 1));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -1));
 
-    m_xboxLeftBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.UP));
-    m_xboxRightBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.DOWN));
+    m_xboxLeftBumper.whenPressed(new SpinnerUpDown(m_spinnerLift, SpinnerUpDown.Position.UP));
+    m_xboxRightBumper.whenPressed(new SpinnerUpDown(m_spinnerLift, SpinnerUpDown.Position.DOWN));
 
     m_xboxX.whenPressed(new SpinnerForCounts(m_spinnerSubsystem, 1, -18000));
 
@@ -298,41 +288,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public AutonomousCommands getAutonomousCommand(String autoCommandName) {
-    AutonomousCommands autos[] = AutonomousCommands.values();
-    for (int i = 0; i < autos.length; i++) {
-      if (autoCommandName.equals(autos[i].NAME)) {
-        return autos[i];
+    AutonomousCommands[] autos = AutonomousCommands.values();
+    for (AutonomousCommands auto : autos) {
+      if (autoCommandName.equals(auto.NAME)) {
+        return auto;
       }
     }
     return AutonomousCommands.getDefault();
-  }
-
-  public Limelight getLimelight() {
-    return m_limelight;
-  }
-
-  public SpinnerSubsystem getBigWheel() {
-    return m_spinnerSubsystem;
-  }
-
-  public DriveSubsystem getDrive() {
-    return m_driveSubsystem;
-  }
-
-  public SweeperSubsystem getSweeperSubsystem() {
-    return m_sweeperSubsystem;
-  }
-  
-  public RunSweeper getSweeperCommand() {
-    return m_runSweeper;
-  }
-
-  public LiftSubsystem getLiftSubsystem() {
-    return m_liftSubsystem;
-  }
-
-  public SpinnerSolenoid getSpinnerLift() {
-    return m_spinnerSolenoid;
   }
 
 }

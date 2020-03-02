@@ -12,13 +12,31 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 
-public class SpinnerSolenoid extends SubsystemBase {
+public class SpinnerLift extends SubsystemBase {
+
   /**
-   * Creates a new SpinnerSolenoid.
+   * The Singleton instance of this SpinnerSolenoid. External classes should
+   * use the {@link #getInstance()} method to get the instance.
    */
+  private final static SpinnerLift INSTANCE = new SpinnerLift();
+  /**
+   * Returns the Singleton instance of this SpinnerSolenoid. This static method
+   * should be used -- {@code SpinnerSolenoid.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static SpinnerLift getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
+
   private final Solenoid m_spinnerSolenoid = new Solenoid(Constants.Pneumatics.SPINNER_LIFT);
 
-  public SpinnerSolenoid() {
+  /**
+   * Creates a new SpinnerSolenoid.
+   * This constructor is private since this class is a Singleton. External classes
+   * should use the {@link #getInstance()} method to get the instance.
+   */
+  private SpinnerLift() {
     m_spinnerSolenoid.set(false);
   }
 
@@ -40,4 +58,5 @@ public class SpinnerSolenoid extends SubsystemBase {
   }
 
 }
+
 
