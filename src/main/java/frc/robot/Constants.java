@@ -17,14 +17,16 @@ package frc.robot;
  */
 public final class Constants {
 
-  // -----------------------------------------------------------------------------------------------------------------------------
-  // Physical Mappings - where are motors, pneumatics, sensors, and servos connected to the electronics
-
+  // These are constants that onxed us into the constants that really control the configuration of the robot.
   public static Drivers DRIVER = Drivers.NOLAN;
   public static Robots ROBOT = Robots.COMPETITION_ROBOT;
   public static int GEAR = DriveGears.FIRST.ordinal();
   public static double DELAY = 0.0;
 
+
+  /**
+   * This class represents the constants for tuning the drive control for a specific gear.
+   */
   public static class DriveGear {
     public final String GEAR_NAME;
     public final double DRIVE_TURN_BIAS;
@@ -38,6 +40,19 @@ public final class Constants {
     public final double DRIVE_TICS_PER_INCH;
     public final double DRIVE_TICS_PER_DEGREE;
 
+    /**
+     * The constructor for the constants for a specific gear.
+     * @param gearName (String) The name of the gear.
+     * @param bias
+     * @param Kf
+     * @param Kp
+     * @param Ki
+     * @param integralZone
+     * @param maxRpm
+     * @param headingKp
+     * @param ticsPerInch
+     * @param ticsPerDegree
+     */
     DriveGear(String gearName, double bias, double Kf, double Kp, double Ki,
               double integralZone, double maxRpm, double headingKp,
               double ticsPerInch, double ticsPerDegree) {
@@ -54,6 +69,8 @@ public final class Constants {
     }
   }
 
+  // -----------------------------------------------------------------------------------------------------------------------------
+  // Physical Mappings - where are motors, pneumatics, sensors, and servos connected to the electronics
   public static final class MotorControllers {
     public static int
         DRIVE_RIGHT_MASTER = 1,

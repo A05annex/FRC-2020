@@ -32,19 +32,66 @@ public class Robot extends TimedRobot {
   private final SpinnerSubsystem m_wheel = SpinnerSubsystem.getInstance();
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+
+  private double m_lastAutonomousDelay = 0.0;
+  private double m_lastArmPosition = 0.0;
+  private double m_lastArmPower = 0.0;
+  private double m_lastDriveLeftEnc = 0.0;
+  private double m_lastDriveRightEnc = 0.0;
+  private double m_lastSpinnerEnc = 0.0;
+  private String m_lastDriver = "";
+  private String m_lastAuto = "";
+  private String m_lastGear = "";
+  private String m_lastColor = "";
 //  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
 
-  private void dashboardTelemetry(int port, String key, double var) {
-    SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.3f", key, var));
+  /**
+   * Update telemetry feedback for a real number value. If the value has not changed, no update is sent
+   *
+   * @param port (int) The port 0 - 9 to write to.
+   * @param key (String) The key for the telemetry.
+   * @param var (double) The number to be reported.
+   * @param lastValue (double) The last value reported.
+   * @return (double) Returns {@code var}
+   */
+  private double dashboardTelemetry(int port, String key, double var, double lastValue) {
+    if (var != lastValue) {
+      SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.3f", key, var));
+    }
+    return var;
   }
 
-  private void dashboardTelemetry(int port, String key, String var) {
-    SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %s", key, var));
+  /**
+   * Update telemetry feedback for a string value. If the value has not changed, no update is sent
+   *
+   * @param port (int) The port 0 - 9 to write to.
+   * @param key (String) The key for the telemetry.
+   * @param var (String) The string to be reported.
+   * @param lastValue (String) The last value reported.
+   * @return (String) Returns {@code var}
+   */
+  private String dashboardTelemetry(int port, String key, String var, String lastValue) {
+    if (!var.equals(lastValue)) {
+      SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %s", key, var));
+    }
+    return var;
   }
 
-  private void dashboardTelemetry(int port, String key, boolean var) {
-    SmartDashboard.putString(String.format("DB/String %d", port),
-        String.format("%s: %s", key, var ? "on" : "off"));
+  /**
+   * Update telemetry feedback for a boolean value. If the value has not changed, no update is sent
+   *
+   * @param port (int) The port 0 - 9 to write to.
+   * @param key (String) The key for the telemetry.
+   * @param var (boolean) The boolean to be reported.
+   * @param lastValue (boolean) The last value reported.
+   * @return (boolean) Returns {@code var}
+   */
+  private boolean dashboardTelemetry(int port, String key, boolean var, boolean lastValue) {
+    if (var != lastValue) {
+      SmartDashboard.putString(String.format("DB/String %d", port),
+          String.format("%s: %s", key, var ? "on" : "off"));
+    }
+    return var;
   }
 
   // This is the color that the camera will see (90 degrees away from the actual color)
@@ -78,25 +125,25 @@ public class Robot extends TimedRobot {
   private void displayTelemetry() {
 
     //dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
-    dashboardTelemetry(0, "delay", SmartDashboard.getNumber("DB/Slider 0", 0));
-    dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME);
-    dashboardTelemetry(1, "auto", m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
-        AutonomousCommands.getDefaultName())).NAME);
+    m_lastAutonomousDelay = dashboardTelemetry(0, "delay", SmartDashboard.getNumber("DB/Slider 0", 0), m_lastAutonomousDelay);
+    m_lastDriver = dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME, m_lastDriver);
+    m_lastAuto = dashboardTelemetry(1, "auto",
+        SmartDashboard.getString("Auto Selector",AutonomousCommands.getDefaultName()), m_lastAuto);
 
-    dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString());
-    dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition());
-    dashboardTelemetry(4, "arm pwr", ArmSubsystem.getInstance().getPositionPower());
+    m_lastGear = dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString(), m_lastGear);
+    m_lastArmPosition = dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition(), m_lastArmPosition);
+    m_lastArmPower = dashboardTelemetry(4, "arm pwr", ArmSubsystem.getInstance().getPositionPower(), m_lastArmPower);
     
     /*
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
     dashboardTelemetry(8, "stream", m_limelight.getStream().toString());
     */
-    dashboardTelemetry(7, "left enc", m_driveSubsystem.getLeftPosition());
-    dashboardTelemetry(8, "right enc", m_driveSubsystem.getRightPosition());
+    m_lastDriveLeftEnc = dashboardTelemetry(7, "left enc", m_driveSubsystem.getLeftPosition(), m_lastDriveLeftEnc);
+    m_lastDriveRightEnc = dashboardTelemetry(8, "right enc", m_driveSubsystem.getRightPosition(), m_lastDriveRightEnc);
 
-    dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder());
+    m_lastSpinnerEnc = dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder(), m_lastSpinnerEnc);
 
-    dashboardTelemetry(6, "color", getMessageToString());
+    m_lastColor = dashboardTelemetry(6, "color", getMessageToString(), m_lastColor);
 
   }
 
