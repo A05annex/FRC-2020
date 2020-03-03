@@ -25,7 +25,8 @@ public class SweeperSubsystem extends SubsystemBase {
   }
   //================================================================================================================================
 
-  private TalonSRX m_sweeper = new TalonSRX(Constants.MotorControllers.COLLECTOR_SWEEPER);
+  private final TalonSRX m_sweeper = new TalonSRX(Constants.MotorControllers.COLLECTOR_SWEEPER);
+  private double m_lastPower = 0.0;
 
   /**
    * Creates a new instance of this SweeperSubsystem.
@@ -35,15 +36,19 @@ public class SweeperSubsystem extends SubsystemBase {
   private SweeperSubsystem() {
     m_sweeper.configFactoryDefault();
     m_sweeper.setNeutralMode(NeutralMode.Brake);
-
+    m_sweeper.set(ControlMode.PercentOutput, 0.0);
   }
 
+  @SuppressWarnings("unused")
   public double getSweeperPower() {
-    return m_sweeper.getMotorOutputPercent();
+    return m_lastPower;
   }
 
   public void setSweeperPower(double power) {
-    m_sweeper.set(ControlMode.PercentOutput, power);
+    if (power != m_lastPower) {
+      m_sweeper.set(ControlMode.PercentOutput, power);
+      m_lastPower = power;
+    }
   }
 
 

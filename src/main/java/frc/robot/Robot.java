@@ -23,15 +23,15 @@ import frc.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 
-  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
-  private final LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
-  private final SpinnerLift m_spinnerLift = SpinnerLift.getInstance();
-  private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
-  private final NavX m_navx = NavX.getInstance();
-  private final Limelight m_limelight = Limelight.getInstance();
-  private final SpinnerSubsystem m_wheel = SpinnerSubsystem.getInstance();
-  private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  private DriveSubsystem m_driveSubsystem;
+  private LiftSubsystem m_liftSubsystem;
+  private SpinnerLift m_spinnerLift;
+  private SweeperSubsystem m_sweeperSubsystem;
+  private NavX m_navx;
+  private Limelight m_limelight;
+  private SpinnerSubsystem m_spinner;
+  private Command m_autonomousCommand;
 
   private double m_lastAutonomousDelay = 0.0;
   private double m_lastArmPosition = 0.0;
@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
    * @param lastValue (double) The last value reported.
    * @return (double) Returns {@code var}
    */
+  @SuppressWarnings("unused")
   private double dashboardTelemetry(int port, String key, double var, double lastValue) {
     if (var != lastValue) {
       SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.3f", key, var));
@@ -61,6 +62,22 @@ public class Robot extends TimedRobot {
     return var;
   }
 
+  /**
+   * Update telemetry feedback for an integer value. If the value has not changed, no update is sent
+   *
+   * @param port (int) The port 0 - 9 to write to.
+   * @param key (String) The key for the telemetry.
+   * @param var (int) The integer to be reported.
+   * @param lastValue (int) The last value reported.
+   * @return (int) Returns {@code var}
+   */
+  @SuppressWarnings("unused")
+  private int dashboardTelemetry(int port, String key, int var, int lastValue) {
+    if (var != lastValue) {
+      SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %d", key, var));
+    }
+    return var;
+  }
   /**
    * Update telemetry feedback for a string value. If the value has not changed, no update is sent
    *
@@ -70,6 +87,7 @@ public class Robot extends TimedRobot {
    * @param lastValue (String) The last value reported.
    * @return (String) Returns {@code var}
    */
+  @SuppressWarnings("unused")
   private String dashboardTelemetry(int port, String key, String var, String lastValue) {
     if (!var.equals(lastValue)) {
       SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %s", key, var));
@@ -86,6 +104,7 @@ public class Robot extends TimedRobot {
    * @param lastValue (boolean) The last value reported.
    * @return (boolean) Returns {@code var}
    */
+  @SuppressWarnings("unused")
   private boolean dashboardTelemetry(int port, String key, boolean var, boolean lastValue) {
     if (var != lastValue) {
       SmartDashboard.putString(String.format("DB/String %d", port),
@@ -141,7 +160,7 @@ public class Robot extends TimedRobot {
     m_lastDriveLeftEnc = dashboardTelemetry(7, "left enc", m_driveSubsystem.getLeftPosition(), m_lastDriveLeftEnc);
     m_lastDriveRightEnc = dashboardTelemetry(8, "right enc", m_driveSubsystem.getRightPosition(), m_lastDriveRightEnc);
 
-    m_lastSpinnerEnc = dashboardTelemetry(9, "spinner enc", m_wheel.getEncoder(), m_lastSpinnerEnc);
+    m_lastSpinnerEnc = dashboardTelemetry(9, "spinner enc", m_spinner.getEncoder(), m_lastSpinnerEnc);
 
     m_lastColor = dashboardTelemetry(6, "color", getMessageToString(), m_lastColor);
 
@@ -156,6 +175,14 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    // Get these here so you know the RobotContainer has been created and all of the subsystems instantiated by that.
+    m_driveSubsystem = DriveSubsystem.getInstance();
+    m_liftSubsystem = LiftSubsystem.getInstance();
+    m_spinnerLift = SpinnerLift.getInstance();
+    m_sweeperSubsystem = SweeperSubsystem.getInstance();
+    m_navx = NavX.getInstance();
+    m_limelight = Limelight.getInstance();
+    m_spinner = SpinnerSubsystem.getInstance();
 
     // empty the telemetry display
     for (int i = 0; i < 10; i++) {
@@ -257,7 +284,7 @@ public class Robot extends TimedRobot {
     }
 
     // set sweeper command at teleop init
-    m_sweeperSubsystem.setDefaultCommand(new RunSweeper(m_sweeperSubsystem, m_robotContainer.getXbox()));
+    m_sweeperSubsystem.setDefaultCommand(new RunSweeper(m_robotContainer.getXbox()));
 
     // Make sure everything that should be is at initial state
     m_liftSubsystem.retractUpper();

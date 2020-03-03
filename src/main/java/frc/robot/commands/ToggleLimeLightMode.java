@@ -6,11 +6,10 @@ import frc.robot.subsystems.Limelight;
 
 public class ToggleLimeLightMode extends CommandBase {
 
-  Limelight m_limelight;
+  Limelight m_limelight = Limelight.getInstance();
   boolean m_isFinished;
 
-  public ToggleLimeLightMode(Limelight limelight) {
-    m_limelight = limelight;
+  public ToggleLimeLightMode() {
     addRequirements(m_limelight);
   }
 

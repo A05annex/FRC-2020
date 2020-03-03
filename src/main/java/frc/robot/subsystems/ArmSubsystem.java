@@ -27,6 +27,7 @@ public class ArmSubsystem extends SubsystemBase {
   //================================================================================================================================
 
   private TalonSRX m_position = new TalonSRX(Constants.MotorControllers.COLLECTOR_POSITION);
+  private double m_lastPower = 0.0;
 
   /**
    * Creates a new instance of this ArmSubsystem.
@@ -53,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getPositionPower() {
-    return m_position.getMotorOutputPercent();
+    return m_lastPower;
   }
 
   public void setPositionPower(double power) {
@@ -71,7 +72,10 @@ public class ArmSubsystem extends SubsystemBase {
         power = .05 + power;
       }
     }
-    m_position.set(ControlMode.PercentOutput, power);
+    if (power != m_lastPower) {
+      m_position.set(ControlMode.PercentOutput, power);
+      m_lastPower = power;
+    }
   }
 
 }
