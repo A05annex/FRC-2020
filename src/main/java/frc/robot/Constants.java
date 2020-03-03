@@ -17,13 +17,19 @@ package frc.robot;
  */
 public final class Constants {
 
-  // These are constants that onxed us into the constants that really control the configuration of the robot.
+  // These are constants that onxed us into the constants that really control the configuration of the robot - although they are in
+  // the constants file, they are actually controlled through the dashboard and are normally used ias constants during a match.
   public static Drivers DRIVER = Drivers.NOLAN;
   public static Robots ROBOT = Robots.COMPETITION_ROBOT;
   public static int GEAR = DriveGears.FIRST.ordinal();
   public static double DELAY = 0.0;
 
+  // -------------------------------------------------------------------------------------------------------------------------------
+  //  Tuning the autonomous drive
+  public static final double AUTO_MOVE_SPEED = 0.75;
+  public static final double AUTO_TURN_SPEED = 0.4;
 
+  // -------------------------------------------------------------------------------------------------------------------------------
   /**
    * This class represents the constants for tuning the drive control for a specific gear.
    */
@@ -200,8 +206,7 @@ public final class Constants {
   }
 
   // -----------------------------------------------------------------------------------------------------------------------------
-  // Tuning IMU control of direction (heading)
-
+  // Positions for the collector arm
   public enum ArmPosition {
     START_POSITION(90000, 0, 0),
     FLOOR_POSITION(500, 0, 0),
@@ -220,5 +225,6 @@ public final class Constants {
     }
 
   }
+
 
 }

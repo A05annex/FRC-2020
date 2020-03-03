@@ -26,13 +26,6 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
 
-  // The robot's subsystems
-  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
-  private final ArmSubsystem m_armSubsystem = ArmSubsystem.getInstance();
-  private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
-  private final LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
-  private final SpinnerSubsystem m_spinnerSubsystem = SpinnerSubsystem.getInstance();
-  private final SpinnerLift m_spinnerLift = SpinnerLift.getInstance();
 
 
   // The driver station buttons
@@ -70,20 +63,29 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    // The robot's subsystems - we get the instance here - even if they are not used - to assure they are created
+    final DriveSubsystem driveSubsystem = DriveSubsystem.getInstance();
+    final ArmSubsystem armSubsystem = ArmSubsystem.getInstance();
+    final SpinnerSubsystem spinnerSubsystem = SpinnerSubsystem.getInstance();
+    //noinspection ResultOfMethodCallIgnored
+    SweeperSubsystem.getInstance();
+    //noinspection ResultOfMethodCallIgnored
+    LiftSubsystem.getInstance();
+    //noinspection ResultOfMethodCallIgnored
+    SpinnerLift.getInstance();
     // perform robot and driver initializations
-    m_driveSubsystem.setRobot();
+    driveSubsystem.setRobot();
     // Set the default commands for subsystems
     // The robot's subsystem default commands for autonomous and driver control
-    m_driveSubsystem.setDefaultCommand(new DriveCommand(m_stick));
-    m_armSubsystem.setDefaultCommand(new ManualCollector(m_xbox));
-    m_spinnerSubsystem.setDefaultCommand(new RunSpinner(m_xbox));
+    driveSubsystem.setDefaultCommand(new DriveCommand(m_stick));
+    armSubsystem.setDefaultCommand(new ManualCollector(m_xbox));
+    spinnerSubsystem.setDefaultCommand(new RunSpinner(m_xbox));
     // Configure the button bindings
     configureButtonBindings();
 
     // autonomous speed variables, adjust as necessary
-    double autoMoveSpeed = 0.75;
-    double autoTurnSpeed = 0.4;
 
+    /*
     // Auto Center: start lined up with goal as far forward as possible, dump and get out of the way.
     AutonomousCommands.POSITION1.COMMAND =
         new SequentialCommandGroup(
@@ -232,6 +234,7 @@ public class RobotContainer {
     // 10 feet forward
     AutonomousCommands.POSITION7.COMMAND =
         new AutoDrive(120, autoMoveSpeed);
+     */
   }
 
   /**
@@ -272,7 +275,7 @@ public class RobotContainer {
   }
 
   public void resetRobot() {
-    m_driveSubsystem.setRobot();
+    DriveSubsystem.getInstance().setRobot();
   }
 
   public void resetDriver() {
