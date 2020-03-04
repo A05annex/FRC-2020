@@ -17,30 +17,12 @@ import frc.robot.Constants;
 
 public class LiftSubsystem extends SubsystemBase {
 
-  /**
-   * The Singleton instance of this LiftSubsystem. External classes should
-   * use the {@link #getInstance()} method to get the instance.
-   */
-  private static final LiftSubsystem INSTANCE = new LiftSubsystem();
-  private static final DoubleSolenoid.Value EXTENDED = DoubleSolenoid.Value.kForward;
-  private static final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
-
-  /**
-   * Returns the Singleton instance of this LiftSubsystem. This static method
-   * should be used -- {@code LiftSubsystem.getInstance();} -- by external
-   * classes, rather than the constructor to get the instance of this class.
-   */
-  public static LiftSubsystem getInstance() {
-    return INSTANCE;
-  }
-  //================================================================================================================================
-
   private final DoubleSolenoid m_lowerCylinder = new DoubleSolenoid(Constants.Pneumatics.LOWER_LIFT_EXTEND,
       Constants.Pneumatics.LOWER_LIFT_RETRACT);
   private final DoubleSolenoid m_upperCylinder = new DoubleSolenoid(Constants.Pneumatics.UPPER_LIFT_EXTEND,
       Constants.Pneumatics.UPPER_LIFT_RETRACT);
   private final Solenoid m_liftPressureDump = new Solenoid(Constants.Pneumatics.LIFT_PRESSURE_DUMP);
-  private TalonSRX m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
+  private final TalonSRX m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
 
   /**
    * Creates a new LiftSubsystem. Works the 2 lower pneumatic cylinders.
@@ -93,4 +75,25 @@ public class LiftSubsystem extends SubsystemBase {
   public void setWinchPower(double power) {
     m_winch.set(ControlMode.PercentOutput, power);
   }
+
+  private static final DoubleSolenoid.Value EXTENDED = DoubleSolenoid.Value.kForward;
+  private static final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
+
+  //================================================================================================================================
+  /**
+   * The Singleton instance of this LiftSubsystem. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private static final LiftSubsystem INSTANCE = new LiftSubsystem();
+
+  /**
+   * Returns the Singleton instance of this LiftSubsystem. This static method
+   * should be used -- {@code LiftSubsystem.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static LiftSubsystem getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
+
 }

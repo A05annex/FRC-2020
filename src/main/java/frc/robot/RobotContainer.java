@@ -73,6 +73,7 @@ public class RobotContainer {
     LiftSubsystem.getInstance();
     //noinspection ResultOfMethodCallIgnored
     SpinnerLift.getInstance();
+
     // perform robot and driver initializations
     driveSubsystem.setRobot();
     // Set the default commands for subsystems
