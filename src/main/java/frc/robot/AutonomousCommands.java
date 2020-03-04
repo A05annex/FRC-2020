@@ -12,7 +12,12 @@ public enum AutonomousCommands {
   POSITION4("Trench", null),
   POSITION5("Full", null),
   POSITION6("Move", null),
-  POSITION7("10ft", null);
+  POSITION7("10ft", null),
+  TEST_TURN_AT_0("90 clockwise", null),
+  TEST_TURN_AT_2("90 at 2ft", null),
+  TEST_TURN_AT_5("90 at 5ft", null),
+  TEST_TURN_AT_10("90 at 10ft", null),
+  TEST_S_TURN("S-turn", null);
 
 
   public final String NAME;

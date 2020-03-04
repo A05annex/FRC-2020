@@ -121,6 +121,26 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
+   *
+   * @param right
+   * @param left
+   */
+  public void sepTankSpeed (double right, double left) {
+    if (Math.abs(right) > 0.0) {
+      right /= Math.abs(right);
+      left /= Math.abs(right);
+    }
+    if (Math.abs(left) > 0.0) {
+      right /= Math.abs(left);
+      left /= Math.abs(left);
+    }
+    m_targetRightSpeed = right * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_MAX_RPM;
+    m_targetLeftSpeed = left * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_MAX_RPM;
+
+    m_rightMaster.set(ControlMode.Velocity, m_targetRightSpeed);
+    m_leftMaster.set(ControlMode.Velocity, m_targetLeftSpeed);
+  }
+  /**
    * Sets the neutral mode for all drive motor controllers.
    *
    * @param mode The neutral mode to be set.

@@ -17,6 +17,7 @@ public class AutoTurn extends CommandBase {
   static private final double EXPECTED_OVERSHOOT = 0.0;
 
   private final DriveSubsystem m_driveSubsystem;
+  private NavX m_navx = NavX.getInstance();
   private double m_speed;
   private double m_degrees;
   private boolean m_clockwise;
@@ -42,16 +43,16 @@ public class AutoTurn extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    NavX.getInstance().incrementExpectedHeading(m_degrees);
-    NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
+    m_navx.incrementExpectedHeading(m_degrees);
+    NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     double actualDegrees = (headingInfo.expectedHeading - headingInfo.heading);
     // reverse speed if degrees are negative
-    if (actualDegrees < 0) {
+    if (actualDegrees < 0.0) {
       m_clockwise = false;
-      m_directionMult = 1;
+      m_directionMult = 1.0;
     } else {
       m_clockwise = true;
-      m_directionMult = -1;
+      m_directionMult = -1.0;
     }
     m_ramp = new RampInOut(headingInfo.heading, headingInfo.expectedHeading, m_speed,
         .25, 20, .10, 50);
@@ -60,7 +61,7 @@ public class AutoTurn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
+    NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     m_driveSubsystem.setArcadeSpeed(0, m_ramp.getValueAtPosition(headingInfo.heading) * m_directionMult,
         false, false);
   }
@@ -74,7 +75,7 @@ public class AutoTurn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
+    NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     if (m_clockwise) {
       if (headingInfo.heading + EXPECTED_OVERSHOOT >= headingInfo.expectedHeading) {
         return true;
