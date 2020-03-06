@@ -286,6 +286,7 @@ public class RobotContainer {
     m_xboxDpadUp.whenPressed(new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.FLOOR_POSITION));
     m_xboxDpadDown.whenPressed(new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.COLLECT_POSITION));
     m_xboxDpadLeft.whenPressed(new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.DELIVER_POSITION));
+    m_xboxDpadRight.whenPressed(new CollectorToPosition(m_armSubsystem, Constants.ArmPosition.START_POSITION));
 
   }
 

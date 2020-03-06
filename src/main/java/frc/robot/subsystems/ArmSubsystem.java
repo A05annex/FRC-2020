@@ -27,9 +27,9 @@ public class ArmSubsystem extends SubsystemBase {
     m_position.configFactoryDefault();
     m_position.setNeutralMode(NeutralMode.Coast);
     m_position.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    initializeArmEncoder();
     m_position.setSensorPhase(true);
-
+    initializeArmEncoder();
+    setupTalonPID();
   }
 
   public void initializeArmEncoder() {
@@ -49,9 +49,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    m_position.config_kP(0, Constants.ARM_Kp);
-    m_position.config_kI(0, Constants.ARM_Ki);
-    m_position.config_kD(0, Constants.ARM_Kd);
+    setupTalonPID();
   }
 
   /**
@@ -94,6 +92,13 @@ public class ArmSubsystem extends SubsystemBase {
       }
       m_position.set(ControlMode.PercentOutput, power);
     }
+  }
+
+  public void setupTalonPID() {
+    m_position.config_kP(0, Constants.ARM_Kp);
+    m_position.config_kI(0, Constants.ARM_Ki);
+    m_position.config_IntegralZone(0,3000); // don't start integral until you are within about 1.5"
+    m_position.config_kD(0, Constants.ARM_Kd);
   }
 
   /**
