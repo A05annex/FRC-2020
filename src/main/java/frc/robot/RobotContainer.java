@@ -260,6 +260,14 @@ public class RobotContainer {
 
     m_thumb.whenPressed(new ToggleShift(m_driveSubsystem));
 
+    m_button12.whenPressed(new BumpArmKp(0.01));
+    m_button11.whenPressed(new BumpArmKp(-0.01));
+    m_button10.whenPressed(new BumpArmKi(0.001));
+    m_button9.whenPressed(new BumpArmKi(-0.001));
+    m_button8.whenPressed(new BumpArmKd(0.001));
+    m_button7.whenPressed(new BumpArmKd(-0.001));
+
+    /*
     m_button12.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
         LiftCylinderControl.LOWER_CYLINDER, LiftCylinderControl.EXTENDED));
     m_button10.whenPressed(new LiftCylinderControl(m_liftSubsystem, m_spinnerSolenoid,
@@ -268,6 +276,7 @@ public class RobotContainer {
         LiftCylinderControl.UPPER_CYLINDER, LiftCylinderControl.RETRACTED));
     m_button8.whenHeld(new RunWinch(m_liftSubsystem, 1));
     m_button7.whenHeld(new RunWinch(m_liftSubsystem, -1));
+    */
 
     m_xboxLeftBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.UP));
     m_xboxRightBumper.whenPressed(new SpinnerUpDown(m_spinnerSolenoid, SpinnerUpDown.Position.DOWN));
@@ -335,4 +344,7 @@ public class RobotContainer {
     return m_spinnerSolenoid;
   }
 
+  public  ArmSubsystem getArm() {
+    return m_armSubsystem;
+  }
 }

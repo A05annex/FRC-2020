@@ -16,6 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
    */
   private final static ArmSubsystem INSTANCE = new ArmSubsystem();
   private TalonSRX m_position = new TalonSRX(Constants.MotorControllers.COLLECTOR_POSITION);
+  private double m_targetPosition;
 
   /**
    * Creates a new instance of this CollectorSubsystem.
@@ -45,31 +46,68 @@ public class ArmSubsystem extends SubsystemBase {
     return INSTANCE;
   }
 
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    m_position.config_kP(0, Constants.ARM_Kp);
+    m_position.config_kI(0, Constants.ARM_Ki);
+    m_position.config_kD(0, Constants.ARM_Kd);
+  }
+
+  /**
+   * Gets the current encoder position
+   * @return
+   */
   public double getPosition() {
     return m_position.getSelectedSensorPosition();
   }
 
+  /**
+   * Gets the current power, which is useful when you want to find the power that will balance the weight of the arm during
+   * calibration of the manual move.
+   * @return
+   */
   public double getPositionPower() {
     return m_position.getMotorOutputPercent();
   }
 
+  /**
+   * Set the power for moving the arm position. This method looks at the current position and adds power to offset the
+   * weight of the collector so the collector does not move if the requested power is 0.0;
+   * @param power
+   */
   public void setPositionPower(double power) {
-    double position = m_position.getSelectedSensorPosition();
-    if ((position < 0.0) && (power < 0.0)) {
-      power = 0.0;
-    } else if (position < 35000.0) {
-      power = .2 + power;
-    } else if (position < 50000.0) {
-      power = .1 + power;
-    } else if (position < 60000.0) {
-      if (power >= 0.0) {
-        power = 0.5;
-      } else {
-        power = .05 + power;
+    if (power != 0.0) {
+      double position = m_position.getSelectedSensorPosition();
+      if ((position < 0.0) && (power < 0.0)) {
+        power = 0.0;
+      } else if (position < 35000.0) {
+        power = .2 + power;
+      } else if (position < 50000.0) {
+        power = .1 + power;
+      } else if (position < 60000.0) {
+        if (power >= 0.0) {
+          power = 0.5;
+        } else {
+          power = .05 + power;
+        }
       }
+      m_position.set(ControlMode.PercentOutput, power);
     }
-    m_position.set(ControlMode.PercentOutput, power);
   }
 
+  /**
+   * specify the position you want and let the arm PID loop get you too and hold that position.
+   * @param position
+   */
+  public void setPosition(Constants.ArmPosition position) {
+    // here we are asking the PID controller to fold the position - as soon as the driver
+    m_targetPosition = position.POSITION;
+    m_position.set(ControlMode.Position, position.POSITION);
+  }
+
+  public double getTargetPosition() {
+    return m_targetPosition;
+  }
 }
 

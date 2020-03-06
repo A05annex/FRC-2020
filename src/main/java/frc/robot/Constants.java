@@ -28,6 +28,10 @@ public final class Constants {
   public static int GEAR = DriveGears.FIRST.ordinal();
   public static double DELAY = 0.0;
 
+  public static double ARM_Kp = 0.0;
+  public static double ARM_Ki = 0.0;
+  public static double ARM_Kd = 0.0;
+
   // -----------------------------------------------------------------------------------------------------------------------------
   // Driver Configurations
   // -----------------------------------------------------------------------------------------------------------------------------
