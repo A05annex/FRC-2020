@@ -8,20 +8,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SpinnerSolenoid;
+import frc.robot.subsystems.SpinnerLift;
 
 public class SpinnerUpDown extends CommandBase {
 
   private final boolean m_position;
-  private final SpinnerSolenoid m_spinnerSolenoid;
+  private final SpinnerLift m_spinnerLift = SpinnerLift.getInstance();
 
   /**
    * Creates a new SpinnerUpDown.
    */
-  public SpinnerUpDown(SpinnerSolenoid spinnerSolenoid, boolean position) {
+  public SpinnerUpDown(boolean position) {
     m_position = position;
-    m_spinnerSolenoid = spinnerSolenoid;
-    addRequirements(spinnerSolenoid);
+    addRequirements(m_spinnerLift);
   }
 
   // Called when the command is initially scheduled.
@@ -33,9 +32,9 @@ public class SpinnerUpDown extends CommandBase {
   @Override
   public void execute() {
     if (m_position == Position.UP) {
-      m_spinnerSolenoid.spinner_up();
+      m_spinnerLift.spinner_up();
     } else {
-      m_spinnerSolenoid.spinner_down();
+      m_spinnerLift.spinner_down();
     }
   }
 

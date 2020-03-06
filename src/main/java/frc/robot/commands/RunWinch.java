@@ -6,11 +6,10 @@ import frc.robot.subsystems.LiftSubsystem;
 
 public class RunWinch extends CommandBase {
 
-  private final LiftSubsystem m_liftSubsystem;
+  private final LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
   private final double m_power;
 
-  public RunWinch(LiftSubsystem liftSubsystem, double power) {
-    m_liftSubsystem = liftSubsystem;
+  public RunWinch(double power) {
     m_power = power;
     addRequirements(m_liftSubsystem);
   }

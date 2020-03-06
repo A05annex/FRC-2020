@@ -16,7 +16,8 @@ public class AutoTurn extends CommandBase {
 
   static private final double EXPECTED_OVERSHOOT = 0.0;
 
-  private final DriveSubsystem m_driveSubsystem;
+  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+  private final NavX m_navx = NavX.getInstance();
   private double m_speed;
   private double m_degrees;
   private boolean m_clockwise;
@@ -26,13 +27,10 @@ public class AutoTurn extends CommandBase {
 
   /**
    * Turns for a certain amount of degrees, at a certain speed.
-   *
-   * @param driveSubsystem The drive subsystem.
    * @param degrees        Amount of degrees to turn positive is clockwise
    * @param speed          Speed from 1 to 0. Do not make this negative!
    */
-  public AutoTurn(DriveSubsystem driveSubsystem, double degrees, double speed) {
-    m_driveSubsystem = driveSubsystem;
+  public AutoTurn(double degrees, double speed) {
     m_degrees = degrees;
     m_speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -42,8 +40,8 @@ public class AutoTurn extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    NavX.getInstance().incrementExpectedHeading(m_degrees);
-    NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
+    m_navx.incrementExpectedHeading(m_degrees);
+    NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     double actualDegrees = (headingInfo.expectedHeading - headingInfo.heading);
     // reverse speed if degrees are negative
     if (actualDegrees < 0) {
@@ -60,7 +58,7 @@ public class AutoTurn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
+    NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     m_driveSubsystem.setArcadeSpeed(0, m_ramp.getValueAtPosition(headingInfo.heading) * m_directionMult,
         false, false);
   }
@@ -74,7 +72,7 @@ public class AutoTurn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    NavX.HeadingInfo headingInfo = NavX.getInstance().getHeadingInfo();
+    NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     if (m_clockwise) {
       if (headingInfo.heading + EXPECTED_OVERSHOOT >= headingInfo.expectedHeading) {
         return true;

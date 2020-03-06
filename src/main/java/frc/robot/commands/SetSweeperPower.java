@@ -13,27 +13,24 @@ import frc.robot.subsystems.SweeperSubsystem;
 
 public class SetSweeperPower extends CommandBase {
 
-  private final SweeperSubsystem m_sweeper;
-  private final SpinnerSubsystem m_spinner;
+  private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
+  private final SpinnerSubsystem m_spinnerSubsystem = SpinnerSubsystem.getInstance();
   private double m_power;
 
   /**
    * Creates a new SetSweeperPower.
    */
-  public SetSweeperPower(SweeperSubsystem sweeperSubsystem, SpinnerSubsystem spinnerSubsystem, double power) {
-    m_sweeper = sweeperSubsystem;
-    m_spinner = spinnerSubsystem;
+  public SetSweeperPower(double power) {
     m_power = power;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_sweeper);
-    addRequirements(m_spinner);
+    addRequirements(m_sweeperSubsystem);
+    addRequirements(m_spinnerSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_sweeper.setSweeperPower(m_power);
-    m_spinner.setPower(-m_power);
+    m_sweeperSubsystem.setSweeperPower(m_power);
+    m_spinnerSubsystem.setPower(-m_power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

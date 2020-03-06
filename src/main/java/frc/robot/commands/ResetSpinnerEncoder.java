@@ -12,21 +12,20 @@ import frc.robot.subsystems.SpinnerSubsystem;
 
 public class ResetSpinnerEncoder extends CommandBase {
 
-  private SpinnerSubsystem m_wheel;
+  private final SpinnerSubsystem m_spinnerSubsystem = SpinnerSubsystem.getInstance();
 
   /**
    * Creates a new resetBigWheelEncoders.
    */
-  public ResetSpinnerEncoder(SpinnerSubsystem wheel) {
+  public ResetSpinnerEncoder() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_wheel = wheel;
-    addRequirements(m_wheel);
+    addRequirements(m_spinnerSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_wheel.resetEncoder();
+    m_spinnerSubsystem.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
