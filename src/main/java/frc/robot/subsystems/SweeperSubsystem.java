@@ -9,22 +9,6 @@ import frc.robot.Constants;
 
 public class SweeperSubsystem extends SubsystemBase {
 
-  /**
-   * The Singleton instance of this SweeperSubsystem. External classes should
-   * use the {@link #getInstance()} method to get the instance.
-   */
-  private static final SweeperSubsystem INSTANCE = new SweeperSubsystem();
-
-  /**
-   * Returns the Singleton instance of this SweeperSubsystem. This static method
-   * should be used -- {@code SweeperSubsystem.getInstance();} -- by external
-   * classes, rather than the constructor to get the instance of this class.
-   */
-  public static SweeperSubsystem getInstance() {
-    return INSTANCE;
-  }
-  //================================================================================================================================
-
   private final TalonSRX m_sweeper = new TalonSRX(Constants.MotorControllers.COLLECTOR_SWEEPER);
   private double m_lastPower = 0.0;
 
@@ -51,6 +35,22 @@ public class SweeperSubsystem extends SubsystemBase {
     }
   }
 
+  //================================================================================================================================
+  /**
+   * The Singleton instance of this SweeperSubsystem. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private static final SweeperSubsystem INSTANCE = new SweeperSubsystem();
+
+  /**
+   * Returns the Singleton instance of this SweeperSubsystem. This static method
+   * should be used -- {@code SweeperSubsystem.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static SweeperSubsystem getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
 
 }
 

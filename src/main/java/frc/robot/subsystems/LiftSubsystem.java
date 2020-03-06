@@ -17,10 +17,12 @@ import frc.robot.Constants;
 
 public class LiftSubsystem extends SubsystemBase {
 
-  private final DoubleSolenoid m_lowerCylinder;
-  private final DoubleSolenoid m_upperCylinder;
-  private final Solenoid m_liftPressureDump;
-  private final TalonSRX m_winch;
+  private final DoubleSolenoid m_lowerCylinder = new DoubleSolenoid(Constants.Pneumatics.LOWER_LIFT_EXTEND,
+      Constants.Pneumatics.LOWER_LIFT_RETRACT);
+  private final DoubleSolenoid m_upperCylinder= new DoubleSolenoid(Constants.Pneumatics.UPPER_LIFT_EXTEND,
+      Constants.Pneumatics.UPPER_LIFT_RETRACT);
+  private final Solenoid m_liftPressureDump = new Solenoid(Constants.Pneumatics.LIFT_PRESSURE_DUMP);
+  private final TalonSRX m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
 
   /**
    * Creates a new LiftSubsystem. Works the 2 lower pneumatic cylinders.
@@ -28,13 +30,6 @@ public class LiftSubsystem extends SubsystemBase {
    * should use the {@link #getInstance()} method to get the instance.
    */
   private LiftSubsystem() {
-    m_lowerCylinder = new DoubleSolenoid(Constants.Pneumatics.LOWER_LIFT_EXTEND,
-        Constants.Pneumatics.LOWER_LIFT_RETRACT);
-    m_upperCylinder = new DoubleSolenoid(Constants.Pneumatics.UPPER_LIFT_EXTEND,
-        Constants.Pneumatics.UPPER_LIFT_RETRACT);
-    m_liftPressureDump = new Solenoid(Constants.Pneumatics.LIFT_PRESSURE_DUMP);
-    m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
-
     m_liftPressureDump.set(true);
     m_upperCylinder.set(RETRACTED);
     m_lowerCylinder.set(RETRACTED);

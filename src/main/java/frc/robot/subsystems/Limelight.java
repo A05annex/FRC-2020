@@ -14,21 +14,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
 
-  /**
-   * The Singleton instance of this Limelight. External classes should
-   * use the {@link #getInstance()} method to get the instance.
-   */
-  private static final Limelight INSTANCE = new Limelight();
-
-  /**
-   * Returns the Singleton instance of this Limelight. This static method
-   * should be used -- {@code Limelight.getInstance();} -- by external
-   * classes, rather than the constructor to get the instance of this class.
-   */
-  public static Limelight getInstance() {
-    return INSTANCE;
-  }
-  //================================================================================================================================
   NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");
   double v;
   double x;
@@ -199,5 +184,22 @@ public class Limelight extends SubsystemBase {
     SIDE_BY_SIDE,
     SECONDARY;
   }
+
+  //================================================================================================================================
+  /**
+   * The Singleton instance of this Limelight. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private static final Limelight INSTANCE = new Limelight();
+
+  /**
+   * Returns the Singleton instance of this Limelight. This static method
+   * should be used -- {@code Limelight.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static Limelight getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
 
 }

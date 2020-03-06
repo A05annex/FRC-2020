@@ -16,22 +16,6 @@ import frc.robot.Constants;
 
 public class SpinnerSubsystem extends SubsystemBase {
 
-  /**
-   * The Singleton instance of this SpinnerSubsystem. External classes should
-   * use the {@link #SpinnerSubsystem()} method to get the instance.
-   */
-  private static final SpinnerSubsystem INSTANCE = new SpinnerSubsystem();
-
-  /**
-   * Returns the Singleton instance of this SpinnerSubsystem. This static method
-   * should be used -- {@code SpinnerSubsystem.getInstance();} -- by external
-   * classes, rather than the constructor to get the instance of this class.
-   */
-  public static SpinnerSubsystem getInstance() {
-    return INSTANCE;
-  }
-  //================================================================================================================================
-
   public final TalonSRX m_spinner = new TalonSRX(Constants.MotorControllers.SPINNER);
   private double m_lastPower = 0.0;
 
@@ -68,5 +52,22 @@ public class SpinnerSubsystem extends SubsystemBase {
   public void resetEncoder() {
     m_spinner.setSelectedSensorPosition(0);
   }
+
+  //================================================================================================================================
+  /**
+   * The Singleton instance of this SpinnerSubsystem. External classes should
+   * use the {@link #SpinnerSubsystem()} method to get the instance.
+   */
+  private static final SpinnerSubsystem INSTANCE = new SpinnerSubsystem();
+
+  /**
+   * Returns the Singleton instance of this SpinnerSubsystem. This static method
+   * should be used -- {@code SpinnerSubsystem.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static SpinnerSubsystem getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
 
 }

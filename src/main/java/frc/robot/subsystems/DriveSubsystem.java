@@ -19,21 +19,6 @@ import frc.robot.NavX;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  /**
-   * The Singleton instance of this DriveSubsystem. External classes should
-   * use the {@link #getInstance()} method to get the instance.
-   */
-  private static final DriveSubsystem INSTANCE = new DriveSubsystem();
-
-  /**
-   * Returns the Singleton instance of this DriveSubsystem. This static method
-   * should be used -- {@code DriveSubsystem.getInstance();} -- by external
-   * classes, rather than the constructor to get the instance of this class.
-   */
-  public static DriveSubsystem getInstance() {
-    return INSTANCE;
-  }
-  //================================================================================================================================
   private final Solenoid m_shifter = new Solenoid(Constants.Pneumatics.DRIVE_SHIFTER);
   private final TalonSRX m_rightMaster = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_MASTER);
   private final TalonSRX m_rm2 = new TalonSRX(Constants.MotorControllers.DRIVE_RIGHT_SLAVE_1);
@@ -286,5 +271,21 @@ public class DriveSubsystem extends SubsystemBase {
     FIRST,
     SECOND;
   }
+  //================================================================================================================================
+  /**
+   * The Singleton instance of this DriveSubsystem. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private static final DriveSubsystem INSTANCE = new DriveSubsystem();
+
+  /**
+   * Returns the Singleton instance of this DriveSubsystem. This static method
+   * should be used -- {@code DriveSubsystem.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static DriveSubsystem getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
 
 }
