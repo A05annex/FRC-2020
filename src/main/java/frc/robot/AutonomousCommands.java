@@ -4,10 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.AutoDrive;
-import frc.robot.commands.AutoTurn;
-import frc.robot.commands.CollectorToPosition;
-import frc.robot.commands.SetSweeperPower;
+import frc.robot.commands.*;
 
 
 /**
@@ -139,12 +136,17 @@ public enum AutonomousCommands {
           new AutoDrive(12, Constants.AUTO_MOVE_SPEED), // drive off the line
           new CollectorToPosition(Constants.ArmPosition.FLOOR_POSITION) // arm to collect position
       ))),
-  POSITION7("10ft", new AutoDrive(120, Constants.AUTO_MOVE_SPEED),
-  TEST_TURN_AT_2_CLOCK("90 rgt at 2ft", null),
-  TEST_TURN_AT_2_COUNTER("90 lft at 2ft", null),
-  TEST_TURN_AT_5_CLOCK("90 rgt at 5ft", null),
-  TEST_TURN_AT_5_COUNTER("90 lft 5ft", null),
-  TEST_S_TURN("S-turn", null));
+  POSITION7("10ft", new AutoDrive(120, Constants.AUTO_MOVE_SPEED)),
+  TEST_TURN_AT_2_CLOCK("90 rgt at 2ft", new AutoTurnAtRadius(24.0, 90.0, Constants.AUTO_MOVE_SPEED)),
+  TEST_TURN_AT_2_COUNTER("90 lft at 2ft", new AutoTurnAtRadius(24.0, -90.0, Constants.AUTO_MOVE_SPEED)),
+  TEST_TURN_AT_5_CLOCK("90 rgt at 5ft", new AutoTurnAtRadius(60.0, 90.0, Constants.AUTO_MOVE_SPEED)),
+  TEST_TURN_AT_5_COUNTER("90 lft 5ft", new AutoTurnAtRadius(60.0, -90.0, Constants.AUTO_MOVE_SPEED)),
+  TEST_S_TURN("S-turn", new SequentialCommandGroup(
+      new AutoTurnAtRadius(24.0, 90.0, 0.5, 0.2, 20.0, 0.5, 1.0), // turn 90 degrees clockwise
+      new AutoDrive(72.0, Constants.AUTO_MOVE_SPEED, 0.5, 5.0, 0.5, 10.0), // 10 ft toward target
+      new AutoTurnAtRadius(24.0, -90.0, 0.5, 0.5, 1.0, 0.5, 30.0), // turn counterclockwise 90 towards target
+      new AutoDrive(40.0, 0.5, 0.5,10.0, 0.15, 10.0) // 10 ft toward target
+  ));
 
   public final String NAME;
   public Command COMMAND;

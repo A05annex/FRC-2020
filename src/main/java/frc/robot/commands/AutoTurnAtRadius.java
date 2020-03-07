@@ -15,7 +15,7 @@ public class AutoTurnAtRadius extends CommandBase {
   // the width of the drive (wheel center to wheel center
   static final double DRIVE_WIDTH = 30;
 
-  private final DriveSubsystem m_driveSubsystem;
+  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
   private NavX m_navx = NavX.getInstance();
   private double m_speed;
   private double m_degrees;
@@ -27,8 +27,7 @@ public class AutoTurnAtRadius extends CommandBase {
   private boolean m_clockwise;
   private RampInOut m_ramp;
 
-  public AutoTurnAtRadius(DriveSubsystem driveSubsystem, double radiusInInches, double degrees, double speed) {
-    m_driveSubsystem = driveSubsystem;
+  public AutoTurnAtRadius(double radiusInInches, double degrees, double speed) {
     m_radius = radiusInInches;
     m_degrees = degrees;
     m_speed = speed;
@@ -36,9 +35,9 @@ public class AutoTurnAtRadius extends CommandBase {
     addRequirements(m_driveSubsystem);
   }
 
-  public AutoTurnAtRadius(DriveSubsystem driveSubsystem, double radiusInInches, double degrees, double speed, double minAtStart,
+  public AutoTurnAtRadius(double radiusInInches, double degrees, double speed, double minAtStart,
                    double accelerationDistance, double minAtEnd, double decelerationDistance) {
-    this(driveSubsystem, radiusInInches, degrees, speed);
+    this(radiusInInches, degrees, speed);
     m_minAtStart = minAtStart;
     m_accelerationDistance = accelerationDistance;
     m_minAtEnd = minAtEnd;
