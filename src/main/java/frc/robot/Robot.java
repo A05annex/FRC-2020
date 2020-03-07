@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -44,6 +45,18 @@ public class Robot extends TimedRobot {
   private void dashboardTelemetry(int port, String key, boolean var) {
     SmartDashboard.putString(String.format("DB/String %d", port),
         String.format("%s: %s", key, var ? "on" : "off"));
+  }
+
+  private void smartTelemetry(String key, double var) {
+    SmartDashboard.putNumber(key, var);
+  }
+
+  private void smartTelemetry(String key, String var) {
+    SmartDashboard.putString(key, var);
+  }
+
+  private void smartTelemetry(String key, boolean var) {
+    SmartDashboard.putBoolean(key, var);
   }
 
   // This is the color that the camera will see (90 degrees away from the actual color)
@@ -99,6 +112,19 @@ public class Robot extends TimedRobot {
 
   }
 
+  private void displaySmartTelemetry() {
+    smartTelemetry("delay", 0.0);
+    smartTelemetry("driver", Constants.DRIVER.DRIVER_NAME);
+    smartTelemetry("auto", m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
+    AutonomousCommands.getDefaultName())).NAME);
+    smartTelemetry("drive gear", m_drive.getGear().toString());
+    smartTelemetry("arm enc", ArmSubsystem.getInstance().getPosition());
+    smartTelemetry("arm pwr", ArmSubsystem.getInstance().getPositionPower());
+    smartTelemetry("left enc", m_robotContainer.getDrive().getLeftPosition());
+    smartTelemetry("right enc", m_robotContainer.getDrive().getRightPosition());
+    smartTelemetry("color", getMessageToString());
+  }
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -143,7 +169,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    displayTelemetry(); // output telemetry
+    displaySmartTelemetry(); // output telemetry
   }
 
   /**
@@ -171,7 +197,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 //    Constants.ROBOT = robotChooser.getSelected();
 //    m_robotContainer.resetRobot();
-    Constants.DELAY = SmartDashboard.getNumber("DB/Slider 0", 0.0);
+    Constants.DELAY = SmartDashboard.getNumber("delay", 0.0);
 
     NavX.getInstance().initializeHeadingAndNav();
     ArmSubsystem.getInstance().initializeArmEncoder();
