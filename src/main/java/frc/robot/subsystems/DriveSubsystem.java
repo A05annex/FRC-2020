@@ -125,12 +125,13 @@ public class DriveSubsystem extends SubsystemBase {
    * @param right
    * @param left
    */
-  public void sepTankSpeed (double right, double left) {
-    if (Math.abs(right) > 0.0) {
+  public void setTankSpeed (double right, double left) {
+    m_navx.recomputeHeading(false);
+    if (Math.abs(right) > 1.0) {
       right /= Math.abs(right);
       left /= Math.abs(right);
     }
-    if (Math.abs(left) > 0.0) {
+    if (Math.abs(left) > 1.0) {
       right /= Math.abs(left);
       left /= Math.abs(left);
     }

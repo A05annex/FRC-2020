@@ -13,7 +13,7 @@ public class AutoTurnAtRadius extends CommandBase {
   // the expected overshoot at speed 1
   static private final double EXPECTED_OVERSHOOT = 0.0;
   // the width of the drive (wheel center to wheel center
-  static final double DRIVE_WIDTH = 24.0;
+  static final double DRIVE_WIDTH = 30;
 
   private final DriveSubsystem m_driveSubsystem;
   private NavX m_navx = NavX.getInstance();
@@ -59,9 +59,11 @@ public class AutoTurnAtRadius extends CommandBase {
   public void execute() {
     NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     double speed = m_ramp.getValueAtPosition(headingInfo.heading);
-    double fasterSide = ((m_radius + (DRIVE_WIDTH * 0.5)) / m_radius) * speed;
-    double slowerSide = ((m_radius - (DRIVE_WIDTH * 0.5)) / m_radius) * speed;
-    m_driveSubsystem.sepTankSpeed(m_clockwise ? slowerSide : fasterSide, m_clockwise ? fasterSide : slowerSide);
+    double fasterSide = (m_radius < 1) ?
+        speed : ((m_radius + (DRIVE_WIDTH * 0.5)) / m_radius) * speed;
+    double slowerSide = (m_radius < 1) ?
+        -speed : ((m_radius - (DRIVE_WIDTH * 0.5)) / m_radius) * speed;
+    m_driveSubsystem.setTankSpeed(m_clockwise ? slowerSide : fasterSide, m_clockwise ? fasterSide : slowerSide);
   }
 
   @Override

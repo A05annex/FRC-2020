@@ -89,7 +89,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // autonomous speed variables, adjust as neccessary
+    // autonomous speed variables, adjust as necessary
     double autoMoveSpeed = 0.75;
     double autoTurnSpeed = 0.4;
 
@@ -242,19 +242,21 @@ public class RobotContainer {
     AutonomousCommands.POSITION7.COMMAND = 
     new AutoDrive(m_driveSubsystem, 120, autoMoveSpeed);
 
-    AutonomousCommands.TEST_TURN_AT_0.COMMAND = new AutoTurnAtRadius(m_driveSubsystem, 0.0, 90.0, autoTurnSpeed);
-    ;
-    AutonomousCommands.TEST_TURN_AT_2.COMMAND = new AutoTurnAtRadius(m_driveSubsystem, 24.0, 90.0, autoTurnSpeed);
+    AutonomousCommands.TEST_TURN_AT_2_CLOCK.COMMAND =
+        new AutoTurnAtRadius(m_driveSubsystem, 24.0, 90.0, autoMoveSpeed);
 
-    AutonomousCommands.TEST_TURN_AT_5.COMMAND = new AutoTurnAtRadius(m_driveSubsystem, 60.0, 90.0, autoTurnSpeed);
+    AutonomousCommands.TEST_TURN_AT_2_COUNTER.COMMAND = new AutoTurnAtRadius(m_driveSubsystem, 24.0, -90.0, autoMoveSpeed);
 
-    AutonomousCommands.TEST_TURN_AT_10.COMMAND = new AutoTurnAtRadius(m_driveSubsystem, 120.0, 90.0, autoTurnSpeed);
+    AutonomousCommands.TEST_TURN_AT_5_CLOCK.COMMAND = new AutoTurnAtRadius(m_driveSubsystem, 60.0, 90.0, autoMoveSpeed);
+
+    AutonomousCommands.TEST_TURN_AT_5_COUNTER.COMMAND = new AutoTurnAtRadius(m_driveSubsystem, 60.0, -90.0, autoMoveSpeed);
 
     AutonomousCommands.TEST_S_TURN.COMMAND =
         new SequentialCommandGroup(
-            new AutoTurnAtRadius(m_driveSubsystem, 24.0, 90.0, autoTurnSpeed, .20, 20.0, autoTurnSpeed, 1.0), // turn 90 degrees clockwise
-            new AutoDrive(m_driveSubsystem, 60.0, autoMoveSpeed, autoTurnSpeed,10.0, autoTurnSpeed, 10.0), // 10 ft toward target
-            new AutoTurnAtRadius(m_driveSubsystem, 24.0, -90, autoTurnSpeed, autoTurnSpeed, 1.0, .15, 30.0) // turn counterclockwise 90 towards target
+            new AutoTurnAtRadius(m_driveSubsystem, 24.0, 90.0, 0.5, 0.2, 20.0, 0.5, 1.0), // turn 90 degrees clockwise
+            new AutoDrive(m_driveSubsystem, 72.0, autoMoveSpeed, 0.5, 5.0, 0.5, 10.0), // 10 ft toward target
+            new AutoTurnAtRadius(m_driveSubsystem, 24.0, -90.0, 0.5, 0.5, 1.0, 0.5, 30.0), // turn counterclockwise 90 towards target
+            new AutoDrive(m_driveSubsystem, 40.0, 0.5, 0.5,10.0, 0.15, 10.0) // 10 ft toward target
         );
   }
 

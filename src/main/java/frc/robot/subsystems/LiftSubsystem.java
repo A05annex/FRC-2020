@@ -28,7 +28,8 @@ public class LiftSubsystem extends SubsystemBase {
   private TalonSRX m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
 
   /**
-   * Creates a new LowerCylinderSubsystem. Works the 2 lower pneumatic cylinders.
+   * Creates a new LowerCylinderSubsystem. Works the 2 lower pn
+  public inders.
    */
   public LiftSubsystem() {
     m_liftPressureDump.set(true);

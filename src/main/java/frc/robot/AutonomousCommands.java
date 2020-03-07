@@ -13,10 +13,10 @@ public enum AutonomousCommands {
   POSITION5("Full", null),
   POSITION6("Move", null),
   POSITION7("10ft", null),
-  TEST_TURN_AT_0("90 clockwise", null),
-  TEST_TURN_AT_2("90 at 2ft", null),
-  TEST_TURN_AT_5("90 at 5ft", null),
-  TEST_TURN_AT_10("90 at 10ft", null),
+  TEST_TURN_AT_2_CLOCK("90 rgt at 2ft", null),
+  TEST_TURN_AT_2_COUNTER("90 lft at 2ft", null),
+  TEST_TURN_AT_5_CLOCK("90 rgt at 5ft", null),
+  TEST_TURN_AT_5_COUNTER("90 lft 5ft", null),
   TEST_S_TURN("S-turn", null);
 
 
