@@ -28,8 +28,8 @@ public final class Constants {
   public static int GEAR = DriveGears.FIRST.ordinal();
   public static double DELAY = 0.0;
 
-  public static double ARM_Kp = 0.0;
-  public static double ARM_Ki = 0.0;
+  public static double ARM_Kp = 0.13;
+  public static double ARM_Ki = 0.0008;
   public static double ARM_Kd = 0.0;
 
   // -----------------------------------------------------------------------------------------------------------------------------
@@ -169,10 +169,10 @@ public final class Constants {
   }
 
   public enum ArmPosition {
-    START_POSITION(90000, 0, 0),
+    START_POSITION(88000, 0, 0),
     FLOOR_POSITION(500, 0, 0),
-    DELIVER_POSITION(36000, 2330, 2300),
-    COLLECT_POSITION(44000, 3720, 1500);
+    DELIVER_POSITION(34000, 2330, 2300),
+    COLLECT_POSITION(46000, 3720, 1500);
 
 
     public final double POSITION;
