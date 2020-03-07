@@ -7,9 +7,6 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -20,13 +17,18 @@ import java.util.Arrays;
  */
 public final class Constants {
 
-  // -----------------------------------------------------------------------------------------------------------------------------
-  // Physical Mappings - where are motors, pneumatics, sensors, and servos connected to the electronics
-
+  // -------------------------------------------------------------------------------------------------------------------------------
+  //  Tuning the autonomous drive
+  public static final double AUTO_MOVE_SPEED = 0.75;
+  public static final double AUTO_TURN_SPEED = 0.4;
+  // These are constants that onxed us into the constants that really control the configuration of the robot - although they are in
+  // the constants file, they are actually controlled through the dashboard and are normally used ias constants during a match.
   public static Drivers DRIVER = Drivers.NOLAN;
   public static Robots ROBOT = Robots.COMPETITION_ROBOT;
   public static int GEAR = DriveGears.FIRST.ordinal();
   public static double DELAY = 0.0;
+
+  // -------------------------------------------------------------------------------------------------------------------------------
 
   // -----------------------------------------------------------------------------------------------------------------------------
   // Driver Configurations
@@ -42,33 +44,24 @@ public final class Constants {
 
     // The driver name presented on the dashboard.
     public final String DRIVER_NAME;
-
     // If true, use the joystick twist for turn control; if false yous the stick X value for turn control.
     public final boolean DRIVE_USE_TWIST;
-
     // The multiplier for full stick to give the power/speed requested from the drive.
     public final double DRIVE_SPEED_GAIN;
-
     // The multiplier for full twist to give the power/speed differential requested from the drive.
     public final double DRIVE_TURN_GAIN;
-
     // The multiplier for full twist to give the power/speed differential requested from the drive.
     public final double DRIVE_TURN_AT_SPEED_GAIN;
-
     // The width of the 0 dead-band of the speed stick as a fraction of full stick movement.
     public final double DRIVE_SPEED_DEADBAND;
-
     // The width of the 0 dead-band of the turn control as a fraction of full control movement.
     public final double DRIVE_TURN_DEADBAND;
-
     // The center-stick sensitivity for forward-reverse control, which is really the exponent applied to the stick
     // position to flatten drive response to stick position for greater sensitivity at low speed.
     public final double DRIVE_SPEED_SENSITIVITY;
-
     // The center-stick sensitivity for turn control, which is really the exponent applied to the stick
     // position to flatten drive response to stick position for greater sensitivity at low speed.
     public final double DRIVE_TURN_SENSITIVITY;
-
     Drivers(String driverName, boolean useTwist, double speedGain, double turnGain, double turnAtSpeedGain,
             double forwardSensitivity, double turnSensitivity, double speedDeadband, double turnDeadband) {
       DRIVER_NAME = driverName;
@@ -115,44 +108,21 @@ public final class Constants {
     COMPETITION_ROBOT("competition", true, new DriveGear[]{
         new DriveGear("first", 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5),
         new DriveGear("second", 0.188, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 523.5)
-    }, 0.094, 0.131, 0.09, 0.0, 0.0, 7800.0, 0.02, 1792.37, 400.0),
+    }),
     PRACTICE_ROBOT("practice", false, new DriveGear[]{
         new DriveGear("first", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5),
         new DriveGear("second", 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5)
-    }, 0.019, 4.5, 2.5, 0.0, 0.0, 230.0, 0.02, 52.54, 13.5);
+    });
 
     // The robot configuration that is running.
     public final String ROBOT_NAME;
     public final boolean DRIVE_ENCODER_PHASE;
     // The gear info - gear-specific deive PID information.
     public final DriveGear[] GEARS;
-    // The setup of the drive PID for the Talon SRX
-    public final double DRIVE_TURN_BIAS;
-    public final double DRIVE_Kf;
-    public final double DRIVE_Kp;
-    public final double DRIVE_Ki;
-    public final double DRIVE_INTEGRAL_ZONE;
-    public final double DRIVE_MAX_RPM;
-    public final double DRIVE_HEADING_Kp;
-    // The encoder values for autonomous move some distance and turn some degrees.
-    public final double DRIVE_TICS_PER_INCH;
-    public final double DRIVE_TICS_PER_DEGREE;
-
-    Robots(String robotName, boolean encoderPhase, DriveGear[] gears, double bias,
-           double Kf, double Kp, double Ki, double integralZone, double maxRpm,
-           double headingKp, double ticsPerInch, double ticsPerDegree) {
+    Robots(String robotName, boolean encoderPhase, DriveGear[] gears) {
       ROBOT_NAME = robotName;
       DRIVE_ENCODER_PHASE = encoderPhase;
       GEARS = gears;
-      DRIVE_TURN_BIAS = bias;
-      DRIVE_Kf = Kf;
-      DRIVE_Kp = Kp;
-      DRIVE_Ki = Ki;
-      DRIVE_INTEGRAL_ZONE = integralZone;
-      DRIVE_MAX_RPM = maxRpm;
-      DRIVE_HEADING_Kp = headingKp;
-      DRIVE_TICS_PER_INCH = ticsPerInch;
-      DRIVE_TICS_PER_DEGREE = ticsPerDegree;
     }
 
     public static Robots getNextRobot(Robots robot) {
@@ -164,6 +134,8 @@ public final class Constants {
     }
   }
 
+  // -----------------------------------------------------------------------------------------------------------------------------
+  // Positions for the collector arm
   public enum ArmPosition {
     START_POSITION(90000, 0, 0),
     FLOOR_POSITION(500, 0, 0),
@@ -183,6 +155,9 @@ public final class Constants {
 
   }
 
+  /**
+   * This class represents the constants for tuning the drive control for a specific gear.
+   */
   public static class DriveGear {
     public final String GEAR_NAME;
     public final double DRIVE_TURN_BIAS;
@@ -196,6 +171,20 @@ public final class Constants {
     public final double DRIVE_TICS_PER_INCH;
     public final double DRIVE_TICS_PER_DEGREE;
 
+    /**
+     * The constructor for the constants for a specific gear.
+     *
+     * @param gearName      (String) The name of the gear.
+     * @param bias
+     * @param Kf
+     * @param Kp
+     * @param Ki
+     * @param integralZone
+     * @param maxRpm
+     * @param headingKp
+     * @param ticsPerInch
+     * @param ticsPerDegree
+     */
     DriveGear(String gearName, double bias, double Kf, double Kp, double Ki,
               double integralZone, double maxRpm, double headingKp,
               double ticsPerInch, double ticsPerDegree) {
@@ -212,6 +201,8 @@ public final class Constants {
     }
   }
 
+  // -----------------------------------------------------------------------------------------------------------------------------
+  // Physical Mappings - where are motors, pneumatics, sensors, and servos connected to the electronics
   public static final class MotorControllers {
     public static int
         DRIVE_RIGHT_MASTER = 1,
@@ -226,9 +217,6 @@ public final class Constants {
         LIFT_WINCH = 10;
   }
 
-  // -----------------------------------------------------------------------------------------------------------------------------
-  // Tuning IMU control of direction (heading)
-
   public static final class Pneumatics {
     public static int DRIVE_SHIFTER = 0,
         SPINNER_LIFT = 1,
@@ -238,5 +226,6 @@ public final class Constants {
         UPPER_LIFT_EXTEND = 5,
         LIFT_PRESSURE_DUMP = 6;
   }
+
 
 }

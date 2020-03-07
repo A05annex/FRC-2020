@@ -11,15 +11,14 @@ import frc.robot.subsystems.SweeperSubsystem;
 public class RunSweeper extends CommandBase {
 
   private final XboxController m_xbox;
-  private final SweeperSubsystem m_sweeperSubsystem;
+  private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
 
   /**
    * Creates a new RunSweeper.
    */
-  public RunSweeper(SweeperSubsystem sweeperSubsystem, XboxController xbox) {
+  public RunSweeper(XboxController xbox) {
     m_xbox = xbox;
-    m_sweeperSubsystem = sweeperSubsystem;
-    addRequirements(sweeperSubsystem);
+    addRequirements(m_sweeperSubsystem);
   }
 
   // Called when the command is initially scheduled.

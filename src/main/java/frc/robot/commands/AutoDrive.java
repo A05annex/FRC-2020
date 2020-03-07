@@ -17,7 +17,7 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class AutoDrive extends CommandBase {
 
-  private final DriveSubsystem m_driveSubsystem;
+  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
   private final double m_distance;
   private final double m_speed;
   private double m_minAtStart = .20;
@@ -31,12 +31,12 @@ public class AutoDrive extends CommandBase {
   /**
    * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed.
    *
-   * @param driveSubsystem   The drive subsystem.
+   * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
+   * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
    * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
    * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
    */
-  public AutoDrive(DriveSubsystem driveSubsystem, double distanceInInches, double speed) {
-    m_driveSubsystem = driveSubsystem;
+  public AutoDrive(double distanceInInches, double speed) {
     m_distance = distanceInInches * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TICS_PER_INCH;
     m_speed = Math.abs(speed);
     // reverse speed if distance is negative
@@ -47,7 +47,6 @@ public class AutoDrive extends CommandBase {
 
   /**
    *
-   * @param driveSubsystem   The drive subsystem.
    * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
    * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
    * @param minAtStart
@@ -55,9 +54,9 @@ public class AutoDrive extends CommandBase {
    * @param minAtEnd
    * @param decelerationDistance
    */
-  public AutoDrive(DriveSubsystem driveSubsystem, double distanceInInches, double speed, double minAtStart,
+  public AutoDrive(double distanceInInches, double speed, double minAtStart,
                    double accelerationDistance, double minAtEnd, double decelerationDistance) {
-    this(driveSubsystem, distanceInInches, speed);
+    this(distanceInInches, speed);
     m_minAtStart = minAtStart;
     m_accelerationDistance = accelerationDistance;
     m_minAtEnd = minAtEnd;

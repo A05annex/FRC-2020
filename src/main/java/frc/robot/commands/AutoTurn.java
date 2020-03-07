@@ -14,26 +14,21 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoTurn extends CommandBase {
 
-  static private final double EXPECTED_OVERSHOOT = 0.0;
-
-  private final DriveSubsystem m_driveSubsystem;
-  private NavX m_navx = NavX.getInstance();
+  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+  private final NavX m_navx = NavX.getInstance();
   private double m_speed;
   private double m_degrees;
   private boolean m_clockwise;
   private double m_directionMult;
   private RampInOut m_ramp;
 
-
   /**
    * Turns for a certain amount of degrees, at a certain speed.
    *
-   * @param driveSubsystem The drive subsystem.
-   * @param degrees        Amount of degrees to turn positive is clockwise
-   * @param speed          Speed from 1 to 0. Do not make this negative!
+   * @param degrees Amount of degrees to turn positive is clockwise
+   * @param speed   Speed from 1 to 0. Do not make this negative!
    */
-  public AutoTurn(DriveSubsystem driveSubsystem, double degrees, double speed) {
-    m_driveSubsystem = driveSubsystem;
+  public AutoTurn(double degrees, double speed) {
     m_degrees = degrees;
     m_speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -90,4 +85,6 @@ public class AutoTurn extends CommandBase {
       }
     }
   }
+
+  static private final double EXPECTED_OVERSHOOT = 0.0;
 }

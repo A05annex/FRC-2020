@@ -15,16 +15,15 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveCommand extends CommandBase {
 
   private final Joystick m_stick;
-  private final DriveSubsystem m_driveSubsystem;
+  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
 
   /**
    * Creates a new Drive.
    */
-  public DriveCommand(DriveSubsystem driveSubsystem, Joystick joyStick) {
-    m_driveSubsystem = driveSubsystem;
+  public DriveCommand(Joystick joyStick) {
     m_stick = joyStick;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveSubsystem);
+    addRequirements(m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.

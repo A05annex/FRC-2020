@@ -6,11 +6,10 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class ToggleShift extends CommandBase {
 
-  private final DriveSubsystem m_driveSubsystem;
+  private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
   private boolean m_isFinished = false;
 
-  public ToggleShift(DriveSubsystem driveSubsystem) {
-    m_driveSubsystem = driveSubsystem;
+  public ToggleShift() {
   }
 
   @Override
