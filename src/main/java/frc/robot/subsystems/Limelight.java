@@ -179,13 +179,12 @@ public class Limelight extends SubsystemBase {
     VISION;
   }
 
+  //================================================================================================================================
   public enum STREAM {
     LIMELIGHT,
     SIDE_BY_SIDE,
     SECONDARY;
   }
-
-  //================================================================================================================================
   /**
    * The Singleton instance of this Limelight. External classes should
    * use the {@link #getInstance()} method to get the instance.

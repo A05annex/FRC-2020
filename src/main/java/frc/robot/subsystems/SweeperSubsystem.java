@@ -11,7 +11,6 @@ public class SweeperSubsystem extends SubsystemBase {
 
   private final TalonSRX m_sweeper = new TalonSRX(Constants.MotorControllers.COLLECTOR_SWEEPER);
   private double m_lastPower = 0.0;
-
   /**
    * Creates a new instance of this SweeperSubsystem.
    * This constructor is private since this class is a Singleton. External classes

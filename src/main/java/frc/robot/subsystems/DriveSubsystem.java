@@ -267,11 +267,12 @@ public class DriveSubsystem extends SubsystemBase {
     return m_leftMaster.getSelectedSensorPosition() - m_rightMaster.getSelectedSensorPosition();
   }
 
+  //================================================================================================================================
   public enum GEAR {
     FIRST,
     SECOND;
   }
-  //================================================================================================================================
+
   /**
    * The Singleton instance of this DriveSubsystem. External classes should
    * use the {@link #getInstance()} method to get the instance.

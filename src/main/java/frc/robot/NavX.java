@@ -8,20 +8,6 @@ import edu.wpi.first.wpilibj.SerialPort;
  */
 public class NavX {
 
-  /**
-   * The Singleton instance of this NavX. External classes should
-   * use the {@link #getInstance()} method to get the instance.
-   */
-  private final static NavX INSTANCE = new NavX();
-
-  /**
-   * Returns the Singleton instance of this NavX. This static method
-   * should be used -- {@code NavX.getInstance();} -- by external
-   * classes, rather than the constructor to get the instance of this class.
-   */
-  public static NavX getInstance() {
-    return INSTANCE;
-  }
   //================================================================================================================================
   private AHRS m_ahrs;
   private double m_expectedHeading = 0.0;
@@ -33,7 +19,6 @@ public class NavX {
   private double m_refPitch = 0.0;
   private double m_refYaw = 0.0;
   private double m_refRoll = 0.0;
-
   private NavX() {
     // So, if there is no navx, there is no error - it just keeps trying to connect forever, so this
     // needs to be on a thread that can be killed if it doesn't connect in time ......
@@ -72,7 +57,6 @@ public class NavX {
     m_expectedHeading += degrees;
 
   }
-
 
   /**
    * Recompute the heading as reported by the NavX and adjusted to be always increasing when rotation is clockwise. This
@@ -188,5 +172,19 @@ public class NavX {
       this.rawYaw = rawYaw;
       this.rawRoll = rawRoll;
     }
+  }
+  /**
+   * The Singleton instance of this NavX. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private final static NavX INSTANCE = new NavX();
+
+  /**
+   * Returns the Singleton instance of this NavX. This static method
+   * should be used -- {@code NavX.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static NavX getInstance() {
+    return INSTANCE;
   }
 }

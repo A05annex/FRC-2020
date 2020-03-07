@@ -13,7 +13,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   private TalonSRX m_position = new TalonSRX(Constants.MotorControllers.COLLECTOR_POSITION);
   private double m_lastPower = 0.0;
-
   /**
    * Creates a new instance of this ArmSubsystem.
    * This constructor is private since this class is a Singleton. External classes
@@ -32,7 +31,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_position.setSelectedSensorPosition((int) Constants.ArmPosition.START_POSITION.POSITION,
         0, 10);
   }
-
 
   public double getPosition() {
     return m_position.getSelectedSensorPosition();

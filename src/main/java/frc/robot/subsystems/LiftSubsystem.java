@@ -19,11 +19,10 @@ public class LiftSubsystem extends SubsystemBase {
 
   private final DoubleSolenoid m_lowerCylinder = new DoubleSolenoid(Constants.Pneumatics.LOWER_LIFT_EXTEND,
       Constants.Pneumatics.LOWER_LIFT_RETRACT);
-  private final DoubleSolenoid m_upperCylinder= new DoubleSolenoid(Constants.Pneumatics.UPPER_LIFT_EXTEND,
+  private final DoubleSolenoid m_upperCylinder = new DoubleSolenoid(Constants.Pneumatics.UPPER_LIFT_EXTEND,
       Constants.Pneumatics.UPPER_LIFT_RETRACT);
   private final Solenoid m_liftPressureDump = new Solenoid(Constants.Pneumatics.LIFT_PRESSURE_DUMP);
   private final TalonSRX m_winch = new TalonSRX(Constants.MotorControllers.LIFT_WINCH);
-
   /**
    * Creates a new LiftSubsystem. Works the 2 lower pneumatic cylinders.
    * This constructor is private since this class is a Singleton. External classes
@@ -75,11 +74,9 @@ public class LiftSubsystem extends SubsystemBase {
   public void setWinchPower(double power) {
     m_winch.set(ControlMode.PercentOutput, power);
   }
-
   private static final DoubleSolenoid.Value EXTENDED = DoubleSolenoid.Value.kForward;
-  private static final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
-
   //================================================================================================================================
+  private static final DoubleSolenoid.Value RETRACTED = DoubleSolenoid.Value.kReverse;
   /**
    * The Singleton instance of this LiftSubsystem. External classes should
    * use the {@link #getInstance()} method to get the instance.

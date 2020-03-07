@@ -18,7 +18,6 @@ public class SpinnerSubsystem extends SubsystemBase {
 
   public final TalonSRX m_spinner = new TalonSRX(Constants.MotorControllers.SPINNER);
   private double m_lastPower = 0.0;
-
   /**
    * Creates a new SpinnerSubsystem.
    */
@@ -37,8 +36,7 @@ public class SpinnerSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void setPower(double power)
-  {
+  public void setPower(double power) {
     if (power != m_lastPower) {
       m_spinner.set(ControlMode.PercentOutput, power);
       m_lastPower = power;

@@ -48,9 +48,9 @@ public class Robot extends TimedRobot {
   /**
    * Update telemetry feedback for a real number value. If the value has not changed, no update is sent
    *
-   * @param port (int) The port 0 - 9 to write to.
-   * @param key (String) The key for the telemetry.
-   * @param var (double) The number to be reported.
+   * @param port      (int) The port 0 - 9 to write to.
+   * @param key       (String) The key for the telemetry.
+   * @param var       (double) The number to be reported.
    * @param lastValue (double) The last value reported.
    * @return (double) Returns {@code var}
    */
@@ -65,9 +65,9 @@ public class Robot extends TimedRobot {
   /**
    * Update telemetry feedback for an integer value. If the value has not changed, no update is sent
    *
-   * @param port (int) The port 0 - 9 to write to.
-   * @param key (String) The key for the telemetry.
-   * @param var (int) The integer to be reported.
+   * @param port      (int) The port 0 - 9 to write to.
+   * @param key       (String) The key for the telemetry.
+   * @param var       (int) The integer to be reported.
    * @param lastValue (int) The last value reported.
    * @return (int) Returns {@code var}
    */
@@ -78,12 +78,13 @@ public class Robot extends TimedRobot {
     }
     return var;
   }
+
   /**
    * Update telemetry feedback for a string value. If the value has not changed, no update is sent
    *
-   * @param port (int) The port 0 - 9 to write to.
-   * @param key (String) The key for the telemetry.
-   * @param var (String) The string to be reported.
+   * @param port      (int) The port 0 - 9 to write to.
+   * @param key       (String) The key for the telemetry.
+   * @param var       (String) The string to be reported.
    * @param lastValue (String) The last value reported.
    * @return (String) Returns {@code var}
    */
@@ -98,9 +99,9 @@ public class Robot extends TimedRobot {
   /**
    * Update telemetry feedback for a boolean value. If the value has not changed, no update is sent
    *
-   * @param port (int) The port 0 - 9 to write to.
-   * @param key (String) The key for the telemetry.
-   * @param var (boolean) The boolean to be reported.
+   * @param port      (int) The port 0 - 9 to write to.
+   * @param key       (String) The key for the telemetry.
+   * @param var       (boolean) The boolean to be reported.
    * @param lastValue (boolean) The last value reported.
    * @return (boolean) Returns {@code var}
    */
@@ -147,7 +148,7 @@ public class Robot extends TimedRobot {
     m_lastAutonomousDelay = dashboardTelemetry(0, "delay", SmartDashboard.getNumber("DB/Slider 0", 0), m_lastAutonomousDelay);
     m_lastDriver = dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME, m_lastDriver);
     m_lastAuto = dashboardTelemetry(1, "auto",
-        SmartDashboard.getString("Auto Selector",AutonomousCommands.getDefaultName()), m_lastAuto);
+        SmartDashboard.getString("Auto Selector", AutonomousCommands.getDefaultName()), m_lastAuto);
 
     m_lastGear = dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString(), m_lastGear);
     m_lastArmPosition = dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition(), m_lastArmPosition);
