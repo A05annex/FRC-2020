@@ -23,6 +23,7 @@ public class AutoDrive extends CommandBase {
 
   /**
    * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed.
+   *
    * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
    * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
    */

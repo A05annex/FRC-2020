@@ -14,8 +14,6 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoTurn extends CommandBase {
 
-  static private final double EXPECTED_OVERSHOOT = 0.0;
-
   private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
   private final NavX m_navx = NavX.getInstance();
   private double m_speed;
@@ -24,11 +22,11 @@ public class AutoTurn extends CommandBase {
   private double m_directionMult;
   private RampInOut m_ramp;
 
-
   /**
    * Turns for a certain amount of degrees, at a certain speed.
-   * @param degrees        Amount of degrees to turn positive is clockwise
-   * @param speed          Speed from 1 to 0. Do not make this negative!
+   *
+   * @param degrees Amount of degrees to turn positive is clockwise
+   * @param speed   Speed from 1 to 0. Do not make this negative!
    */
   public AutoTurn(double degrees, double speed) {
     m_degrees = degrees;
@@ -87,4 +85,6 @@ public class AutoTurn extends CommandBase {
       }
     }
   }
+
+  static private final double EXPECTED_OVERSHOOT = 0.0;
 }

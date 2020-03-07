@@ -141,6 +141,14 @@ public enum AutonomousCommands {
       ))),
   POSITION7("10ft", new AutoDrive(120, Constants.AUTO_MOVE_SPEED));
 
+  public final String NAME;
+  public Command COMMAND;
+
+  AutonomousCommands(String name, Command command) {
+    NAME = name;
+    COMMAND = command;
+  }
+
   static public String[] asStringArray() {
     AutonomousCommands[] autos = AutonomousCommands.values();
     String[] strings = new String[autos.length];
@@ -156,12 +164,5 @@ public enum AutonomousCommands {
 
   static public AutonomousCommands getDefault() {
     return POSITION1;
-  }
-  public final String NAME;
-  public Command COMMAND;
-
-  AutonomousCommands(String name, Command command) {
-    NAME = name;
-    COMMAND = command;
   }
 }

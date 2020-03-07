@@ -30,7 +30,6 @@ public class SpinnerLift extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-
   public void spinner_up() {
     m_spinnerSolenoid.set(true);
   }
