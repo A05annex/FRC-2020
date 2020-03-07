@@ -21,15 +21,16 @@ public final class Constants {
   //  Tuning the autonomous drive
   public static final double AUTO_MOVE_SPEED = 0.75;
   public static final double AUTO_TURN_SPEED = 0.4;
-  // These are constants that onxed us into the constants that really control the configuration of the robot - although they are in
+  // These are constants that index us into the constants that really control the configuration of the robot - although they are in
   // the constants file, they are actually controlled through the dashboard and are normally used ias constants during a match.
   public static Drivers DRIVER = Drivers.NOLAN;
   public static Robots ROBOT = Robots.COMPETITION_ROBOT;
   public static int GEAR = DriveGears.FIRST.ordinal();
   public static double DELAY = 0.0;
-
+  // Tuning the collector arm position PID
   public static double ARM_Kp = 0.13;
   public static double ARM_Ki = 0.0008;
+  public static int ARM_INTEGRAL_ZONE = 3000;
   public static double ARM_Kd = 0.0;
 
   // -----------------------------------------------------------------------------------------------------------------------------

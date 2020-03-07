@@ -37,12 +37,11 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    setupTalonPID();
   }
 
   /**
    * Gets the current encoder position
-   * @return
+   * @return (double) The current encoder position.
    */
   public double getPosition() {
     return m_position.getSelectedSensorPosition();
@@ -51,42 +50,16 @@ public class ArmSubsystem extends SubsystemBase {
   /**
    * Gets the current power, which is useful when you want to find the power that will balance the weight of the arm during
    * calibration of the manual move.
-   * @return
+   * @return (double) The current arm motor power.
    */
   public double getPositionPower() {
     return m_position.getMotorOutputPercent();
   }
 
-  /**
-   * Set the power for moving the arm position. This method looks at the current position and adds power to offset the
-   * weight of the collector so the collector does not move if the requested power is 0.0;
-   * @param power
-   */
-  public void setPositionPower(double power) {
-    double position = m_position.getSelectedSensorPosition();
-    if ((position < 0.0) && (power < 0.0)) {
-      power = 0.0;
-    } else if (position < 35000.0) {
-      power = .2 + power;
-    } else if (position < 50000.0) {
-      power = .1 + power;
-    } else if (position < 60000.0) {
-      if (power >= 0.0) {
-        power = 0.5;
-      } else {
-        power = .05 + power;
-      }
-    }
-    if (power != m_lastPower) {
-      m_position.set(ControlMode.PercentOutput, power);
-      m_lastPower = power;
-    }
-  }
-
-  public void setupTalonPID() {
+  private void setupTalonPID() {
     m_position.config_kP(0, Constants.ARM_Kp);
     m_position.config_kI(0, Constants.ARM_Ki);
-    m_position.config_IntegralZone(0,3000); // don't start integral until you are within about 1.5"
+    m_position.config_IntegralZone(0,Constants.ARM_INTEGRAL_ZONE); // don't start integral until you are close
     m_position.config_kD(0, Constants.ARM_Kd);
   }
 
@@ -98,6 +71,18 @@ public class ArmSubsystem extends SubsystemBase {
     // here we are asking the PID controller to fold the position - as soon as the driver
     m_targetPosition = position.POSITION;
     m_position.set(ControlMode.Position, position.POSITION);
+  }
+
+  public void incrementTargetPosition(double increment) {
+    double newTarget = m_targetPosition + increment;
+    if (newTarget > Constants.ArmPosition.START_POSITION.POSITION) {
+      newTarget = Constants.ArmPosition.START_POSITION.POSITION;
+    }
+    if (newTarget < Constants.ArmPosition.FLOOR_POSITION.POSITION) {
+      newTarget = Constants.ArmPosition.FLOOR_POSITION.POSITION;
+    }
+    m_targetPosition = newTarget;
+    m_position.set(ControlMode.Position, newTarget);
   }
 
   public double getTargetPosition() {
