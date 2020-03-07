@@ -12,17 +12,15 @@ import frc.robot.subsystems.ArmSubsystem;
 public class ManualCollector extends CommandBase {
 
   private final XboxController m_xbox;
-  private final ArmSubsystem m_armSubsystem;
+  private final ArmSubsystem m_armSubsystem = ArmSubsystem.getInstance();
 
   /**
-   * @param armSubsystem
    * @param xbox
    */
-  public ManualCollector(ArmSubsystem armSubsystem, XboxController xbox) {
+  public ManualCollector(XboxController xbox) {
     m_xbox = xbox;
-    m_armSubsystem = armSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(armSubsystem);
+    addRequirements(m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.

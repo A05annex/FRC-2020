@@ -9,12 +9,11 @@ import frc.robot.subsystems.SpinnerSubsystem;
 public class RunSpinner extends CommandBase {
 
   private final XboxController m_xbox;
-  private final SpinnerSubsystem m_spinnerSubsystem;
+  private final SpinnerSubsystem m_spinnerSubsystem = SpinnerSubsystem.getInstance();
 
-  public RunSpinner(SpinnerSubsystem spinnerSubsystem, XboxController xbox) {
+  public RunSpinner(XboxController xbox) {
     m_xbox = xbox;
-    m_spinnerSubsystem = spinnerSubsystem;
-    addRequirements(spinnerSubsystem);
+    addRequirements(m_spinnerSubsystem);
   }
 
   @Override

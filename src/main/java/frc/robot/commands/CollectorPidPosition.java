@@ -10,19 +10,17 @@ import frc.robot.subsystems.ArmSubsystem;
  */
 public class CollectorPidPosition extends CommandBase {
 
-  private final ArmSubsystem m_armSubsystem;
+  private final ArmSubsystem m_armSubsystem = ArmSubsystem.getInstance();
   private final Constants.ArmPosition m_armPosition;
   boolean m_isFinished;
 
   /**
-   * @param armSubsystem
    * @param armPosition
    */
-  public CollectorPidPosition(ArmSubsystem armSubsystem, Constants.ArmPosition armPosition) {
-    m_armSubsystem = armSubsystem;
-    m_armPosition = armPosition;
+  public CollectorPidPosition(Constants.ArmPosition armPosition) {
+   m_armPosition = armPosition;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(armSubsystem);
+    addRequirements(m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.

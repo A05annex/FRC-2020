@@ -10,16 +10,13 @@ import frc.robot.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
 
-  /**
-   * The Singleton instance of this CollectorSubsystem. External classes should
-   * use the {@link #getInstance()} method to get the instance.
-   */
-  private final static ArmSubsystem INSTANCE = new ArmSubsystem();
+
   private TalonSRX m_position = new TalonSRX(Constants.MotorControllers.COLLECTOR_POSITION);
+  private double m_lastPower = 0.0;
   private double m_targetPosition;
 
   /**
-   * Creates a new instance of this CollectorSubsystem.
+   * Creates a new instance of this ArmSubsystem.
    * This constructor is private since this class is a Singleton. External classes
    * should use the {@link #getInstance()} method to get the instance.
    */
@@ -35,15 +32,6 @@ public class ArmSubsystem extends SubsystemBase {
   public void initializeArmEncoder() {
     m_position.setSelectedSensorPosition((int) Constants.ArmPosition.START_POSITION.POSITION,
         0, 10);
-  }
-
-  /**
-   * Returns the Singleton instance of this CollectorSubsystem. This static method
-   * should be used -- {@code CollectorSubsystem.getInstance();} -- by external
-   * classes, rather than the constructor to get the instance of this class.
-   */
-  public static ArmSubsystem getInstance() {
-    return INSTANCE;
   }
 
   @Override
@@ -75,22 +63,23 @@ public class ArmSubsystem extends SubsystemBase {
    * @param power
    */
   public void setPositionPower(double power) {
-    if (power != 0.0) {
-      double position = m_position.getSelectedSensorPosition();
-      if ((position < 0.0) && (power < 0.0)) {
-        power = 0.0;
-      } else if (position < 35000.0) {
-        power = .2 + power;
-      } else if (position < 50000.0) {
-        power = .1 + power;
-      } else if (position < 60000.0) {
-        if (power >= 0.0) {
-          power = 0.5;
-        } else {
-          power = .05 + power;
-        }
+    double position = m_position.getSelectedSensorPosition();
+    if ((position < 0.0) && (power < 0.0)) {
+      power = 0.0;
+    } else if (position < 35000.0) {
+      power = .2 + power;
+    } else if (position < 50000.0) {
+      power = .1 + power;
+    } else if (position < 60000.0) {
+      if (power >= 0.0) {
+        power = 0.5;
+      } else {
+        power = .05 + power;
       }
+    }
+    if (power != m_lastPower) {
       m_position.set(ControlMode.PercentOutput, power);
+      m_lastPower = power;
     }
   }
 
@@ -114,5 +103,23 @@ public class ArmSubsystem extends SubsystemBase {
   public double getTargetPosition() {
     return m_targetPosition;
   }
+
+  //================================================================================================================================
+  /**
+   * The Singleton instance of this ArmSubsystem. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private static final ArmSubsystem INSTANCE = new ArmSubsystem();
+
+  /**
+   * Returns the Singleton instance of this ArmSubsystem. This static method
+   * should be used -- {@code ArmSubsystem.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static ArmSubsystem getInstance() {
+    return INSTANCE;
+  }
+  //================================================================================================================================
+
 }
 

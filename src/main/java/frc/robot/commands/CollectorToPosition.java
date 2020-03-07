@@ -10,23 +10,23 @@ import frc.robot.subsystems.ArmSubsystem;
 // buttons/sticks are they connected to.
 public class CollectorToPosition extends CommandBase {
 
-  private final ArmSubsystem m_armSubsystem;
+  private final ArmSubsystem m_armSubsystem = ArmSubsystem.getInstance();
   private final double m_position;
   private final double m_upDeceleration;
   private final double m_downDeceleration;
   private boolean m_direction;
 
   /**
-   * @param armSubsystem
-   * @param armPosition
+   * Request the arm move to the specified position.
+   *
+   * @param armPosition ({@link Constants.ArmPosition}) The position to move the arm to.
    */
-  public CollectorToPosition(ArmSubsystem armSubsystem, Constants.ArmPosition armPosition) {
-    m_armSubsystem = armSubsystem;
+  public CollectorToPosition(Constants.ArmPosition armPosition) {
     m_position = armPosition.POSITION;
     m_upDeceleration = armPosition.UP_DECELERATION;
     m_downDeceleration = armPosition.DOWN_DECELERATION;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(armSubsystem);
+
+    addRequirements(m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -63,13 +63,9 @@ public class CollectorToPosition extends CommandBase {
   public boolean isFinished() {
     double currentPosition = m_armSubsystem.getPosition();
     if (m_direction == MoveDirection.UP) {
-      if (currentPosition >= m_position - m_upDeceleration) {
-        return true;
-      }
+      return currentPosition >= m_position - m_upDeceleration;
     } else if (m_direction == MoveDirection.DOWN) {
-      if (currentPosition <= m_position + m_downDeceleration) {
-        return true;
-      }
+      return currentPosition <= m_position + m_downDeceleration;
     }
 
     return false;

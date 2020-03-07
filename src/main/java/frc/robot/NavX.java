@@ -8,12 +8,7 @@ import edu.wpi.first.wpilibj.SerialPort;
  */
 public class NavX {
 
-  // ===============================================================================================================================
-  // Dealing wth the idea that this is a singleton
-  // -------------------------------------------------------------------------------------------------------------------------------
-  private static NavX s_instance = null;
-  // ===============================================================================================================================
-  // -------------------------------------------------------------------------------------------------------------------------------
+  //================================================================================================================================
   private AHRS m_ahrs;
   private double m_expectedHeading = 0.0;
   private double m_updateCt = -1;
@@ -40,13 +35,6 @@ public class NavX {
     initializeHeadingAndNav();
   }
 
-  public static synchronized NavX getInstance() {
-    if (null == s_instance) {
-      s_instance = new NavX();
-    }
-    return s_instance;
-  }
-
   /**
    * Sets the reference start heading and navigation reference positions to the current values. This should be called immediately
    * at the start of autonomous.
@@ -69,7 +57,6 @@ public class NavX {
     m_expectedHeading += degrees;
 
   }
-
 
   /**
    * Recompute the heading as reported by the NavX and adjusted to be always increasing when rotation is clockwise. This
@@ -177,7 +164,7 @@ public class NavX {
     public final double roll;
     public final double rawRoll;
 
-    NavInfo(double pitch, double yaw, double roll,double rawPitch, double rawYaw, double rawRoll) {
+    NavInfo(double pitch, double yaw, double roll, double rawPitch, double rawYaw, double rawRoll) {
       this.pitch = pitch;
       this.yaw = yaw;
       this.roll = roll;
@@ -185,5 +172,19 @@ public class NavX {
       this.rawYaw = rawYaw;
       this.rawRoll = rawRoll;
     }
+  }
+  /**
+   * The Singleton instance of this NavX. External classes should
+   * use the {@link #getInstance()} method to get the instance.
+   */
+  private final static NavX INSTANCE = new NavX();
+
+  /**
+   * Returns the Singleton instance of this NavX. This static method
+   * should be used -- {@code NavX.getInstance();} -- by external
+   * classes, rather than the constructor to get the instance of this class.
+   */
+  public static NavX getInstance() {
+    return INSTANCE;
   }
 }
