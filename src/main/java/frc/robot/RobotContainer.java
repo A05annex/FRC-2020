@@ -229,8 +229,25 @@ public class RobotContainer {
             ));
 
     // 10 feet forward
-    AutonomousCommands.POSITION7.COMMAND =
-        new AutoDrive(120, autoMoveSpeed);
+    AutonomousCommands.POSITION7.COMMAND = 
+    new AutoDrive(m_driveSubsystem, 120, autoMoveSpeed);
+
+    AutonomousCommands.TEST_TURN_AT_2_CLOCK.COMMAND =
+        new AutoTurnAtRadius(24.0, 90.0, autoMoveSpeed);
+
+    AutonomousCommands.TEST_TURN_AT_2_COUNTER.COMMAND = new AutoTurnAtRadius(24.0, -90.0, autoMoveSpeed);
+
+    AutonomousCommands.TEST_TURN_AT_5_CLOCK.COMMAND = new AutoTurnAtRadius(60.0, 90.0, autoMoveSpeed);
+
+    AutonomousCommands.TEST_TURN_AT_5_COUNTER.COMMAND = new AutoTurnAtRadius(60.0, -90.0, autoMoveSpeed);
+
+    AutonomousCommands.TEST_S_TURN.COMMAND =
+        new SequentialCommandGroup(
+            new AutoTurnAtRadius(24.0, 90.0, 0.5, 0.2, 20.0, 0.5, 1.0), // turn 90 degrees clockwise
+            new AutoDrive(72.0, autoMoveSpeed, 0.5, 5.0, 0.5, 10.0), // 10 ft toward target
+            new AutoTurnAtRadius(24.0, -90.0, 0.5, 0.5, 1.0, 0.5, 30.0), // turn counterclockwise 90 towards target
+            new AutoDrive(40.0, 0.5, 0.5,10.0, 0.15, 10.0) // 10 ft toward target
+        );
      */
   }
 
