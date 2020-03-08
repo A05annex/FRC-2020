@@ -49,6 +49,15 @@ public class NavX {
   }
 
   /**
+   * Set expected heading to the specified degree value, relative to where it was at the beginning of auto.
+   * 
+   * @param degrees
+   */
+  public void setExpectedHeading(double degrees) {
+    m_expectedHeading = degrees;
+  }
+
+  /**
    * Change the expected heading by the specified number of degrees.
    *
    * @param degrees
