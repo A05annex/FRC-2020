@@ -35,8 +35,11 @@ public class ManualCollector extends CommandBase {
     // What we are doing here is simple - we are setting tincrementing the target position based on the
     // setting of the xbox right stick Y
     double stickY = m_xbox.getY(GenericHID.Hand.kLeft);
+    if (Math.abs(stickY) <= DEADBAND) {
+      return;
+    }
     double stickSignMult = (stickY > 0.0) ? 1.0 : -1.0;
-    double useStick = (Math.abs(stickY) <= DEADBAND) ? 0.0 : (Math.abs(stickY) - DEADBAND) / (1.0 - DEADBAND);
+    double useStick = (Math.abs(stickY) - DEADBAND) / (1.0 - DEADBAND);
     double useMultiplier = Math.pow((Math.abs(useStick)), 2.0);
     m_armSubsystem.incrementTargetPosition(useMultiplier * stickSignMult * 2000.0);
   }
