@@ -141,6 +141,11 @@ public enum AutonomousCommands {
   TEST_TURN_AT_2_COUNTER("90 lft at 2ft", new AutoTurnAtRadius(24.0, -90.0, Constants.AUTO_MOVE_SPEED)),
   TEST_TURN_AT_5_CLOCK("90 rgt at 5ft", new AutoTurnAtRadius(60.0, 90.0, Constants.AUTO_MOVE_SPEED)),
   TEST_TURN_AT_5_COUNTER("90 lft 5ft", new AutoTurnAtRadius(60.0, -90.0, Constants.AUTO_MOVE_SPEED)),
+  TEST_BACH_AT_2_CLOCK("back 90 rgt at 2ft", new AutoTurnAtRadius(24.0, 90.0, -Constants.AUTO_MOVE_SPEED)),
+  TEST_SCORE_TO_TRENCH("score to trench", new SequentialCommandGroup(
+      new AutoTurnAtRadius(48.0, 90.0, -0.3),
+      new AutoTurnAtRadius(115.0, 90.0, 0.6)
+  )),
   TEST_S_TURN("S-turn", new SequentialCommandGroup(
       new AutoTurnAtRadius(24.0, 90.0, 0.5, 0.2, 20.0, 0.5, 1.0), // turn 90 degrees clockwise
       new AutoDrive(72.0, Constants.AUTO_MOVE_SPEED, 0.5, 5.0, 0.5, 10.0), // 10 ft toward target
