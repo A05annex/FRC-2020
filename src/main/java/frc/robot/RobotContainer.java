@@ -73,8 +73,8 @@ public class RobotContainer {
     // perform robot and driver initializations
     driveSubsystem.setRobot();
     // Set the default commands for subsystems
-    // The robot's subsystem default commands for autonomous and driver control
     driveSubsystem.setDefaultCommand(new DriveCommand(m_stick));
+    //m_sweeperSubsystem.setDefaultCommand(m_runSweeper); // do this in teleop init instead
     armSubsystem.setDefaultCommand(new ManualCollector(m_xbox));
     spinnerSubsystem.setDefaultCommand(new RunSpinner(m_xbox));
     // Configure the button bindings
@@ -265,9 +265,10 @@ public class RobotContainer {
 
     m_xboxX.whenPressed(new SpinnerForCounts(1, -18000));
 
-    m_xboxDpadUp.whenPressed(new CollectorToPosition(Constants.ArmPosition.FLOOR_POSITION));
-    m_xboxDpadDown.whenPressed(new CollectorToPosition(Constants.ArmPosition.COLLECT_POSITION));
-    m_xboxDpadLeft.whenPressed(new CollectorToPosition(Constants.ArmPosition.DELIVER_POSITION));
+    m_xboxDpadUp.whenPressed(new CollectorPidPosition(Constants.ArmPosition.FLOOR_POSITION));
+    m_xboxDpadDown.whenPressed(new CollectorPidPosition(Constants.ArmPosition.COLLECT_POSITION));
+    m_xboxDpadLeft.whenPressed(new CollectorPidPosition(Constants.ArmPosition.DELIVER_POSITION));
+    m_xboxDpadRight.whenPressed(new CollectorPidPosition(Constants.ArmPosition.START_POSITION));
 
   }
 
