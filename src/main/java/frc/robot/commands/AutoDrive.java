@@ -12,11 +12,18 @@ import frc.robot.Constants;
 import frc.robot.RampInOut;
 import frc.robot.subsystems.DriveSubsystem;
 
+/**
+ * This is a command to drive straight using the IMU (HavX) to keep the robot heading in the expected heading.
+ */
 public class AutoDrive extends CommandBase {
 
   private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
-  private double m_distance;
-  private double m_speed;
+  private final double m_distance;
+  private final double m_speed;
+  private double m_minAtStart = .20;
+  private double m_accelerationDistance = 20;
+  private double m_minAtEnd = .15;
+  private double m_decelerationDistance = 30;
   private double m_startEncoder;
   private RampInOut m_ramp;
   private double m_directionMult;
@@ -24,6 +31,8 @@ public class AutoDrive extends CommandBase {
   /**
    * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed.
    *
+   * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
+   * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
    * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
    * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
    */
@@ -36,13 +45,33 @@ public class AutoDrive extends CommandBase {
     addRequirements(m_driveSubsystem);
   }
 
+  /**
+   *
+   * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
+   * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
+   * @param minAtStart
+   * @param accelerationDistance
+   * @param minAtEnd
+   * @param decelerationDistance
+   */
+  public AutoDrive(double distanceInInches, double speed, double minAtStart,
+                   double accelerationDistance, double minAtEnd, double decelerationDistance) {
+    this(distanceInInches, speed);
+    m_minAtStart = minAtStart;
+    m_accelerationDistance = accelerationDistance;
+    m_minAtEnd = minAtEnd;
+    m_decelerationDistance = decelerationDistance;
+  }
+
+
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_startEncoder = m_driveSubsystem.getTotalPosition();
     m_ramp = new RampInOut(0, m_distance, m_speed,
-        .20, 20 * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TICS_PER_INCH,
-        .15, 30 * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TICS_PER_INCH);
+        m_minAtStart, m_accelerationDistance * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TICS_PER_INCH,
+        m_minAtEnd, m_decelerationDistance * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TICS_PER_INCH);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

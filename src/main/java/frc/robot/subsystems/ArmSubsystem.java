@@ -13,6 +13,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private TalonSRX m_position = new TalonSRX(Constants.MotorControllers.COLLECTOR_POSITION);
   private double m_lastPower = 0.0;
+  private double m_targetPosition;
+
   /**
    * Creates a new instance of this ArmSubsystem.
    * This constructor is private since this class is a Singleton. External classes
@@ -22,9 +24,9 @@ public class ArmSubsystem extends SubsystemBase {
     m_position.configFactoryDefault();
     m_position.setNeutralMode(NeutralMode.Coast);
     m_position.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    initializeArmEncoder();
     m_position.setSensorPhase(true);
-
+    initializeArmEncoder();
+    setupTalonPID();
   }
 
   public void initializeArmEncoder() {
@@ -32,33 +34,59 @@ public class ArmSubsystem extends SubsystemBase {
         0, 10);
   }
 
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+
+  /**
+   * Gets the current encoder position
+   * @return (double) The current encoder position.
+   */
   public double getPosition() {
     return m_position.getSelectedSensorPosition();
   }
 
+  /**
+   * Gets the current power, which is useful when you want to find the power that will balance the weight of the arm during
+   * calibration of the manual move.
+   * @return (double) The current arm motor power.
+   */
   public double getPositionPower() {
-    return m_lastPower;
+    return m_position.getMotorOutputPercent();
   }
 
-  public void setPositionPower(double power) {
-    double position = m_position.getSelectedSensorPosition();
-    if ((position < 0.0) && (power < 0.0)) {
-      power = 0.0;
-    } else if (position < 35000.0) {
-      power = .2 + power;
-    } else if (position < 50000.0) {
-      power = .1 + power;
-    } else if (position < 60000.0) {
-      if (power >= 0.0) {
-        power = 0.5;
-      } else {
-        power = .05 + power;
-      }
+  private void setupTalonPID() {
+    m_position.config_kP(0, Constants.ARM_Kp);
+    m_position.config_kI(0, Constants.ARM_Ki);
+    m_position.config_IntegralZone(0,Constants.ARM_INTEGRAL_ZONE); // don't start integral until you are close
+    m_position.config_kD(0, Constants.ARM_Kd);
+  }
+
+  /**
+   * specify the position you want and let the arm PID loop get you too and hold that position.
+   * @param position
+   */
+  public void setPosition(Constants.ArmPosition position) {
+    // here we are asking the PID controller to fold the position - as soon as the driver
+    m_targetPosition = position.POSITION;
+    m_position.set(ControlMode.Position, position.POSITION);
+  }
+
+  public void incrementTargetPosition(double increment) {
+    double newTarget = m_targetPosition + increment;
+    if (newTarget > Constants.ArmPosition.START_POSITION.POSITION) {
+      newTarget = Constants.ArmPosition.START_POSITION.POSITION;
     }
-    if (power != m_lastPower) {
-      m_position.set(ControlMode.PercentOutput, power);
-      m_lastPower = power;
+    if (newTarget < Constants.ArmPosition.FLOOR_POSITION.POSITION) {
+      newTarget = Constants.ArmPosition.FLOOR_POSITION.POSITION;
     }
+    m_targetPosition = newTarget;
+    m_position.set(ControlMode.Position, newTarget);
+  }
+
+  public double getTargetPosition() {
+    return m_targetPosition;
   }
 
   //================================================================================================================================

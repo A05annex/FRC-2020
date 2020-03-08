@@ -42,12 +42,12 @@ public class AutoTurn extends CommandBase {
     NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     double actualDegrees = (headingInfo.expectedHeading - headingInfo.heading);
     // reverse speed if degrees are negative
-    if (actualDegrees < 0) {
+    if (actualDegrees < 0.0) {
       m_clockwise = false;
-      m_directionMult = 1;
+      m_directionMult = 1.0;
     } else {
       m_clockwise = true;
-      m_directionMult = -1;
+      m_directionMult = -1.0;
     }
     m_ramp = new RampInOut(headingInfo.heading, headingInfo.expectedHeading, m_speed,
         .25, 20, .10, 50);
