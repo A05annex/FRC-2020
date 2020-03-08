@@ -11,11 +11,13 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.NavX;
 
 public class DriveCommand extends CommandBase {
 
   private final Joystick m_stick;
   private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+  private final NavX m_navx = NavX.getInstance();
 
   /**
    * Creates a new Drive.
@@ -53,7 +55,24 @@ public class DriveCommand extends CommandBase {
         (Constants.DRIVER.DRIVE_TURN_GAIN +
             (useSpeed * (Constants.DRIVER.DRIVE_TURN_AT_SPEED_GAIN - Constants.DRIVER.DRIVE_TURN_GAIN)));
     // Now set the speeds
-    m_driveSubsystem.setArcadeSpeed(forward, rotate, 0.0 == rotate, 0.0 != rotate);
+    // If the trigger is pressed, track field relative
+    if (m_stick.getRawButton(1)) {
+      // set expected heading
+      int expected;
+      int mod = (int) m_navx.getHeadingInfo().heading % 360;
+      if ((mod > -90 && mod < 90) || (mod > 270) || (mod < -270)) {
+        // forward
+        expected = (int) (360 * Math.round(m_navx.getHeadingInfo().heading / 360.0));
+      } else {
+        // backward
+        expected = (int) (180 * Math.round(m_navx.getHeadingInfo().heading / 180.0));
+      }
+      m_navx.setExpectedHeading(expected);
+      // drive with no rotation, tracking expected heading
+      m_driveSubsystem.setArcadeSpeed(forward, 0.0, true, false);
+    } else {
+      m_driveSubsystem.setArcadeSpeed(forward, rotate, 0.0 == rotate, 0.0 != rotate);
+    }
   }
 
   // Called once the command ends or is interrupted.

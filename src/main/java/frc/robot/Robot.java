@@ -152,7 +152,17 @@ public class Robot extends TimedRobot {
 
     m_lastGear = dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString(), m_lastGear);
     m_lastArmPosition = dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition(), m_lastArmPosition);
-    m_lastArmPower = dashboardTelemetry(4, "arm pwr", ArmSubsystem.getInstance().getPositionPower(), m_lastArmPower);
+
+    int expected;
+    int mod = (int) m_navx.getHeadingInfo().heading % 360;
+    if ((mod > -90 && mod < 90) || (mod > 270) || (mod < -270)) {
+      // forward
+      expected = (int) (360 * Math.round(m_navx.getHeadingInfo().heading / 360.0));
+    } else {
+      // backward
+      expected = (int) (180 * Math.round(m_navx.getHeadingInfo().heading / 180.0));
+    }
+    m_lastArmPower = dashboardTelemetry(4, "expected", expected, m_lastArmPower);
     
     /*
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
@@ -161,7 +171,7 @@ public class Robot extends TimedRobot {
     m_lastDriveLeftEnc = dashboardTelemetry(7, "left enc", m_driveSubsystem.getLeftPosition(), m_lastDriveLeftEnc);
     m_lastDriveRightEnc = dashboardTelemetry(8, "right enc", m_driveSubsystem.getRightPosition(), m_lastDriveRightEnc);
 
-    m_lastSpinnerEnc = dashboardTelemetry(9, "spinner enc", m_spinner.getEncoder(), m_lastSpinnerEnc);
+    m_lastSpinnerEnc = dashboardTelemetry(9, "heading", m_navx.getHeadingInfo().heading, m_lastSpinnerEnc);
 
     m_lastColor = dashboardTelemetry(6, "color", getMessageToString(), m_lastColor);
 
@@ -257,7 +267,7 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
         AutonomousCommands.getDefaultName())).COMMAND;
 
-    // schedule the autonomous command (example)
+    // schedule the autonomous command
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -274,7 +284,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 //    Constants.ROBOT = robotChooser.getSelected();
 //    m_robotContainer.resetRobot();
-    m_navx.initializeHeadingAndNav();
+    m_navx.initializeHeadingAndNav(); //TODO: comment this out so field relative drive works
 
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
