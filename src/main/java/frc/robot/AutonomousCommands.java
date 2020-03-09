@@ -143,8 +143,24 @@ public enum AutonomousCommands {
   TEST_TURN_AT_5_COUNTER("90 lft 5ft", new AutoTurnAtRadius(60.0, -90.0, Constants.AUTO_MOVE_SPEED)),
   TEST_BACH_AT_2_CLOCK("back 90 rgt at 2ft", new AutoTurnAtRadius(24.0, 90.0, -Constants.AUTO_MOVE_SPEED)),
   TEST_SCORE_TO_TRENCH("score to trench", new SequentialCommandGroup(
-      new AutoTurnAtRadius(48.0, 90.0, -0.3),
-      new AutoTurnAtRadius(115.0, 90.0, 0.6)
+      new ParallelCommandGroup(
+          new CollectorPidPosition(Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
+          new AutoDrive(72, Constants.AUTO_MOVE_SPEED) // approach bottom target
+      ),
+      new SetSweeperPower(-1), // set sweeper to dump
+      new WaitCommand(1), // wait one second
+      new SetSweeperPower(0), // set sweeper to stop
+      new AutoTurnAtRadius(48.0, 90.0, -0.4),
+      new ParallelCommandGroup(
+          new AutoTurnAtRadius(115.0, 90.0, Constants.AUTO_MOVE_SPEED,0.2, 20.0, 0.5, 1.0),
+          new CollectorPidPosition(Constants.ArmPosition.FLOOR_POSITION),
+          new SetSweeperPower(1.0)
+      ),
+      new ParallelCommandGroup(
+          new AutoDrive(30.0, Constants.AUTO_MOVE_SPEED, 0.5, 5.0, 0.15, 10.0), // 10 ft toward target
+          new SetSweeperPower(1.0)
+      ),
+      new WaitCommand(10)
   )),
   TEST_S_TURN("S-turn", new SequentialCommandGroup(
       new AutoTurnAtRadius(24.0, 90.0, 0.5, 0.2, 20.0, 0.5, 1.0), // turn 90 degrees clockwise
