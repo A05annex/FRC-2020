@@ -20,19 +20,26 @@ public class AutoDrive extends CommandBase {
   private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
   private final double m_distance;
   private final double m_speed;
-  private double m_minAtStart = .20;
-  private double m_accelerationDistance = 20;
-  private double m_minAtEnd = .15;
-  private double m_decelerationDistance = 30;
+  private double m_minAtStart = Constants.AUTO_MOVE_MIN_ACCEL;
+  private double m_accelerationDistance = Constants.AUTO_MOVE_ACCEL_DIST;
+  private double m_minAtEnd = Constants.AUTO_MOVE_MIN_DECEL;
+  private double m_decelerationDistance = Constants.AUTO_MOVE_DECEL_DIST;
   private double m_startEncoder;
   private RampInOut m_ramp;
   private double m_directionMult;
 
   /**
-   * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed.
+   * Drives straight forward/backward, from a stopped position to a stopped position, a specified distance in inches, at the
+   * default autonomous move speed.
    *
    * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
-   * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
+   */
+  public AutoDrive(double distanceInInches) {
+    this(distanceInInches, Constants.AUTO_MOVE_SPEED);
+  }
+  /**
+   * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed.
+   *
    * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
    * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
    */
@@ -46,6 +53,8 @@ public class AutoDrive extends CommandBase {
   }
 
   /**
+   * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed, using the specified
+   * acceleration and deceleration parameters to control the speed ramp.
    *
    * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
    * @param speed            (double) Maximum speed from 0 to 1. Do not make this negative!
@@ -63,7 +72,39 @@ public class AutoDrive extends CommandBase {
     m_decelerationDistance = decelerationDistance;
   }
 
+  /**
+   * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed, using the default
+   * accelerations and decelerations depending on whether the move starts/stops at rest; or, is the continuation of a
+   * previous move.
+   *
+   * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
+   * @param fromStop (boolean) {@code true} if this move is starting from a stopped position, {@code false} if this is
+   *                 the continuation of another move or turn at radius.
+   * @param toStop (boolean) {@code true} if this move is ending in a stopped position, {@code false} if there is
+   *               another move or turn at radius following this.
+   */
+  public AutoDrive(double distanceInInches, boolean fromStop, boolean toStop) {
+    this(distanceInInches, Constants.AUTO_MOVE_SPEED, fromStop, toStop);
+  }
 
+  /**
+   * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed, using the default
+   * accelerations and decelerations depending on whether the move starts/stops at rest, or, is the continuation of a
+   * previous move.
+   *
+   * @param distanceInInches (double) Distance to travel in inches, positive is forward, negative is backwards.
+   * @param fromStop (boolean) {@code true} if this move is starting from a stopped position, {@code false} if this is
+   *                 the continuation of another move or turn at radius.
+   * @param toStop (boolean) {@code true} if this move is ending in a stopped position, {@code false} if there is
+   *               another move or turn at radius following this.
+   */
+  public AutoDrive(double distanceInInches, double speed, boolean fromStop, boolean toStop) {
+    this(distanceInInches, speed);
+    m_minAtStart = fromStop ? Constants.AUTO_MOVE_MIN_ACCEL : Constants.AUTO_INTO_NEXT_MIN_ACCEL;
+    m_accelerationDistance = fromStop ? Constants.AUTO_MOVE_ACCEL_DIST : Constants.AUTO_INTO_NEXT_ACCEL_DIST;
+    m_minAtEnd =  toStop ? Constants.AUTO_MOVE_MIN_DECEL : Constants.AUTO_INTO_NEXT_MIN_DECEL;
+    m_decelerationDistance =  toStop ? Constants.AUTO_MOVE_DECEL_DIST : Constants.AUTO_INTO_NEXT_DECEL_DIST;
+  }
 
   // Called when the command is initially scheduled.
   @Override

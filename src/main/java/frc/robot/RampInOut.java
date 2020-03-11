@@ -54,11 +54,11 @@ public class RampInOut {
     if (m_pathStart < m_pathEnd) {
       // looking for the
       if (pathCurrent <= m_pathStart) {
-        // behind the start, use the minimum
+        // at or behind the start, use the minimum
         return m_accelerationMin;
       }
       if (pathCurrent >= m_pathEnd) {
-        // past the end, STOP.
+        // at or past the end, STOP.
         return 0.0;
       }
       double pathValue = m_maxValue;

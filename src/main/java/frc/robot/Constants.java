@@ -18,9 +18,6 @@ package frc.robot;
 public final class Constants {
 
   // -------------------------------------------------------------------------------------------------------------------------------
-  //  Tuning the autonomous drive
-  public static final double AUTO_MOVE_SPEED = 0.75;
-  public static final double AUTO_TURN_SPEED = 0.4;
   // These are constants that index us into the constants that really control the configuration of the robot - although they are in
   // the constants file, they are actually controlled through the dashboard and are normally used ias constants during a match.
   public static Drivers DRIVER = Drivers.NOLAN;
@@ -32,6 +29,23 @@ public final class Constants {
   public static double ARM_Ki = 0.0008;
   public static int ARM_INTEGRAL_ZONE = 3000;
   public static double ARM_Kd = 0.0;
+  //  Tuning the autonomous drive
+  public static final double AUTO_MOVE_SPEED = 0.75;                    // The standard max speed for straight rdive
+  public static final double AUTO_TURN_SPEED = 0.4;                     // The standard max speed for stationary turn
+  public static final double AUTO_TURN_AT_RADIUS = AUTO_MOVE_SPEED;     // The standard max speed for turn at radius
+  public static final double AUTO_MOVE_MIN_ACCEL = 0.20;                // The standard start speed for move from stopped
+  public static final double AUTO_MOVE_ACCEL_DIST = 20.0;               // The standard accel distance for move from stopped
+  public static final double AUTO_MOVE_MIN_DECEL = 0.15;                // The standard end speed for a move to stopped
+  public static final double AUTO_MOVE_DECEL_DIST = 30.0;               // The standard decel distance for move to stopped
+  public static final double AUTO_AT_RADIUS_MIN_ACCEL = 0.20;           // The standard start speed for turn at radius from stopped
+  public static final double AUTO_AT_RADIUS_ACCEL_DIST = 20.0;          // The standard accel degrees for turn at rad from stopped
+  public static final double AUTO_AT_RADIUS_MIN_DECEL = 0.15;           // The standard end speed for a turn at radius to stopped
+  public static final double AUTO_AT_RADIUS_DECEL_DIST = 30.0;          // The standard decel degrees for turn at rad to stopped
+  public static final double AUTO_INTO_NEXT_MIN_ACCEL = AUTO_MOVE_SPEED;// The standard start speed for action after an action
+  public static final double AUTO_INTO_NEXT_ACCEL_DIST = 0.0;           // The standard accel distance for action after an action
+  public static final double AUTO_INTO_NEXT_MIN_DECEL = AUTO_MOVE_SPEED;// The standard end speed for action into an action
+  public static final double AUTO_INTO_NEXT_DECEL_DIST = 0.0;           // The standard decel distance for action into an action
+
 
   // -----------------------------------------------------------------------------------------------------------------------------
   // Driver Configurations
