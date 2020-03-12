@@ -33,12 +33,15 @@ public class Robot extends TimedRobot {
   private SpinnerSubsystem m_spinner;
   private Command m_autonomousCommand;
 
-  private double m_lastAutonomousDelay = 0.0;
-  private double m_lastArmPosition = 0.0;
-  private double m_lastArmPower = 0.0;
-  private double m_lastDriveLeftEnc = 0.0;
-  private double m_lastDriveRightEnc = 0.0;
-  private double m_lastSpinnerEnc = 0.0;
+  private double m_lastHeading = -1.0;
+  private double m_rawYaw = -1.0;
+
+  private double m_lastAutonomousDelay = -2.0;
+  private double m_lastArmPosition = -2.0;
+  private double m_lastArmPower = -2.0;
+  private double m_lastDriveLeftEnc = -2.0;
+  private double m_lastDriveRightEnc = -2.0;
+  private double m_lastSpinnerEnc = -2.0;
   private String m_lastDriver = "";
   private String m_lastAuto = "";
   private String m_lastGear = "";
@@ -150,19 +153,14 @@ public class Robot extends TimedRobot {
     m_lastAuto = dashboardTelemetry(1, "auto",
         SmartDashboard.getString("Auto Selector", AutonomousCommands.getDefaultName()), m_lastAuto);
 
-    m_lastGear = dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString(), m_lastGear);
-    m_lastArmPosition = dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition(), m_lastArmPosition);
+//    m_lastGear = dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString(), m_lastGear);
+//    m_lastArmPosition = dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition(), m_lastArmPosition);
 
-    int expected;
-    int mod = (int) m_navx.getHeadingInfo().heading % 360;
-    if ((mod > -90 && mod < 90) || (mod > 270) || (mod < -270)) {
-      // forward
-      expected = (int) (360 * Math.round(m_navx.getHeadingInfo().heading / 360.0));
-    } else {
-      // backward
-      expected = (int) (180 * Math.round(m_navx.getHeadingInfo().heading / 180.0));
-    }
-    m_lastArmPower = dashboardTelemetry(4, "expected", expected, m_lastArmPower);
+    NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
+    NavX.NavInfo navInfo = m_navx.getNavInfo();
+    m_lastHeading = dashboardTelemetry(2, "heading", headingInfo.heading, m_lastHeading);
+    m_lastArmPosition = dashboardTelemetry(3, "yaw", navInfo.rawYaw, m_lastArmPosition);
+    m_lastArmPower = dashboardTelemetry(4, "expected", ArmSubsystem.getInstance().getPositionPower(), m_lastArmPower);
     
     /*
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());

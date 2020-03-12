@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.SerialPort;
  */
 public class NavX {
 
+  static public double PRECESSION_PER_MINUTE = -0.2489;
+
   //================================================================================================================================
   private AHRS m_ahrs;
   private double m_expectedHeading = 0.0;
@@ -19,6 +21,7 @@ public class NavX {
   private double m_refPitch = 0.0;
   private double m_refYaw = 0.0;
   private double m_refRoll = 0.0;
+  private long m_lastInitTime = 0;
   private NavX() {
     // So, if there is no navx, there is no error - it just keeps trying to connect forever, so this
     // needs to be on a thread that can be killed if it doesn't connect in time ......
@@ -46,6 +49,7 @@ public class NavX {
     m_headingRawLast = 0.0;
     m_expectedHeading = 0.0;
     m_headingRevs = 0;
+    m_lastInitTime = System.currentTimeMillis();
   }
 
   /**
@@ -83,15 +87,16 @@ public class NavX {
    */
   public void recomputeHeading(boolean setExpectedToCurrent) {
     m_setExpectedToCurrent = setExpectedToCurrent;
+    long msSinceReset = System.currentTimeMillis() - m_lastInitTime;
     double heading_raw = m_ahrs.getYaw();
     // This is the logic for detecting and correcting for the IMU discontinuity at +180degrees and -180degrees.
-    if (m_headingRawLast < -150.0 && heading_raw > 0.0) {
+    if (m_headingRawLast < -140.0 && heading_raw > 0.0) {
       // The previous raw IMU heading was negative and close to the discontinuity, and it is now positive. We have
       // gone through the discontinuity so we decrement the heading revolutions by 1 (we completed a negative
       // revolution). NOTE: the initial check protects from the case that the heading is near 0 and goes continuously
       // through 0, which is not the completion of a revolution.
       m_headingRevs--;
-    } else if (m_headingRawLast > 150.0 && heading_raw < 0.0) {
+    } else if (m_headingRawLast > 140.0 && heading_raw < 0.0) {
       // The previous raw IMU heading was positive and close to the discontinuity, and it is now negative. We have
       // gone through the discontinuity so we increment the heading revolutions by 1 (we completed a positive
       // revolution). NOTE: the initial check protects from the case that the heading is near 0 and goes continuously
@@ -100,7 +105,8 @@ public class NavX {
     }
     m_headingRawLast = heading_raw;
 
-    m_heading = (m_headingRevs * 360.0) + heading_raw - m_refYaw;
+    m_heading = (m_headingRevs * 360.0) + heading_raw - m_refYaw -
+        (((double)msSinceReset * PRECESSION_PER_MINUTE) / 60000.0);
     if (setExpectedToCurrent) {
       m_expectedHeading = m_heading;
     }
