@@ -34,7 +34,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private double m_lastHeading = -1.0;
-  private double m_rawYaw = -1.0;
+  private double m_lastRawYaw = -1.0;
+  private double m_lastYawDrift = -1.0;
 
   private double m_lastAutonomousDelay = -2.0;
   private double m_lastArmPosition = -2.0;
@@ -60,7 +61,7 @@ public class Robot extends TimedRobot {
   @SuppressWarnings("unused")
   private double dashboardTelemetry(int port, String key, double var, double lastValue) {
     if (var != lastValue) {
-      SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.3f", key, var));
+      SmartDashboard.putString(String.format("DB/String %d", port), String.format("%s: %4.4f", key, var));
     }
     return var;
   }
@@ -155,12 +156,13 @@ public class Robot extends TimedRobot {
 
 //    m_lastGear = dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString(), m_lastGear);
 //    m_lastArmPosition = dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition(), m_lastArmPosition);
+//    m_lastArmPower = dashboardTelemetry(4, "expected", ArmSubsystem.getInstance().getPositionPower(), m_lastArmPower);
 
     NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     NavX.NavInfo navInfo = m_navx.getNavInfo();
     m_lastHeading = dashboardTelemetry(2, "heading", headingInfo.heading, m_lastHeading);
-    m_lastArmPosition = dashboardTelemetry(3, "yaw", navInfo.rawYaw, m_lastArmPosition);
-    m_lastArmPower = dashboardTelemetry(4, "expected", ArmSubsystem.getInstance().getPositionPower(), m_lastArmPower);
+    m_lastArmPosition = dashboardTelemetry(3, "yaw", navInfo.rawYaw, m_lastRawYaw);
+    m_lastYawDrift = dashboardTelemetry(4, "yaw drift", m_navx.getYawDrift(), m_lastYawDrift);
     
     /*
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());

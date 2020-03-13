@@ -22,10 +22,13 @@ public class NavX {
   private double m_refYaw = 0.0;
   private double m_refRoll = 0.0;
   private long m_lastInitTime = 0;
+  private long m_lastMsSinceReset = 0;
+
+
   private NavX() {
     // So, if there is no navx, there is no error - it just keeps trying to connect forever, so this
     // needs to be on a thread that can be killed if it doesn't connect in time ......
-    m_ahrs = new AHRS(SerialPort.Port.kUSB1);
+    m_ahrs = new AHRS(SerialPort.Port.kUSB1, AHRS.SerialDataType.kProcessedData, (byte)50);
     m_ahrs.reset();
     while (m_ahrs.isCalibrating()) {
       try {
@@ -87,7 +90,7 @@ public class NavX {
    */
   public void recomputeHeading(boolean setExpectedToCurrent) {
     m_setExpectedToCurrent = setExpectedToCurrent;
-    long msSinceReset = System.currentTimeMillis() - m_lastInitTime;
+    m_lastMsSinceReset = System.currentTimeMillis() - m_lastInitTime;
     double heading_raw = m_ahrs.getYaw();
     // This is the logic for detecting and correcting for the IMU discontinuity at +180degrees and -180degrees.
     if (m_headingRawLast < -140.0 && heading_raw > 0.0) {
@@ -106,10 +109,19 @@ public class NavX {
     m_headingRawLast = heading_raw;
 
     m_heading = (m_headingRevs * 360.0) + heading_raw - m_refYaw -
-        (((double)msSinceReset * PRECESSION_PER_MINUTE) / 60000.0);
+        (((double)m_lastMsSinceReset * PRECESSION_PER_MINUTE) / 60000.0);
     if (setExpectedToCurrent) {
       m_expectedHeading = m_heading;
     }
+  }
+
+  /**
+   * Return the accumulated rate of yaw drift (degrees/minute) for a robot that is not moving.
+   * @return (double) Returns the yaw drift in degrees/minute.
+   */
+  public double getYawDrift() {
+    return (m_heading - ((m_headingRevs * 360.0) + m_headingRawLast - m_refYaw)) /
+        ((double)m_lastMsSinceReset / 60000.0);
   }
 
   /**
