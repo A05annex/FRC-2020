@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
     NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
     NavX.NavInfo navInfo = m_navx.getNavInfo();
     m_lastHeading = dashboardTelemetry(2, "heading", headingInfo.heading, m_lastHeading);
-    m_lastArmPosition = dashboardTelemetry(3, "yaw", navInfo.rawYaw, m_lastRawYaw);
+    m_lastArmPosition = dashboardTelemetry(3, "raw yaw", navInfo.rawYaw, m_lastRawYaw);
     m_lastYawDrift = dashboardTelemetry(4, "yaw drift", m_navx.getYawDrift(), m_lastYawDrift);
     
     /*
