@@ -61,7 +61,7 @@ public final class Constants {
 
     // The driver name presented on the dashboard.
     public final String DRIVER_NAME;
-    // If true, use the joystick twist for turn control; if false yous the stick X value for turn control.
+    // If true, use the joystick twist for turn control; if false use the stick X value for turn control.
     public final boolean DRIVE_USE_TWIST;
     // The multiplier for full stick to give the power/speed requested from the drive.
     public final double DRIVE_SPEED_GAIN;
