@@ -20,6 +20,7 @@ public class AutoDrive extends CommandBase {
   private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
   private final double m_distance;
   private final double m_speed;
+  private boolean m_stopAtEnd = true;
   private double m_minAtStart = Constants.AUTO_MOVE_MIN_ACCEL;
   private double m_accelerationDistance = Constants.AUTO_MOVE_ACCEL_DIST;
   private double m_minAtEnd = Constants.AUTO_MOVE_MIN_DECEL;
@@ -37,6 +38,7 @@ public class AutoDrive extends CommandBase {
   public AutoDrive(double distanceInInches) {
     this(distanceInInches, Constants.AUTO_MOVE_SPEED);
   }
+
   /**
    * Drives straight forward/backward for a specified distance in inches, at a specified maximum speed.
    *
@@ -46,6 +48,7 @@ public class AutoDrive extends CommandBase {
   public AutoDrive(double distanceInInches, double speed) {
     m_distance = distanceInInches * Constants.ROBOT.GEARS[Constants.GEAR].DRIVE_TICS_PER_INCH;
     m_speed = Math.abs(speed);
+    m_stopAtEnd = true;
     // reverse speed if distance is negative
     m_directionMult = (distanceInInches < 0.0) ? -1.0 : 1.0;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -100,10 +103,11 @@ public class AutoDrive extends CommandBase {
    */
   public AutoDrive(double distanceInInches, double speed, boolean fromStop, boolean toStop) {
     this(distanceInInches, speed);
-    m_minAtStart = fromStop ? Constants.AUTO_MOVE_MIN_ACCEL : Constants.AUTO_INTO_NEXT_MIN_ACCEL;
-    m_accelerationDistance = fromStop ? Constants.AUTO_MOVE_ACCEL_DIST : Constants.AUTO_INTO_NEXT_ACCEL_DIST;
+    m_minAtStart = fromStop ? Constants.AUTO_MOVE_MIN_ACCEL : Constants.AUTO_INTO_THIS_MIN_ACCEL;
+    m_accelerationDistance = fromStop ? Constants.AUTO_MOVE_ACCEL_DIST : Constants.AUTO_INTO_THIS_ACCEL_DIST;
     m_minAtEnd =  toStop ? Constants.AUTO_MOVE_MIN_DECEL : Constants.AUTO_INTO_NEXT_MIN_DECEL;
     m_decelerationDistance =  toStop ? Constants.AUTO_MOVE_DECEL_DIST : Constants.AUTO_INTO_NEXT_DECEL_DIST;
+    m_stopAtEnd = toStop;
   }
 
   // Called when the command is initially scheduled.
@@ -124,8 +128,11 @@ public class AutoDrive extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_driveSubsystem.setArcadeSpeed(0, 0, true, false);
+  public void end(boolean interrupted)
+  {
+    if (m_stopAtEnd) {
+      m_driveSubsystem.setArcadeSpeed(0, 0, true, false);
+    }
   }
 
   // Returns true when the command should end.

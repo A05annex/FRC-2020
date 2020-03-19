@@ -12,7 +12,7 @@ import frc.robot.commands.*;
  */
 public enum AutonomousCommands {
   POSITION1("Center", new SequentialCommandGroup(
-      new WaitCommand(Constants.DELAY),
+      new WaitCommand(Constants.AUTO_SCORE_DELAY),
       new ParallelCommandGroup(
           new CollectorPidPosition(Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
           new AutoDrive(72, Constants.AUTO_MOVE_SPEED) // approach bottom target
@@ -28,7 +28,7 @@ public enum AutonomousCommands {
       )
   )),
   POSITION2("Right", new SequentialCommandGroup(
-      new WaitCommand(Constants.DELAY),
+      new WaitCommand(Constants.AUTO_SCORE_DELAY),
       new ParallelCommandGroup(
           new CollectorPidPosition(Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
           new AutoTurn(-45, Constants.AUTO_TURN_SPEED) // turn 45 degrees counterclockwise
@@ -47,7 +47,7 @@ public enum AutonomousCommands {
       )
   )),
   POSITION3("Left", new SequentialCommandGroup(
-      new WaitCommand(Constants.DELAY),
+      new WaitCommand(Constants.AUTO_SCORE_DELAY),
       new ParallelCommandGroup(
           new CollectorPidPosition(Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
           new AutoDrive(40, Constants.AUTO_MOVE_SPEED) // 40 in forward
@@ -67,7 +67,7 @@ public enum AutonomousCommands {
       )
   )),
   POSITION4("Trench", new SequentialCommandGroup(
-      new WaitCommand(Constants.DELAY),
+      new WaitCommand(Constants.AUTO_SCORE_DELAY),
       new ParallelCommandGroup(
           new CollectorPidPosition(Constants.ArmPosition.COLLECT_POSITION), // arm to collect position
           new AutoDrive(87, Constants.AUTO_MOVE_SPEED), // approach trench
@@ -94,7 +94,7 @@ public enum AutonomousCommands {
       )
   )),
   POSITION5("Full", new SequentialCommandGroup(
-      new WaitCommand(Constants.DELAY),
+      new WaitCommand(Constants.AUTO_SCORE_DELAY),
       new ParallelCommandGroup(
           new CollectorPidPosition(Constants.ArmPosition.DELIVER_POSITION), // arm to dump position
           new AutoDrive(72, Constants.AUTO_MOVE_SPEED) // approach bottom target
@@ -131,7 +131,7 @@ public enum AutonomousCommands {
       )
   )),
   POSITION6("Move", new SequentialCommandGroup(
-      new WaitCommand(Constants.DELAY),
+      new WaitCommand(Constants.AUTO_SCORE_DELAY),
       new ParallelCommandGroup(
           new AutoDrive(12, Constants.AUTO_MOVE_SPEED), // drive off the line
           new CollectorPidPosition(Constants.ArmPosition.FLOOR_POSITION) // arm to collect position

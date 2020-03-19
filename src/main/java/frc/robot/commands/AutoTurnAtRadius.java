@@ -21,6 +21,7 @@ public class AutoTurnAtRadius extends CommandBase {
   private double m_speed;
   private double m_degrees;
   private double m_radius;
+  private boolean m_stopAtEnd = true;
   private double m_minAtStart = Constants.AUTO_AT_RADIUS_MIN_ACCEL;
   private double m_accelerationDistance = Constants.AUTO_AT_RADIUS_ACCEL_DIST;
   private double m_minAtEnd = Constants.AUTO_AT_RADIUS_MIN_DECEL;
@@ -28,18 +29,40 @@ public class AutoTurnAtRadius extends CommandBase {
   private boolean m_clockwise;
   private RampInOut m_ramp;
 
+  /**
+   *
+   * @param radiusInInches
+   * @param degrees
+   */
   public AutoTurnAtRadius(double radiusInInches, double degrees) {
     this(radiusInInches, degrees, Constants.AUTO_TURN_AT_RADIUS);
   }
 
+  /**
+   *
+   * @param radiusInInches
+   * @param degrees
+   * @param speed
+   */
   public AutoTurnAtRadius(double radiusInInches, double degrees, double speed) {
     m_radius = radiusInInches;
     m_degrees = degrees;
     m_speed = speed;
+    m_stopAtEnd = true;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveSubsystem);
   }
 
+  /**
+   *
+   * @param radiusInInches
+   * @param degrees
+   * @param speed
+   * @param minAtStart
+   * @param accelerationDistance
+   * @param minAtEnd
+   * @param decelerationDistance
+   */
   public AutoTurnAtRadius(double radiusInInches, double degrees, double speed, double minAtStart,
                    double accelerationDistance, double minAtEnd, double decelerationDistance) {
     this(radiusInInches, degrees, speed);
@@ -54,18 +77,21 @@ public class AutoTurnAtRadius extends CommandBase {
    * accelerations and decelerations depending on whether the move starts/stops at rest, or, is the continuation of a
    * previous move.
    *
-   * @param distanceInInches (double) Degrees to travel in inches, positive is clockwise, negative is counter-clockwise.
+   * @param radiusInInches (double) The radius of the turn in inches.
+   * @param degrees (double) Degrees to turn, positive is clockwise, negative is counter-clockwise.
+   * @param speed (double) The spped of the turn.
    * @param fromStop (boolean) {@code true} if this move is starting from a stopped position, {@code false} if this is
    *                 the continuation of another move or turn at radius.
    * @param toStop (boolean) {@code true} if this move is ending in a stopped position, {@code false} if there is
    *               another move or turn at radius following this.
    */
-  public AutoTurnAtRadius(double distanceInInches, double speed, boolean fromStop, boolean toStop) {
-    this(distanceInInches, speed);
-    m_minAtStart = fromStop ? Constants.AUTO_MOVE_MIN_ACCEL : Constants.AUTO_INTO_NEXT_MIN_ACCEL;
-    m_accelerationDistance = fromStop ? Constants.AUTO_MOVE_ACCEL_DIST : Constants.AUTO_INTO_NEXT_ACCEL_DIST;
+  public AutoTurnAtRadius(double radiusInInches, double degrees, double speed, boolean fromStop, boolean toStop) {
+    this(radiusInInches, degrees, speed);
+    m_minAtStart = fromStop ? Constants.AUTO_MOVE_MIN_ACCEL : Constants.AUTO_INTO_THIS_MIN_ACCEL;
+    m_accelerationDistance = fromStop ? Constants.AUTO_MOVE_ACCEL_DIST : Constants.AUTO_INTO_THIS_ACCEL_DIST;
     m_minAtEnd =  toStop ? Constants.AUTO_MOVE_MIN_DECEL : Constants.AUTO_INTO_NEXT_MIN_DECEL;
     m_decelerationDistance =  toStop ? Constants.AUTO_MOVE_DECEL_DIST : Constants.AUTO_INTO_NEXT_DECEL_DIST;
+    m_stopAtEnd = toStop;
   }
 
   @Override
@@ -111,5 +137,8 @@ public class AutoTurnAtRadius extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    if (m_stopAtEnd) {
+      m_driveSubsystem.setTankSpeed(0.0,0.0);
+    }
   }
 }

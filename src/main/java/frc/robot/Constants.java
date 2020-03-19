@@ -23,13 +23,17 @@ public final class Constants {
   public static Drivers DRIVER = Drivers.NOLAN;
   public static Robots ROBOT = Robots.COMPETITION_ROBOT;
   public static int GEAR = DriveGears.FIRST.ordinal();
-  public static double DELAY = 0.0;
   // Tuning the collector arm position PID
   public static double ARM_Kp = 0.13;
   public static double ARM_Ki = 0.0008;
   public static int ARM_INTEGRAL_ZONE = 3000;
   public static double ARM_Kd = 0.0;
   //  Tuning the autonomous drive
+  public static double AUTO_SCORE_DELAY = 0.0;                          /* The delay from autonomous play start to the start of
+                                                                           the start of the autonomous score commands. */
+  public static double AUTO_POST_SCORE_DELAY = 0.0;                     /* The delay from the end of the autonomous score command
+                                                                           to the start of the start of the autonomous
+                                                                           post-score commands */
   public static final double AUTO_MOVE_SPEED = 0.75;                    // The standard max speed for straight rdive
   public static final double AUTO_TURN_SPEED = 0.4;                     // The standard max speed for stationary turn
   public static final double AUTO_TURN_AT_RADIUS = AUTO_MOVE_SPEED;     // The standard max speed for turn at radius
@@ -41,10 +45,13 @@ public final class Constants {
   public static final double AUTO_AT_RADIUS_ACCEL_DIST = 20.0;          // The standard accel degrees for turn at rad from stopped
   public static final double AUTO_AT_RADIUS_MIN_DECEL = 0.15;           // The standard end speed for a turn at radius to stopped
   public static final double AUTO_AT_RADIUS_DECEL_DIST = 30.0;          // The standard decel degrees for turn at rad to stopped
-  public static final double AUTO_INTO_NEXT_MIN_ACCEL = AUTO_MOVE_SPEED;// The standard start speed for action after an action
-  public static final double AUTO_INTO_NEXT_ACCEL_DIST = 0.0;           // The standard accel distance for action after an action
+  public static final double AUTO_INTO_THIS_MIN_ACCEL = AUTO_MOVE_SPEED;// The standard start speed for action after an action
+  public static final double AUTO_INTO_THIS_ACCEL_DIST = 0.0;           // The standard accel distance for action after an action
   public static final double AUTO_INTO_NEXT_MIN_DECEL = AUTO_MOVE_SPEED;// The standard end speed for action into an action
   public static final double AUTO_INTO_NEXT_DECEL_DIST = 0.0;           // The standard decel distance for action into an action
+  public static final double AUTO_DISCHARGE_POWER = -1.0;
+  public static final double AUTO_DISCHARGE_TIME = 0.5;
+  public static final double AUTO_PICKUP_POWER = 0.5;
 
 
   // -----------------------------------------------------------------------------------------------------------------------------
@@ -79,6 +86,7 @@ public final class Constants {
     // The center-stick sensitivity for turn control, which is really the exponent applied to the stick
     // position to flatten drive response to stick position for greater sensitivity at low speed.
     public final double DRIVE_TURN_SENSITIVITY;
+
     Drivers(String driverName, boolean useTwist, double speedGain, double turnGain, double turnAtSpeedGain,
             double forwardSensitivity, double turnSensitivity, double speedDeadband, double turnDeadband) {
       DRIVER_NAME = driverName;
@@ -136,6 +144,7 @@ public final class Constants {
     public final boolean DRIVE_ENCODER_PHASE;
     // The gear info - gear-specific deive PID information.
     public final DriveGear[] GEARS;
+
     Robots(String robotName, boolean encoderPhase, DriveGear[] gears) {
       ROBOT_NAME = robotName;
       DRIVE_ENCODER_PHASE = encoderPhase;
