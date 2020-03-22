@@ -52,8 +52,20 @@ public enum AutonomousPostScore {
       new SetSweeperPower(0.0) // set sweeper to stop - ready to do the next thing
   )),
   SCORE_TO_PICKUP("ToPickup", "Go from score position to the pickup position", new SequentialCommandGroup(
-      new WaitCommand(Constants.AUTO_POST_SCORE_DELAY)
-      // TODO - finish this
+      new WaitCommand(Constants.AUTO_POST_SCORE_DELAY),
+      new AutoDrive(-12.0, Constants.AUTO_MOVE_SPEED, true, false),               // 12" back away from score
+      new ParallelCommandGroup(
+          new CollectorPidPosition(Constants.ArmPosition.FLOOR_POSITION), // arm to floor pickup position
+          new SequentialCommandGroup( // the path and arm position are independent - so the entire path is here
+              new AutoTurnAtRadius(30.0, 90.0, -Constants.AUTO_TURN_SPEED, false, false), // 90 degrees clockwise at 30" radius
+              new AutoDrive(-6.0, Constants.AUTO_MOVE_SPEED, false, true) // another 6" back
+          )
+      ),
+      new SetSweeperPower(Constants.AUTO_PICKUP_POWER), // pickup anything in our path
+      new AutoTurnAtRadius(30.0, 90.0, Constants.AUTO_TURN_SPEED, true, false), // 90 degrees clockwise at 30" radius
+      new AutoDrive(373.0, Constants.AUTO_MOVE_SPEED, false, true), // 372" towards human depot - collect anything in the path
+      new SetSweeperPower(0.0),
+      new CollectorPidPosition(Constants.ArmPosition.COLLECT_POSITION) // arm to collect position
   )),
   HIBERNATE_TO_PICKUP("HibToPickup", "Go from the hibernate initial move to the pickup position", new SequentialCommandGroup(
       new WaitCommand(Constants.AUTO_POST_SCORE_DELAY),
@@ -76,4 +88,20 @@ public enum AutonomousPostScore {
     DESCRIPTION = description;
     COMMAND = command;
   }
+  static public String[] asStringArray() {
+    AutonomousPostScore[] autos = AutonomousPostScore.values();
+    String[] strings = new String[autos.length];
+    for (int i = 0; i < autos.length; i++) {
+      strings[i] = autos[i].NAME;
+    }
+    return strings;
+  }
+
+  static public AutonomousPostScore getDefault() {
+    return SCORE_TO_TRENCH_HOLD;
+  }
+  static public String getDefaultName() {
+    return getDefault().NAME;
+  }
+
 }

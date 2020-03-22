@@ -107,11 +107,12 @@ public enum AutonomousScore {
     return strings;
   }
 
-  static public String getDefaultName() {
-    return SCORE.NAME;
-  }
-
   static public AutonomousScore getDefault() {
     return SCORE;
   }
+
+  static public String getDefaultName() {
+    return getDefault().NAME;
+  }
+
 }
