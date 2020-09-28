@@ -33,6 +33,12 @@ public final class Constants {
   public static int ARM_INTEGRAL_ZONE = 3000;
   public static double ARM_Kd = 0.0;
 
+  // Speeds to run the motors at
+  public static double PORT7_SPEED = 0.0;
+  public static double PORT8_SPEED = 0.0;
+  public static double PORT9_SPEED = 0.0;
+  public static double PORT10_SPEED = 0.0;
+
   // -----------------------------------------------------------------------------------------------------------------------------
   // Driver Configurations
   // -----------------------------------------------------------------------------------------------------------------------------
@@ -214,10 +220,10 @@ public final class Constants {
         DRIVE_LEFT_MASTER = 4,
         DRIVE_LEFT_SLAVE_1 = 5,
         DRIVE_LEFT_SLAVE_2 = 6,
-        COLLECTOR_POSITION = 7,
-        COLLECTOR_SWEEPER = 8,
-        SPINNER = 9,
-        LIFT_WINCH = 10;
+        PORT7_MOTOR = 7,
+        PORT8_MOTOR = 8,
+        PORT9_MOTOR = 9,
+        PORT10_MOTOR = 10;
   }
 
   public static final class Pneumatics {

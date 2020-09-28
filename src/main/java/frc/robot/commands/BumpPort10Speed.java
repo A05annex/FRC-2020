@@ -8,34 +8,29 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SpinnerSubsystem;
-import frc.robot.subsystems.SweeperSubsystem;
+import frc.robot.Constants;
 
-public class SetSweeperPower extends CommandBase {
+public class BumpPort10Speed extends CommandBase {
 
-  private final SweeperSubsystem m_sweeperSubsystem = SweeperSubsystem.getInstance();
-  private final SpinnerSubsystem m_spinnerSubsystem = SpinnerSubsystem.getInstance();
-  private double m_power;
+  final double m_inc;
 
   /**
-   * Creates a new SetSweeperPower.
+   * Creates a new BumpPort10Speed.
    */
-  public SetSweeperPower(double power) {
-    m_power = power;
-    addRequirements(m_sweeperSubsystem);
-    addRequirements(m_spinnerSubsystem);
+  public BumpPort10Speed(double inc) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    m_inc = inc;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_sweeperSubsystem.setSweeperPower(m_power);
-    m_spinnerSubsystem.setPower(-m_power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Constants.PORT10_SPEED += m_inc;
   }
 
   // Called once the command ends or is interrupted.

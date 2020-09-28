@@ -14,19 +14,19 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class SpinnerSubsystem extends SubsystemBase {
+public class Port9Subsystem extends SubsystemBase {
 
-  public final TalonSRX m_spinner = new TalonSRX(Constants.MotorControllers.SPINNER);
+  public final TalonSRX m_motor = new TalonSRX(Constants.MotorControllers.PORT9_MOTOR);
   private double m_lastPower = 0.0;
   /**
-   * Creates a new SpinnerSubsystem.
+   * Creates a new Port9Subsystem.
    */
-  private SpinnerSubsystem() {
+  private Port9Subsystem() {
 
-    m_spinner.configFactoryDefault();
-    m_spinner.setNeutralMode(NeutralMode.Brake);
-    m_spinner.set(ControlMode.PercentOutput, 0.0);
-    m_spinner.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    m_motor.configFactoryDefault();
+    m_motor.setNeutralMode(NeutralMode.Brake);
+    m_motor.set(ControlMode.PercentOutput, 0.0);
+    m_motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     resetEncoder();
 
   }
@@ -38,32 +38,36 @@ public class SpinnerSubsystem extends SubsystemBase {
 
   public void setPower(double power) {
     if (power != m_lastPower) {
-      m_spinner.set(ControlMode.PercentOutput, power);
+      m_motor.set(ControlMode.PercentOutput, power);
       m_lastPower = power;
     }
   }
 
   public int getEncoder() {
-    return m_spinner.getSelectedSensorPosition();
+    return m_motor.getSelectedSensorPosition();
+  }
+
+  public int getEncoderVel() {
+    return m_motor.getSelectedSensorVelocity();
   }
 
   public void resetEncoder() {
-    m_spinner.setSelectedSensorPosition(0);
+    m_motor.setSelectedSensorPosition(0);
   }
 
   //================================================================================================================================
   /**
-   * The Singleton instance of this SpinnerSubsystem. External classes should
-   * use the {@link #SpinnerSubsystem()} method to get the instance.
+   * The Singleton instance of this Port9Subsystem. External classes should
+   * use the {@link #Port9Subsystem()} method to get the instance.
    */
-  private static final SpinnerSubsystem INSTANCE = new SpinnerSubsystem();
+  private static final Port9Subsystem INSTANCE = new Port9Subsystem();
 
   /**
-   * Returns the Singleton instance of this SpinnerSubsystem. This static method
-   * should be used -- {@code SpinnerSubsystem.getInstance();} -- by external
+   * Returns the Singleton instance of this Port9Subsystem. This static method
+   * should be used -- {@code Port9Subsystem.getInstance();} -- by external
    * classes, rather than the constructor to get the instance of this class.
    */
-  public static SpinnerSubsystem getInstance() {
+  public static Port9Subsystem getInstance() {
     return INSTANCE;
   }
   //================================================================================================================================

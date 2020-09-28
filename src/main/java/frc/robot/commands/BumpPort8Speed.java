@@ -8,29 +8,29 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SpinnerSubsystem;
+import frc.robot.Constants;
 
-public class ResetSpinnerEncoder extends CommandBase {
+public class BumpPort8Speed extends CommandBase {
 
-  private final SpinnerSubsystem m_spinnerSubsystem = SpinnerSubsystem.getInstance();
+  final double m_inc;
 
   /**
-   * Creates a new resetBigWheelEncoders.
+   * Creates a new BumpPort8Speed.
    */
-  public ResetSpinnerEncoder() {
+  public BumpPort8Speed(double inc) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_spinnerSubsystem);
+    m_inc = inc;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_spinnerSubsystem.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Constants.PORT8_SPEED += m_inc;
   }
 
   // Called once the command ends or is interrupted.

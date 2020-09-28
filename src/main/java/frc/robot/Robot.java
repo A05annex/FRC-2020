@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.RunSweeper;
 import frc.robot.subsystems.*;
 
 /**
@@ -25,24 +24,23 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private DriveSubsystem m_driveSubsystem;
-  private LiftSubsystem m_liftSubsystem;
-  private SpinnerLift m_spinnerLift;
-  private SweeperSubsystem m_sweeperSubsystem;
   private NavX m_navx;
-  private Limelight m_limelight;
-  private SpinnerSubsystem m_spinner;
   private Command m_autonomousCommand;
+  private Port7Subsystem m_Port7Subsystem;
+  private Port8Subsystem m_Port8Subsystem;
+  private Port9Subsystem m_Port9Subsystem;
+  private Port10Subsystem m_Port10Subsystem;
 
-  private double m_lastAutonomousDelay = 0.0;
-  private double m_lastArmPosition = 0.0;
-  private double m_lastArmPower = 0.0;
-  private double m_lastDriveLeftEnc = 0.0;
-  private double m_lastDriveRightEnc = 0.0;
-  private double m_lastSpinnerEnc = 0.0;
+  private double m_lastPort7Speed;
+  private double m_lastPort7Encoder;
+  private double m_lastPort8Speed;
+  private double m_lastPort8Encoder;
+  private double m_lastPort9Speed;
+  private double m_lastPort9Encoder;
+  private double m_lastPort10Speed;
+  private double m_lastPort10Encoder;
   private String m_lastDriver = "";
-  private String m_lastAuto = "";
   private String m_lastGear = "";
-  private String m_lastColor = "";
 //  private SendableChooser<Constants.Robots> robotChooser = new SendableChooser<>();
 
   /**
@@ -145,35 +143,32 @@ public class Robot extends TimedRobot {
   private void displayTelemetry() {
 
     //dashboardTelemetry(0, "robot", Constants.ROBOT.ROBOT_NAME);
-    m_lastAutonomousDelay = dashboardTelemetry(0, "delay", SmartDashboard.getNumber("DB/Slider 0", 0), m_lastAutonomousDelay);
-    m_lastDriver = dashboardTelemetry(5, "driver", Constants.DRIVER.DRIVER_NAME, m_lastDriver);
-    m_lastAuto = dashboardTelemetry(1, "auto",
-        SmartDashboard.getString("Auto Selector", AutonomousCommands.getDefaultName()), m_lastAuto);
+    m_lastDriver = dashboardTelemetry(0, "driver", Constants.DRIVER.DRIVER_NAME, m_lastDriver);
+    m_lastGear = dashboardTelemetry(5, "drive gear", m_driveSubsystem.getGear().toString(), m_lastGear);
 
-    m_lastGear = dashboardTelemetry(2, "drive gear", m_driveSubsystem.getGear().toString(), m_lastGear);
-    m_lastArmPosition = dashboardTelemetry(3, "arm enc", ArmSubsystem.getInstance().getPosition(), m_lastArmPosition);
+    m_lastPort7Speed = dashboardTelemetry(1, "Port7Speed", Constants.PORT7_SPEED, m_lastPort7Speed);
+    m_lastPort7Encoder = dashboardTelemetry(6, "Port7Enc", m_Port7Subsystem.getEncoderVel(), m_lastPort7Encoder);
 
-    int expected;
-    int mod = (int) m_navx.getHeadingInfo().heading % 360;
-    if ((mod > -90 && mod < 90) || (mod > 270) || (mod < -270)) {
-      // forward
-      expected = (int) (360 * Math.round(m_navx.getHeadingInfo().heading / 360.0));
-    } else {
-      // backward
-      expected = (int) (180 * Math.round(m_navx.getHeadingInfo().heading / 180.0));
-    }
-    m_lastArmPower = dashboardTelemetry(4, "expected", expected, m_lastArmPower);
-    
+    m_lastPort8Speed = dashboardTelemetry(2, "Port8Speed", Constants.PORT8_SPEED, m_lastPort8Speed);
+    m_lastPort8Encoder = dashboardTelemetry(7, "Port8Enc", m_Port8Subsystem.getEncoderVel(), m_lastPort8Encoder);
+
+    m_lastPort9Speed = dashboardTelemetry(3, "Port9Speed", Constants.PORT9_SPEED, m_lastPort9Speed);
+    m_lastPort9Encoder = dashboardTelemetry(8, "Port9Enc", m_Port9Subsystem.getEncoderVel(), m_lastPort9Encoder);
+
+    m_lastPort10Speed = dashboardTelemetry(4, "Port10Speed", Constants.PORT10_SPEED, m_lastPort10Speed);
+    m_lastPort10Encoder = dashboardTelemetry(9, "Port10Enc", m_Port10Subsystem.getEncoderVel(), m_lastPort10Encoder);
     /*
     dashboardTelemetry(7, "mode", m_limelight.getMode().toString());
     dashboardTelemetry(8, "stream", m_limelight.getStream().toString());
     */
+    /*
     m_lastDriveLeftEnc = dashboardTelemetry(7, "left enc", m_driveSubsystem.getLeftPosition(), m_lastDriveLeftEnc);
     m_lastDriveRightEnc = dashboardTelemetry(8, "right enc", m_driveSubsystem.getRightPosition(), m_lastDriveRightEnc);
 
     m_lastSpinnerEnc = dashboardTelemetry(9, "heading", m_navx.getHeadingInfo().heading, m_lastSpinnerEnc);
 
     m_lastColor = dashboardTelemetry(6, "color", getMessageToString(), m_lastColor);
+    */
 
   }
 
@@ -188,23 +183,19 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     // Get these here so you know the RobotContainer has been created and all of the subsystems instantiated by that.
     m_driveSubsystem = DriveSubsystem.getInstance();
-    m_liftSubsystem = LiftSubsystem.getInstance();
-    m_spinnerLift = SpinnerLift.getInstance();
-    m_sweeperSubsystem = SweeperSubsystem.getInstance();
     m_navx = NavX.getInstance();
-    m_limelight = Limelight.getInstance();
-    m_spinner = SpinnerSubsystem.getInstance();
+    m_Port7Subsystem = Port7Subsystem.getInstance();
+    m_Port8Subsystem = Port8Subsystem.getInstance();
+    m_Port9Subsystem = Port9Subsystem.getInstance();
+    m_Port10Subsystem = Port10Subsystem.getInstance();
 
     // empty the telemetry display
     for (int i = 0; i < 10; i++) {
       SmartDashboard.putString(String.format("DB/String %d", i), " ");
     }
-    SmartDashboard.putStringArray("Auto List", AutonomousCommands.asStringArray());
 
 
     m_navx.initializeHeadingAndNav();
-
-    m_limelight.setMode(Limelight.MODE.DRIVE);
 
 //    robotChooser.setDefaultOption(Constants.Robots.COMPETITION_ROBOT.ROBOT_NAME, Constants.Robots.COMPETITION_ROBOT);
 //    robotChooser.addOption(Constants.Robots.PRACTICE_ROBOT.ROBOT_NAME, Constants.Robots.PRACTICE_ROBOT);
@@ -237,8 +228,6 @@ public class Robot extends TimedRobot {
 //    m_robotContainer.resetRobot();
 
     // reset pneumatics when disabling
-    m_liftSubsystem.dumpLiftPressure();
-    m_spinnerLift.spinner_down();
   }
 
   @Override
@@ -255,17 +244,11 @@ public class Robot extends TimedRobot {
     Constants.DELAY = SmartDashboard.getNumber("DB/Slider 0", 0.0);
 
     m_navx.initializeHeadingAndNav();
-    ArmSubsystem.getInstance().initializeArmEncoder();
     m_driveSubsystem.setGear(Constants.DriveGears.FIRST);
 
     // Make sure everything that should be is at initial state
-    m_liftSubsystem.retractUpper();
-    m_liftSubsystem.retractLower();
-    m_liftSubsystem.restoreLiftPressure();
-    m_spinnerLift.spinner_down();
 
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand(SmartDashboard.getString("Auto Selector",
-        AutonomousCommands.getDefaultName())).COMMAND;
+    m_autonomousCommand = null;
 
     // schedule the autonomous command
     if (m_autonomousCommand != null) {
@@ -294,14 +277,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    // set sweeper command at teleop init
-    m_sweeperSubsystem.setDefaultCommand(new RunSweeper(m_robotContainer.getXbox()));
-
     // Make sure everything that should be is at initial state
-    m_liftSubsystem.retractUpper();
-    m_liftSubsystem.retractLower();
-    m_liftSubsystem.restoreLiftPressure();
-    m_spinnerLift.spinner_down();
   }
 
   /**

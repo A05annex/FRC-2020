@@ -8,19 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SpinnerLift;
+import frc.robot.Constants;
 
-public class SpinnerUpDown extends CommandBase {
+public class BumpPort9Speed extends CommandBase {
 
-  private final boolean m_position;
-  private final SpinnerLift m_spinnerLift = SpinnerLift.getInstance();
+  final double m_inc;
 
   /**
-   * Creates a new SpinnerUpDown.
+   * Creates a new BumpPort9Speed.
    */
-  public SpinnerUpDown(boolean position) {
-    m_position = position;
-    addRequirements(m_spinnerLift);
+  public BumpPort9Speed(double inc) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    m_inc = inc;
   }
 
   // Called when the command is initially scheduled.
@@ -31,11 +30,7 @@ public class SpinnerUpDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_position == Position.UP) {
-      m_spinnerLift.spinner_up();
-    } else {
-      m_spinnerLift.spinner_down();
-    }
+    Constants.PORT9_SPEED += m_inc;
   }
 
   // Called once the command ends or is interrupted.
@@ -48,10 +43,4 @@ public class SpinnerUpDown extends CommandBase {
   public boolean isFinished() {
     return true;
   }
-
-  public class Position {
-    public static final boolean DOWN = false;
-    public static final boolean UP = true;
-  }
 }
-
